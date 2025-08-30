@@ -1,0 +1,32 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with: {python-version: '3.11'}
+    - run: pipx install pre-commit
+    - run: pre-commit run --all-files
+
+  test-cpu:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with: {python-version: '3.11'}
+    - run: pip install -e .[cpu,dev] -f https://download.pytorch.org/whl/cpu/torch_stable.html
+    - run: pytest -q -m "not gpu" --maxfail=1
+
+  test-gpu:
+    runs-on: [self-hosted, gpu]
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with: {python-version: '3.11'}
+    - run: pip install -e .[cuda,dev]
+    - run: python -c "import torch; assert torch.cuda.is_available()"
+    - run: pytest -q -m gpu --maxfail=1
+
+

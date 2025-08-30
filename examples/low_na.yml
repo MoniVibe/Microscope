@@ -1,0 +1,14 @@
+na: 0.25
+grid: {nx: 1024, ny: 1024, pitch_um: 0.4}
+sources:
+  - type: gaussian_finite_band
+    center_nm: 550
+    bandwidth_nm: 10
+components:
+  - type: thin_lens
+    focal_length_um: 10000
+recorders:
+  - z_um: 0.0
+    what: [intensity]
+
+

@@ -1,0 +1,3 @@
+"""Runtime budget utilities stub."""
+
+

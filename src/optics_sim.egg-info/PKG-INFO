@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: optics-sim
+Version: 0.1.0
+Requires-Python: >=3.11
+License-File: LICENSE
+Requires-Dist: numpy>=1.26
+Requires-Dist: tifffile>=2024.5.22
+Requires-Dist: typing-extensions>=4.10
+Provides-Extra: cpu
+Requires-Dist: torch==2.3.*; extra == "cpu"
+Provides-Extra: cuda
+Requires-Dist: torch==2.3.*; extra == "cuda"
+Dynamic: license-file
