@@ -63,8 +63,8 @@ def test_round_trip_accuracy():
 
     T = compose(euler, t)
 
-    # Test multiple points
-    points_local = torch.randn(100, 3) * 100  # Points within 100 µm
+    # Test multiple points (use float64 to match internal compute precision)
+    points_local = torch.randn(100, 3, dtype=torch.float64) * 100  # Points within 100 µm
 
     # Forward and inverse transform
     points_world = to_world(points_local, T)
