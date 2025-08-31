@@ -127,6 +127,7 @@ def to_world(p_local, T):  # type: ignore[no-untyped-def]
         p_local = torch.tensor(p_local, dtype=torch.float32)
 
     original_shape = p_local.shape
+    original_dtype = p_local.dtype
     p_local = p_local.reshape(-1, 3)
 
     # Apply rotation and translation
@@ -149,7 +150,7 @@ def to_world(p_local, T):  # type: ignore[no-untyped-def]
 
     # Preserve original input dtype if possible
     if original_shape and isinstance(original_shape, tuple):
-        p_world = p_world.to(dtype=p_local.dtype)
+        p_world = p_world.to(dtype=original_dtype)
     return p_world.reshape(original_shape)
 
 
@@ -167,6 +168,7 @@ def from_world(p_world: torch.Tensor, T: dict[str, torch.Tensor]) -> torch.Tenso
         p_world = torch.tensor(p_world, dtype=torch.float32)
 
     original_shape = p_world.shape
+    original_dtype = p_world.dtype
     p_world = p_world.reshape(-1, 3)
 
     # Apply inverse transformation: p_local = R^T * (p_world - t)
@@ -186,7 +188,7 @@ def from_world(p_world: torch.Tensor, T: dict[str, torch.Tensor]) -> torch.Tenso
 
     # Preserve original input dtype if possible
     if original_shape and isinstance(original_shape, tuple):
-        p_local = p_local.to(dtype=p_world.dtype)
+        p_local = p_local.to(dtype=original_dtype)
     return p_local.reshape(original_shape)
 
 
