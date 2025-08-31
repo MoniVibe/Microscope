@@ -1,0 +1,7 @@
+actions-runner/
+actions-runner/**
+_work/
+*.log
+Directives/reports/cursorreports/*.txt
+
+
