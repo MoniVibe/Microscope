@@ -123,12 +123,30 @@ def _angular_spectrum_step(
     # Average refractive index
     n_avg = n.mean().item() if torch.is_tensor(n) else n
 
+    # Decide zero-padding to reduce wrap-around/aliasing in far-field
+    # Fresnel number: F = L^2 / (lambda * |z|). Low F => far field → pad more
+    L = min(ny * dy, nx * dx)
+    F = (L**2) / (lambda_um * abs(dz)) if dz != 0 else float("inf")
+    pad_factor = 4 if F < 10 else 1
+
+    if pad_factor > 1:
+        py = int(ny * pad_factor)
+        px = int(nx * pad_factor)
+        Eyx = torch.zeros((py, px), dtype=E.dtype, device=device)
+        y0 = (py - ny) // 2
+        x0 = (px - nx) // 2
+        Eyx[y0 : y0 + ny, x0 : x0 + nx] = E
+        E_fft_shape = (py, px)
+    else:
+        Eyx = E
+        E_fft_shape = (ny, nx)
+
     # FFT to angular spectrum (keep in original precision for FFT)
-    E_spectrum = torch.fft.fft2(E)
+    E_spectrum = torch.fft.fft2(Eyx)
 
     # Create frequency grids in float64 for accuracy
-    fx = torch.fft.fftfreq(nx, d=dx, device=device, dtype=torch.float64)
-    fy = torch.fft.fftfreq(ny, d=dy, device=device, dtype=torch.float64)
+    fx = torch.fft.fftfreq(E_fft_shape[1], d=dx, device=device, dtype=torch.float64)
+    fy = torch.fft.fftfreq(E_fft_shape[0], d=dy, device=device, dtype=torch.float64)
     fy_grid, fx_grid = torch.meshgrid(fy, fx, indexing="ij")
 
     # Angular spectrum transfer function using exact formula:
@@ -194,7 +212,16 @@ def _angular_spectrum_step(
     E_spectrum = E_spectrum * H
 
     # Inverse FFT back to spatial domain
-    E_propagated = torch.fft.ifft2(E_spectrum)
+    E_padded = torch.fft.ifft2(E_spectrum)
+
+    # Crop back to original size if padded
+    if pad_factor > 1:
+        py, px = E_padded.shape
+        y0 = (py - ny) // 2
+        x0 = (px - nx) // 2
+        E_propagated = E_padded[y0 : y0 + ny, x0 : x0 + nx]
+    else:
+        E_propagated = E_padded
 
     # Handle inhomogeneous refractive index (multi-slice)
     if torch.is_tensor(n) and not torch.allclose(n, n_avg * torch.ones_like(n)):

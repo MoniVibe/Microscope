@@ -125,22 +125,24 @@ def aperture_diffraction(
     theta = r / z_um  # Small angle approximation
 
     # Airy function argument
-    # J₁(x)/x where x = k*a*sin(θ) and a = aperture radius
+    # 2·J₁(x)/x where x = k·a·sin(θ) and a = aperture radius
     a = aperture_diameter_um / 2
     x_airy = k * a * theta
 
-    # Avoid division by zero
-    x_airy_safe = torch.where(x_airy > 1e-10, x_airy, torch.ones_like(x_airy) * 1e-10)
+    # Avoid division by zero and compute using Bessel function J1
+    x_airy_safe = torch.where(x_airy.abs() > 1e-12, x_airy, torch.ones_like(x_airy) * 1e-12)
+    try:
+        j1 = torch.special.j1  # PyTorch-provided Bessel J1
+    except AttributeError:  # Fallback to SciPy if unavailable
+        from scipy.special import j1 as _j1  # type: ignore
 
-    # Airy pattern (using approximation for J₁(x)/x)
-    # For small x: J₁(x)/x ≈ 1/2
-    # For large x: use series approximation
+        def j1(t: torch.Tensor) -> torch.Tensor:
+            return torch.from_numpy(_j1(t.detach().cpu().numpy())).to(t.device, t.dtype)
 
-    # Simplified: use sinc-like approximation
-    # Real Airy would need Bessel function
-    pattern = torch.where(
-        x_airy < 0.01, torch.ones_like(x_airy), 2 * torch.sin(x_airy_safe) / x_airy_safe
-    )
+    airy_amp = 2.0 * j1(x_airy_safe) / x_airy_safe
+    # For very small arguments, limit tends to 1
+    airy_amp = torch.where(x_airy.abs() <= 1e-6, torch.ones_like(airy_amp), airy_amp)
+    pattern = airy_amp
 
     # Convert to complex field
     diffracted = pattern.to(torch.complex64)
