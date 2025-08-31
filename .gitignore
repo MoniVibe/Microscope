@@ -5,3 +5,17 @@ _work/
 Directives/reports/cursorreports/*.txt
 
 
+actions-runner/
+Lib/
+Library/
+Scripts/
+.venv/
+*.dll
+*.lib
+actions-runner/
+Lib/
+Library/
+Scripts/
+.venv/
+*.dll
+*.lib

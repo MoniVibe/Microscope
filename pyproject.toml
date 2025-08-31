@@ -37,6 +37,18 @@ target-version = "py311"
 [tool.ruff.lint]
 select = ["E","F","I","UP","B","N","W","PL","PYI"]
 
+[tool.ruff.lint.per-file-ignores]
+# Loosen lint rules for tests to keep focus on functionality
+"tests/**/*" = [
+  "N806",  # non-lowercase variable in function (common in math/tests)
+  "PLR2004",  # magic values in comparisons
+  "PLR0915",  # too many statements in function
+  "PLC0415",  # import not at top of file (intentional in tests)
+  "F401",  # unused imports (guarded optional deps)
+  "F841",  # assigned but unused (documenting behavior)
+  "E501",  # line length in test output
+]
+
 [tool.mypy]
 python_version = "3.11"
 strict = true

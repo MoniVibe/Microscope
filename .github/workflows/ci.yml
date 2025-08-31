@@ -7,8 +7,9 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
       with: {python-version: '3.11'}
-    - run: pipx install pre-commit
-    - run: pre-commit run --all-files
+    - run: pip install ruff
+    - run: ruff --version
+    - run: ruff check .
 
   test-cpu:
     runs-on: ubuntu-22.04
@@ -21,6 +22,9 @@ jobs:
 
   test-gpu:
     runs-on: [self-hosted, gpu]
+    defaults:
+      run:
+        shell: powershell
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
@@ -30,11 +34,22 @@ jobs:
       shell: powershell
       run: |
         $ErrorActionPreference = 'Stop'
-        $py = $null
-        try { & py -3.11 -c "import sys; print(sys.version)" | Out-Host; $py = 'py -3.11' } catch {}
-        if (-not $py) { & python -c "import sys; print(sys.version)" | Out-Host; $py = 'python' }
-        echo "PY_EXE=$py" | Out-File -FilePath $env:GITHUB_ENV -Append
-        & $py -c "import sys; assert sys.version.startswith('3.11.'), sys.version"
+        $exe = $null
+        # Prefer runner's installed Python if 3.11
+        try {
+          $v = & python -c "import sys; print(sys.version)"
+          if ($v.StartsWith('3.11.')) { $exe = (Get-Command python).Source }
+        } catch {}
+        if (-not $exe) {
+          # Try Windows launcher
+          try {
+            $v = & py -3.11 -c "import sys; print(sys.version)"
+            if ($LASTEXITCODE -eq 0) { $exe = 'py -3.11' }
+          } catch {}
+        }
+        if (-not $exe) { throw 'Python 3.11 not found on host' }
+        "PY_EXE=$exe" | Out-File -FilePath $env:GITHUB_ENV -Append
+        & $exe -c "import sys; assert sys.version.startswith('3.11.'), sys.version"
     - name: Ensure commit is ancestor of 722f3e3
       run: |
         git fetch --no-tags --prune --unshallow || true
@@ -50,26 +65,35 @@ jobs:
         $env:PY_EXE -m pip install --upgrade pip
         $env:PY_EXE -m pip install --index-url https://download.pytorch.org/whl/cu121 torch==2.3.* torchvision==0.18.* torchaudio==2.3.*
       shell: powershell
-    - name: Install project (dev extras)
-      run: $env:PY_EXE -m pip install -e .[dev]
+    - name: Install project (cuda + dev extras)
+      run: $env:PY_EXE -m pip install -e .[cuda,dev]
       shell: powershell
     - name: CUDA availability gate
-      run: $env:PY_EXE -c "import torch; assert torch.cuda.is_available()"
+      run: $env:PY_EXE -c "import torch; print('Torch:', torch.__version__); print('CUDA available:', torch.cuda.is_available()); print('CUDA version:', getattr(torch.version, 'cuda', None)); print('CUDA device count:', torch.cuda.device_count()); assert torch.cuda.is_available()"
       shell: powershell
-    - name: Print environment
+    - name: Write env.txt (CUDA gate details)
       run: |
-        $env:PY_EXE scripts/print_env.py | tee gpu_env.txt
+        $code = @'
+import torch, sys
+print("torch", torch.__version__)
+print("cuda_available", torch.cuda.is_available())
+print("torch_cuda", getattr(torch.version, "cuda", None))
+print("devices", torch.cuda.device_count())
+assert torch.cuda.is_available()
+'@
+        $code | Out-File -FilePath env_gate.py -Encoding ascii
+        & $env:PY_EXE env_gate.py | Tee-Object -FilePath env.txt
       shell: powershell
     - name: Run GPU-marked tests (scoped)
       run: |
-        $env:PY_EXE -m pytest -q -m gpu -k "frames or sources or solvers_gaussian_free_space" --maxfail=1 | tee gpu_pytest.txt
+        $env:PY_EXE -m pytest -q -m gpu -k "frames or sources or solvers or io or validation" --maxfail=1 | Tee-Object -FilePath pytest_gpu.log
       shell: powershell
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: gpu-smoke-artifacts
         path: |
-          gpu_env.txt
-          gpu_pytest.txt
+          env.txt
+          pytest_gpu.log
 
 
