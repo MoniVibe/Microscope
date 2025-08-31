@@ -147,6 +147,9 @@ def to_world(p_local, T):  # type: ignore[no-untyped-def]
         # p_local shape: (N, 3), R shape: (3, 3), t shape: (3,)
         p_world = torch.matmul(p_local, R.T) + t
 
+    # Preserve original input dtype if possible
+    if original_shape and isinstance(original_shape, tuple):
+        p_world = p_world.to(dtype=p_local.dtype)
     return p_world.reshape(original_shape)
 
 
@@ -181,6 +184,9 @@ def from_world(p_world: torch.Tensor, T: dict[str, torch.Tensor]) -> torch.Tenso
     else:  # Single transform
         p_local = torch.matmul(p_world - t, R)
 
+    # Preserve original input dtype if possible
+    if original_shape and isinstance(original_shape, tuple):
+        p_local = p_local.to(dtype=p_world.dtype)
     return p_local.reshape(original_shape)
 
 
