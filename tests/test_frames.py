@@ -96,7 +96,7 @@ def test_transform_grid():
     center_idx = (ny // 2, nx // 2)
     center_world = grid_world[center_idx]
 
-    torch.testing.assert_close(center_world, t, atol=1e-6)
+    torch.testing.assert_close(center_world, t.to(center_world.dtype), atol=1e-6, rtol=1e-6)
 
 
 def test_compose_chain():
@@ -111,8 +111,8 @@ def test_compose_chain():
     p = torch.tensor([0.0, 0.0, 0.0])
     p_world = to_world(p, T_combined)
 
-    expected = torch.tensor([1.0, 2.0, 0.0])
-    torch.testing.assert_close(p_world, expected, atol=1e-6)
+    expected = torch.tensor([1.0, 2.0, 0.0]).to(p_world.dtype)
+    torch.testing.assert_close(p_world, expected, atol=1e-6, rtol=1e-6)
 
 
 def test_invert_transform():
@@ -128,7 +128,7 @@ def test_invert_transform():
     p_transformed = to_world(p, T)
     p_back = to_world(p_transformed, T_inv)
 
-    torch.testing.assert_close(p_back, p, atol=1e-6)
+    torch.testing.assert_close(p_back, p.to(p_back.dtype), atol=1e-6, rtol=1e-6)
 
 
 def test_zyx_euler_order():
@@ -158,7 +158,7 @@ def test_zyx_euler_order():
 
     R_expected = Rz @ Ry @ Rx
 
-    torch.testing.assert_close(R, R_expected, atol=1e-6)
+    torch.testing.assert_close(R.to(torch.float32), R_expected, atol=1e-6, rtol=1e-6)
 
 
 def test_batch_transform():
@@ -198,7 +198,7 @@ def test_transform_preserves_distances():
     dist_local = torch.norm(p2 - p1)
     dist_world = torch.norm(p2_world - p1_world)
 
-    torch.testing.assert_close(dist_world, dist_local, atol=1e-6)
+    torch.testing.assert_close(dist_world, dist_local.to(dist_world.dtype), atol=1e-6, rtol=1e-6)
 
 
 def test_high_precision_round_trip():

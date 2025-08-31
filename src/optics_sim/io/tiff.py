@@ -187,13 +187,18 @@ def _write_with_tifffile(filename: Path, data: np.ndarray, metadata: dict) -> No
     resolution = (10000.0 / metadata["dx_um"], 10000.0 / metadata["dy_um"])
 
     # Write TIFF
+    # Ensure 3D stack shape (Z, Y, X)
+    if data.ndim == 2:
+        data = data[np.newaxis, ...]
+
+    # Indicate axes according to tifffile convention
+    axes = "ZYX"
     tifffile.imwrite(
         filename,
-        data,
-        dtype=np.float32,
+        data.astype(np.float32),
         resolution=resolution,
         resolutionunit="CENTIMETER",
-        metadata={"axes": "ZYX", "unit": "um"},
+        metadata={"axes": axes, "unit": "um"},
         description=meta_json,
     )
 
