@@ -151,9 +151,7 @@ def to_world(p_local, T):  # type: ignore[no-untyped-def]
         # p_local shape: (N, 3), R shape: (3, 3), t shape: (3,)
         p_world = torch.matmul(p_local, R.T) + t
 
-    # Preserve original input dtype if possible
-    if original_shape and isinstance(original_shape, tuple):
-        p_world = p_world.to(dtype=original_dtype)
+    # Return in compute dtype to minimize numerical error
     return p_world.reshape(original_shape)
 
 

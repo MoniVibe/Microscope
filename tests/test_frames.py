@@ -70,8 +70,8 @@ def test_round_trip_accuracy():
     points_world = to_world(points_local, T)
     points_back = from_world(points_world, T)
 
-    # Check round-trip error
-    error = torch.norm(points_back - points_local, dim=-1)
+    # Check round-trip error (use higher precision for comparison)
+    error = torch.norm(points_back.double() - points_local.double(), dim=-1)
     max_error = error.max().item()
 
     assert max_error < 1e-6, f"Round-trip error {max_error:.2e} µm exceeds 1e-6 µm"
