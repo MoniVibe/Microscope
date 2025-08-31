@@ -127,7 +127,7 @@ def _angular_spectrum_step(
     # Fresnel number: F = L^2 / (lambda * |z|). Low F => far field → pad more
     L = min(ny * dy, nx * dx)
     F = (L**2) / (lambda_um * abs(dz)) if dz != 0 else float("inf")
-    pad_factor = 4 if F < 10 else 1
+    pad_factor = 8 if F < 5 else (4 if F < 10 else 1)
 
     if pad_factor > 1:
         py = int(ny * pad_factor)
