@@ -151,7 +151,8 @@ def to_world(p_local, T):  # type: ignore[no-untyped-def]
         # p_local shape: (N, 3), R shape: (3, 3), t shape: (3,)
         p_world = torch.matmul(p_local, R.T) + t
 
-    # Return in compute dtype to minimize numerical error
+    # Cast back to original input dtype for API consistency
+    p_world = p_world.to(dtype=original_dtype)
     return p_world.reshape(original_shape)
 
 
@@ -190,7 +191,8 @@ def from_world(p_world: torch.Tensor, T: dict[str, torch.Tensor]) -> torch.Tenso
     else:  # Single transform
         p_local = torch.matmul(p_world - t, R)
 
-    # Return in compute dtype to minimize numerical error (tests don't require dtype match here)
+    # Cast back to original input dtype for API consistency
+    p_local = p_local.to(dtype=original_dtype)
     return p_local.reshape(original_shape)
 
 
