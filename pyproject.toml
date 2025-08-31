@@ -33,10 +33,13 @@ include = ["optics_sim*"]
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+# Formatter config lives under [tool.ruff.format] (defaults are fine)
+
+[tool.ruff.lint]
 # Keep lint minimal to ensure green CI quickly; expand later as needed
 select = ["I"]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 # Loosen rules for tests to keep focus on functionality
 "tests/**/*" = ["F401", "F841", "E501"]
 # Root-level ad-hoc tests
