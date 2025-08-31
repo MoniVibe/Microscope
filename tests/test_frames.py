@@ -22,7 +22,7 @@ def test_identity_transform():
     p_local = torch.tensor([[1.0, 2.0, 3.0]])
     p_world = to_world(p_local, T)
 
-    torch.testing.assert_close(p_world, p_local.to(p_world.dtype))
+    torch.testing.assert_close(p_world, p_local)
 
 
 def test_translation_only():
@@ -51,7 +51,7 @@ def test_rotation_z():
     p_local = torch.tensor([1.0, 0.0, 0.0])
     p_world = to_world(p_local, T)
 
-    expected = torch.tensor([0.0, 1.0, 0.0]).to(p_world.dtype)
+    expected = torch.tensor([0.0, 1.0, 0.0])
     torch.testing.assert_close(p_world, expected, atol=1e-6, rtol=1e-6)
 
 
@@ -63,15 +63,15 @@ def test_round_trip_accuracy():
 
     T = compose(euler, t)
 
-    # Test multiple points (use float64 to match internal compute precision)
-    points_local = torch.randn(100, 3, dtype=torch.float64) * 100  # Points within 100 µm
+    # Test multiple points
+    points_local = torch.randn(100, 3) * 100  # Points within 100 µm
 
     # Forward and inverse transform
     points_world = to_world(points_local, T)
     points_back = from_world(points_world, T)
 
-    # Check round-trip error (use higher precision for comparison)
-    error = torch.norm(points_back.double() - points_local.double(), dim=-1)
+    # Check round-trip error
+    error = torch.norm(points_back - points_local, dim=-1)
     max_error = error.max().item()
 
     assert max_error < 1e-6, f"Round-trip error {max_error:.2e} µm exceeds 1e-6 µm"
@@ -96,7 +96,7 @@ def test_transform_grid():
     center_idx = (ny // 2, nx // 2)
     center_world = grid_world[center_idx]
 
-    torch.testing.assert_close(center_world, t.to(center_world.dtype), atol=1e-6, rtol=1e-6)
+    torch.testing.assert_close(center_world, t, atol=1e-6)
 
 
 def test_compose_chain():
@@ -111,8 +111,8 @@ def test_compose_chain():
     p = torch.tensor([0.0, 0.0, 0.0])
     p_world = to_world(p, T_combined)
 
-    expected = torch.tensor([1.0, 2.0, 0.0]).to(p_world.dtype)
-    torch.testing.assert_close(p_world, expected, atol=1e-6, rtol=1e-6)
+    expected = torch.tensor([1.0, 2.0, 0.0])
+    torch.testing.assert_close(p_world, expected, atol=1e-6)
 
 
 def test_invert_transform():
@@ -128,7 +128,7 @@ def test_invert_transform():
     p_transformed = to_world(p, T)
     p_back = to_world(p_transformed, T_inv)
 
-    torch.testing.assert_close(p_back, p.to(p_back.dtype), atol=1e-6, rtol=1e-6)
+    torch.testing.assert_close(p_back, p, atol=1e-6)
 
 
 def test_zyx_euler_order():
@@ -158,7 +158,7 @@ def test_zyx_euler_order():
 
     R_expected = Rz @ Ry @ Rx
 
-    torch.testing.assert_close(R.to(torch.float32), R_expected, atol=1e-6, rtol=1e-6)
+    torch.testing.assert_close(R, R_expected, atol=1e-6)
 
 
 def test_batch_transform():
@@ -198,7 +198,7 @@ def test_transform_preserves_distances():
     dist_local = torch.norm(p2 - p1)
     dist_world = torch.norm(p2_world - p1_world)
 
-    torch.testing.assert_close(dist_world, dist_local.to(dist_world.dtype), atol=1e-6, rtol=1e-6)
+    torch.testing.assert_close(dist_world, dist_local, atol=1e-6)
 
 
 def test_high_precision_round_trip():

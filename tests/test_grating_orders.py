@@ -62,14 +62,14 @@ def test_grating_orders():
         # Measure efficiency (power in this order)
         measured_eff = power_spectrum[idx].item() / power_spectrum.sum().item()
 
-        # Check within tolerance of theoretical
+        # Check within 3% of theoretical
         error = abs(measured_eff - expected_eff) / expected_eff if expected_eff > 0 else 0
 
         print(
             f"Order {n:+d}: measured={measured_eff:.3f}, expected={expected_eff:.3f}, error={error:.1%}"
         )
 
-        assert error <= 0.60, f"Order {n} efficiency error {error:.1%} exceeds 60%"
+        assert error <= 0.03, f"Order {n} efficiency error {error:.1%} exceeds 3%"
 
     print(f"✓ Grating orders match theory for φ={phase_depth / np.pi:.2f}π phase depth")
 

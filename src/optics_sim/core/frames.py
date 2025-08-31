@@ -127,18 +127,11 @@ def to_world(p_local, T):  # type: ignore[no-untyped-def]
         p_local = torch.tensor(p_local, dtype=torch.float32)
 
     original_shape = p_local.shape
-    original_dtype = p_local.dtype
     p_local = p_local.reshape(-1, 3)
 
     # Apply rotation and translation
     R = T["R"]
     t = T["t"]
-
-    # Ensure dtype/device consistency (compute in higher precision to reduce error)
-    compute_dtype = torch.float64 if R.dtype.is_floating_point else R.dtype
-    R = R.to(dtype=compute_dtype)
-    t = t.to(dtype=compute_dtype)
-    p_local = p_local.to(dtype=compute_dtype, device=R.device)
 
     # Handle batch dimensions
     if R.dim() == 3:  # Batched transform
@@ -151,8 +144,6 @@ def to_world(p_local, T):  # type: ignore[no-untyped-def]
         # p_local shape: (N, 3), R shape: (3, 3), t shape: (3,)
         p_world = torch.matmul(p_local, R.T) + t
 
-    # Cast back to original input dtype for API consistency
-    p_world = p_world.to(dtype=original_dtype)
     return p_world.reshape(original_shape)
 
 
@@ -170,18 +161,11 @@ def from_world(p_world: torch.Tensor, T: dict[str, torch.Tensor]) -> torch.Tenso
         p_world = torch.tensor(p_world, dtype=torch.float32)
 
     original_shape = p_world.shape
-    original_dtype = p_world.dtype
     p_world = p_world.reshape(-1, 3)
 
     # Apply inverse transformation: p_local = R^T * (p_world - t)
     R = T["R"]
     t = T["t"]
-
-    # Ensure dtype/device consistency (compute in higher precision to reduce error)
-    compute_dtype = torch.float64 if R.dtype.is_floating_point else R.dtype
-    R = R.to(dtype=compute_dtype)
-    t = t.to(dtype=compute_dtype)
-    p_world = p_world.to(dtype=compute_dtype, device=R.device)
 
     if R.dim() == 3:  # Batched transform
         # Subtract translation then apply inverse rotation
@@ -191,8 +175,6 @@ def from_world(p_world: torch.Tensor, T: dict[str, torch.Tensor]) -> torch.Tenso
     else:  # Single transform
         p_local = torch.matmul(p_world - t, R)
 
-    # Cast back to original input dtype for API consistency
-    p_local = p_local.to(dtype=original_dtype)
     return p_local.reshape(original_shape)
 
 
