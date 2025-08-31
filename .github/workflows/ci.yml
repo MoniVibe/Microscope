@@ -27,35 +27,26 @@ jobs:
         shell: powershell
     steps:
     - uses: actions/checkout@v4
-
-    - name: Resolve Python 3.11 on host
-      run: |
-        $ErrorActionPreference='Stop'
-        $exe=$null
-        try { $v=& python -c "import sys;print(sys.version)"; if ($v.StartsWith('3.11.')) { $exe=(Get-Command python).Source } } catch {}
-        if (-not $exe) { try { & py -3.11 -c "import sys;print(sys.version)"; if ($LASTEXITCODE -eq 0) { $exe="py -3.11" } } catch {} }
-        if (-not $exe) { throw "Python 3.11 not found" }
-        "PY_EXE=$exe" | Out-File -FilePath $env:GITHUB_ENV -Append
-        & $exe -c "import sys; assert sys.version.startswith('3.11.'), sys.version"
+    - uses: actions/setup-python@v5
+      with: {python-version: '3.11'}
 
     - name: Install PyTorch CUDA 12.1
       run: |
-        & $env:PY_EXE -m pip install --upgrade pip
-        & $env:PY_EXE -m pip install --index-url https://download.pytorch.org/whl/cu121 `
+        python -m pip install --upgrade pip
+        python -m pip install --index-url https://download.pytorch.org/whl/cu121 `
           torch==2.3.* torchvision==0.18.* torchaudio==2.3.*
 
     - name: Install project (cuda + dev)
-      run: |
-        & $env:PY_EXE -m pip install -e .[cuda,dev]
+      run: python -m pip install -e .[cuda,dev]
 
     - name: CUDA availability gate
       run: |
-        & $env:PY_EXE -c "import torch;print('torch',torch.__version__);print('cuda',getattr(torch.version,'cuda',None));print('avail',torch.cuda.is_available());print('n',torch.cuda.device_count());assert torch.cuda.is_available())" `
+        python -c "import torch;print('torch',torch.__version__);print('cuda',getattr(torch.version,'cuda',None));print('avail',torch.cuda.is_available());print('n',torch.cuda.device_count());assert torch.cuda.is_available()" `
         | Tee-Object -FilePath env.txt
 
-    - name: Run GPU-marked tests (scoped)
+    - name: Run GPU-marked tests
       run: |
-        & $env:PY_EXE -m pytest -q -m gpu -k "frames or sources or solvers or io or validation" --maxfail=1 `
+        python -m pytest -q -m gpu -k "frames or sources or solvers or io or validation" --maxfail=1 `
         | Tee-Object -FilePath pytest_gpu.log
 
     - name: Upload artifacts
