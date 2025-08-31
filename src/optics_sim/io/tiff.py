@@ -191,14 +191,14 @@ def _write_with_tifffile(filename: Path, data: np.ndarray, metadata: dict) -> No
     if data.ndim == 2:
         data = data[np.newaxis, ...]
 
-    # Indicate axes according to tifffile convention
-    axes = "ZYX"
+    # Use ImageJ format to ensure Z slices are preserved as planes
     tifffile.imwrite(
         filename,
         data.astype(np.float32),
+        imagej=True,
         resolution=resolution,
         resolutionunit="CENTIMETER",
-        metadata={"axes": axes, "unit": "um"},
+        metadata={"unit": "um"},
         description=meta_json,
     )
 
