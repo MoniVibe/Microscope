@@ -24,5 +24,3 @@ def device() -> str:
         return "cuda" if torch.cuda.is_available() else "cpu"
     except Exception:
         return "cpu"
-
-

@@ -1,3 +1,1 @@
 """Checkpointing utilities stub."""
-
-

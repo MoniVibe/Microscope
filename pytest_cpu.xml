@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.032" timestamp="2025-09-01T00:43:41.790494+03:00" hostname="DESKTOP-9VVJV75"><testcase classname="" name="Lib.site-packages.colorama.tests.ansi_test" time="0.000"><error message="collection failure">import file mismatch:
+imported module 'colorama.tests.ansi_test' has this __file__ attribute:
+  C:\Users\Moni\Documents\claudeprojects\venv311_gpu\Lib\site-packages\colorama\tests\ansi_test.py
+which is not the same as the test file we want to collect:
+  C:\Users\Moni\Documents\claudeprojects\Microscope\Lib\site-packages\colorama\tests\ansi_test.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules</error></testcase></testsuite></testsuites>

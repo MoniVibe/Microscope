@@ -4,9 +4,7 @@ import sys
 
 def git_commit_hash() -> str:
     try:
-        return (
-            subprocess.check_output(["git", "rev-parse", "--short", "HEAD"]).decode().strip()
-        )
+        return subprocess.check_output(["git", "rev-parse", "--short", "HEAD"]).decode().strip()
     except Exception:
         return "unknown"
 
@@ -31,5 +29,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-

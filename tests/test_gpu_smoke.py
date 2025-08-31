@@ -1,6 +1,5 @@
 import pytest
 
-
 pytestmark = pytest.mark.gpu
 
 
@@ -15,5 +14,3 @@ def test_gpu_smoke_tiny_tensor():
     x = torch.randn((8, 8), device="cuda", dtype=torch.complex64)
     y = x * (1 + 0j)
     assert y.shape == (8, 8)
-
-

@@ -7,7 +7,8 @@ config-driven solver selection ready for Claude's implementations.
 
 from __future__ import annotations
 
-from typing import Any, Callable, Dict, Optional
+from collections.abc import Callable
+from typing import Any, Dict, Optional
 
 import numpy as np
 
@@ -15,7 +16,7 @@ import numpy as np
 # CPU-only environments to import this module without CUDA.
 
 
-_SOLVER_ALIASES: Dict[str, str] = {
+_SOLVER_ALIASES: dict[str, str] = {
     "bpm_vector_wide": "optics_sim.prop.solvers.bpm_vector_wide",
     "bpm_split_step_fourier": "optics_sim.prop.solvers.bpm_split_step_fourier",
     "as_multi_slice": "optics_sim.prop.solvers.as_multi_slice",
@@ -32,7 +33,9 @@ def _resolve_solver_module(solver: str):  # type: ignore[no-untyped-def]
     return importlib.import_module(module_name)
 
 
-def run(field: np.ndarray, plan: Any, solver: Optional[str] = None, sampler: Any | None = None) -> np.ndarray:  # noqa: ANN401
+def run(
+    field: np.ndarray, plan: Any, solver: str | None = None, sampler: Any | None = None
+) -> np.ndarray:  # noqa: ANN401
     """Dispatch to a concrete solver's run.
 
     Args:
@@ -49,6 +52,3 @@ def run(field: np.ndarray, plan: Any, solver: Optional[str] = None, sampler: Any
     if not hasattr(module, "run"):
         raise AttributeError(f"Solver module '{module.__name__}' lacks a run() function")
     return module.run(field, plan, sampler)  # type: ignore[misc]
-
-
-

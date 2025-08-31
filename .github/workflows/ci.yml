@@ -18,7 +18,13 @@ jobs:
     - uses: actions/setup-python@v5
       with: {python-version: '3.11'}
     - run: pip install -e .[cpu,dev] -f https://download.pytorch.org/whl/cpu/torch_stable.html
-    - run: pytest -q -m "not gpu" --maxfail=1
+    - run: pytest -q -m "not gpu" --maxfail=1 --junitxml=pytest_cpu.xml
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: cpu-test-artifacts
+        path: pytest_cpu.xml
+        if-no-files-found: warn
 
   test-gpu:
     runs-on: [self-hosted, gpu]
@@ -27,8 +33,15 @@ jobs:
         shell: powershell
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
-      with: {python-version: '3.11'}
+
+    - name: Verify system Python 3.11
+      run: |
+        $ErrorActionPreference='Stop'
+        python -V
+        python - << 'PY'
+import sys
+assert sys.version.startswith("3.11."), sys.version
+PY
 
     - name: Install PyTorch CUDA 12.1
       run: |
@@ -41,8 +54,14 @@ jobs:
 
     - name: CUDA availability gate
       run: |
-        python -c "import torch;print('torch',torch.__version__);print('cuda',getattr(torch.version,'cuda',None));print('avail',torch.cuda.is_available());print('n',torch.cuda.device_count());assert torch.cuda.is_available()" `
-        | Tee-Object -FilePath env.txt
+        python - << 'PY' | Tee-Object -FilePath env.txt
+import torch
+print("torch", torch.__version__)
+print("cuda", getattr(torch.version,"cuda",None))
+print("avail", torch.cuda.is_available())
+print("n", torch.cuda.device_count())
+assert torch.cuda.is_available()
+PY
 
     - name: Run GPU-marked tests
       run: |

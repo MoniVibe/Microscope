@@ -3,5 +3,3 @@
 from .planes import PlaneRecorder
 
 __all__ = ["PlaneRecorder"]
-
-

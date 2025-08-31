@@ -6,8 +6,6 @@ for the scaffold tests. Real implementation to be provided later.
 
 from __future__ import annotations
 
-from typing import Tuple
-
 import numpy as np
 
 
@@ -20,7 +18,7 @@ class GaussianFiniteBand:
     def prepare(self, cfg: dict | None = None, device: str = "cpu") -> None:  # noqa: ARG002
         return None
 
-    def emit(self, shape: Tuple[int, int]):
+    def emit(self, shape: tuple[int, int]):
         ny, nx = shape
         y = np.linspace(-1.0, 1.0, ny, dtype=np.float32)
         x = np.linspace(-1.0, 1.0, nx, dtype=np.float32)

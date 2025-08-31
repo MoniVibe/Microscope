@@ -10,4 +10,9 @@ Provides-Extra: cpu
 Requires-Dist: torch==2.3.*; extra == "cpu"
 Provides-Extra: cuda
 Requires-Dist: torch==2.3.*; extra == "cuda"
+Provides-Extra: dev
+Requires-Dist: pytest>=8.2; extra == "dev"
+Requires-Dist: ruff>=0.5; extra == "dev"
+Requires-Dist: mypy>=1.10; extra == "dev"
+Requires-Dist: scipy>=1.11; extra == "dev"
 Dynamic: license-file
