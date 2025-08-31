@@ -134,8 +134,11 @@ def to_world(p_local, T):  # type: ignore[no-untyped-def]
     R = T["R"]
     t = T["t"]
 
-    # Ensure dtype/device consistency
-    p_local = p_local.to(dtype=R.dtype, device=R.device)
+    # Ensure dtype/device consistency (compute in higher precision to reduce error)
+    compute_dtype = torch.float64 if R.dtype.is_floating_point else R.dtype
+    R = R.to(dtype=compute_dtype)
+    t = t.to(dtype=compute_dtype)
+    p_local = p_local.to(dtype=compute_dtype, device=R.device)
 
     # Handle batch dimensions
     if R.dim() == 3:  # Batched transform
@@ -175,8 +178,11 @@ def from_world(p_world: torch.Tensor, T: dict[str, torch.Tensor]) -> torch.Tenso
     R = T["R"]
     t = T["t"]
 
-    # Ensure dtype/device consistency
-    p_world = p_world.to(dtype=R.dtype, device=R.device)
+    # Ensure dtype/device consistency (compute in higher precision to reduce error)
+    compute_dtype = torch.float64 if R.dtype.is_floating_point else R.dtype
+    R = R.to(dtype=compute_dtype)
+    t = t.to(dtype=compute_dtype)
+    p_world = p_world.to(dtype=compute_dtype, device=R.device)
 
     if R.dim() == 3:  # Batched transform
         # Subtract translation then apply inverse rotation
