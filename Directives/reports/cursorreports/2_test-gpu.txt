@@ -1,144 +1,159 @@
-﻿2025-08-31T00:06:49.1045076Z Current runner version: '2.328.0'
-2025-08-31T00:06:49.1049385Z Runner name: 'micros-gpu-01'
-2025-08-31T00:06:49.1049779Z Runner group name: 'Default'
-2025-08-31T00:06:49.1050221Z Machine name: 'DESKTOP-9VVJV75'
-2025-08-31T00:06:49.1052108Z ##[group]GITHUB_TOKEN Permissions
-2025-08-31T00:06:49.1053234Z Contents: read
-2025-08-31T00:06:49.1053521Z Metadata: read
-2025-08-31T00:06:49.1053775Z Packages: read
-2025-08-31T00:06:49.1054046Z ##[endgroup]
-2025-08-31T00:06:49.1055153Z Secret source: Actions
-2025-08-31T00:06:49.1055461Z Prepare workflow directory
-2025-08-31T00:06:49.1321942Z Prepare all required actions
-2025-08-31T00:06:49.1343229Z Getting action download info
-2025-08-31T00:06:49.7244230Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
-2025-08-31T00:06:50.3194328Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
-2025-08-31T00:06:50.9312489Z Complete job name: test-gpu
-2025-08-31T00:06:50.9743784Z ##[group]Run actions/checkout@v4
-2025-08-31T00:06:50.9744361Z with:
-2025-08-31T00:06:50.9744625Z   repository: MoniVibe/Microscope
-2025-08-31T00:06:50.9745103Z   token: ***
-2025-08-31T00:06:50.9745347Z   ssh-strict: true
-2025-08-31T00:06:50.9745609Z   ssh-user: git
-2025-08-31T00:06:50.9745860Z   persist-credentials: true
-2025-08-31T00:06:50.9746166Z   clean: true
-2025-08-31T00:06:50.9746415Z   sparse-checkout-cone-mode: true
-2025-08-31T00:06:50.9746744Z   fetch-depth: 1
-2025-08-31T00:06:50.9746970Z   fetch-tags: false
-2025-08-31T00:06:50.9747242Z   show-progress: true
-2025-08-31T00:06:50.9747522Z   lfs: false
-2025-08-31T00:06:50.9747771Z   submodules: false
-2025-08-31T00:06:50.9748060Z   set-safe-directory: true
-2025-08-31T00:06:50.9748470Z ##[endgroup]
-2025-08-31T00:06:51.1523095Z Syncing repository: MoniVibe/Microscope
-2025-08-31T00:06:51.1524168Z ##[group]Getting Git version info
-2025-08-31T00:06:51.1524885Z Working directory is 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\Microscope\Microscope'
-2025-08-31T00:06:51.1613894Z [command]"c:\program files\git\cmd\git.exe" version
-2025-08-31T00:06:51.1736276Z git version 2.47.0.windows.2
-2025-08-31T00:06:51.1764388Z ##[endgroup]
-2025-08-31T00:06:51.1771534Z Copying 'C:\Users\Moni\.gitconfig' to 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\7f797b8d-1d51-4afc-a52f-4c48c4422abc\.gitconfig'
-2025-08-31T00:06:51.1782954Z Temporarily overriding HOME='C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\7f797b8d-1d51-4afc-a52f-4c48c4422abc' before making global git config changes
-2025-08-31T00:06:51.1784104Z Adding repository directory to the temporary git global config as a safe directory
-2025-08-31T00:06:51.1788577Z [command]"c:\program files\git\cmd\git.exe" config --global --add safe.directory C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\Microscope\Microscope
-2025-08-31T00:06:51.1941767Z [command]"c:\program files\git\cmd\git.exe" config --local --get remote.origin.url
-2025-08-31T00:06:51.2055837Z https://github.com/MoniVibe/Microscope
-2025-08-31T00:06:51.2087081Z ##[group]Removing previously created refs, to avoid conflicts
-2025-08-31T00:06:51.2090842Z [command]"c:\program files\git\cmd\git.exe" rev-parse --symbolic-full-name --verify --quiet HEAD
-2025-08-31T00:06:51.2209956Z refs/heads/main
-2025-08-31T00:06:51.2237716Z [command]"c:\program files\git\cmd\git.exe" checkout --detach
-2025-08-31T00:06:51.2404656Z HEAD is now at 323b560 ci: trigger gpu job (runner ready)
-2025-08-31T00:06:51.2725552Z ##[endgroup]
-2025-08-31T00:06:51.2728706Z [command]"c:\program files\git\cmd\git.exe" submodule status
-2025-08-31T00:06:51.8439305Z ##[group]Cleaning the repository
-2025-08-31T00:06:51.8443443Z [command]"c:\program files\git\cmd\git.exe" clean -ffdx
-2025-08-31T00:06:51.8614741Z [command]"c:\program files\git\cmd\git.exe" reset --hard HEAD
-2025-08-31T00:06:51.8784571Z HEAD is now at 323b560 ci: trigger gpu job (runner ready)
-2025-08-31T00:06:51.8809783Z ##[endgroup]
-2025-08-31T00:06:51.8812564Z ##[group]Disabling automatic garbage collection
-2025-08-31T00:06:51.8816712Z [command]"c:\program files\git\cmd\git.exe" config --local gc.auto 0
-2025-08-31T00:06:51.8964503Z ##[endgroup]
-2025-08-31T00:06:51.8965233Z ##[group]Setting up auth
-2025-08-31T00:06:51.8970315Z [command]"c:\program files\git\cmd\git.exe" config --local --name-only --get-regexp core\.sshCommand
-2025-08-31T00:06:51.9114298Z [command]"c:\program files\git\cmd\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
-2025-08-31T00:06:52.4839818Z [command]"c:\program files\git\cmd\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
-2025-08-31T00:06:52.5000074Z [command]"c:\program files\git\cmd\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
-2025-08-31T00:06:53.1198230Z [command]"c:\program files\git\cmd\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
-2025-08-31T00:06:53.1382648Z ##[endgroup]
-2025-08-31T00:06:53.1395461Z ##[group]Fetching the repository
-2025-08-31T00:06:53.1396061Z [command]"c:\program files\git\cmd\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +d23aff5f985e0b33e85520438ce0edaacb98b272:refs/remotes/origin/main
-2025-08-31T00:06:53.6565297Z From https://github.com/MoniVibe/Microscope
-2025-08-31T00:06:53.6565724Z  + 323b560...d23aff5 d23aff5f985e0b33e85520438ce0edaacb98b272 -> origin/main  (forced update)
-2025-08-31T00:06:53.6660229Z ##[endgroup]
-2025-08-31T00:06:53.6660486Z ##[group]Determining the checkout info
-2025-08-31T00:06:53.6661429Z ##[endgroup]
-2025-08-31T00:06:53.6666221Z [command]"c:\program files\git\cmd\git.exe" sparse-checkout disable
-2025-08-31T00:06:53.6851338Z [command]"c:\program files\git\cmd\git.exe" config --local --unset-all extensions.worktreeConfig
-2025-08-31T00:06:53.6996287Z ##[group]Checking out the ref
-2025-08-31T00:06:53.7000552Z [command]"c:\program files\git\cmd\git.exe" checkout --progress --force -B main refs/remotes/origin/main
-2025-08-31T00:06:53.7204440Z branch 'main' set up to track 'origin/main'.
-2025-08-31T00:06:53.7204635Z Your branch is up to date with 'origin/main'.
-2025-08-31T00:06:53.7204815Z Previous HEAD position was 323b560 ci: trigger gpu job (runner ready)
-2025-08-31T00:06:53.7204994Z Switched to and reset branch 'main'
-2025-08-31T00:06:53.7230645Z ##[endgroup]
-2025-08-31T00:06:53.7384742Z [command]"c:\program files\git\cmd\git.exe" log -1 --format=%H
-2025-08-31T00:06:53.7504507Z d23aff5f985e0b33e85520438ce0edaacb98b272
-2025-08-31T00:06:53.7740624Z ##[group]Run actions/setup-python@v5
-2025-08-31T00:06:53.7740786Z with:
-2025-08-31T00:06:53.7740881Z   python-version: 3.11
-2025-08-31T00:06:53.7741015Z   check-latest: false
-2025-08-31T00:06:53.7741216Z   token: ***
-2025-08-31T00:06:53.7741311Z   update-environment: true
-2025-08-31T00:06:53.7741420Z   allow-prereleases: false
-2025-08-31T00:06:53.7741537Z   freethreaded: false
-2025-08-31T00:06:53.7741651Z ##[endgroup]
-2025-08-31T00:06:54.1846350Z ##[group]Installed versions
-2025-08-31T00:06:54.1857594Z Version 3.11 was not found in the local cache
-2025-08-31T00:06:54.7634139Z Version 3.11 is available for downloading
-2025-08-31T00:06:54.7634880Z Download from "https://github.com/actions/python-versions/releases/download/3.11.9-9947079978/python-3.11.9-win32-x64.zip"
-2025-08-31T00:06:56.5269482Z Extract downloaded archive
-2025-08-31T00:06:56.5487727Z [command]c:\windows\system32\windowspowershell\v1.0\powershell.exe -NoLogo -Sta -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command "$ErrorActionPreference = 'Stop' ; try { Add-Type -AssemblyName System.IO.Compression.FileSystem } catch { } ; if ((Get-Command -Name Expand-Archive -Module Microsoft.PowerShell.Archive -ErrorAction Ignore)) { Expand-Archive -LiteralPath 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\python-3.11.9-win32-x64.zip' -DestinationPath 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\e5930064-c76d-4425-846d-da16c1be5bd6' -Force } else {[System.IO.Compression.ZipFile]::ExtractToDirectory('C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\python-3.11.9-win32-x64.zip', 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\e5930064-c76d-4425-846d-da16c1be5bd6', $true) }"
-2025-08-31T00:06:56.8716690Z Execute installation script
-2025-08-31T00:06:57.0514787Z Check if Python hostedtoolcache folder exist...
-2025-08-31T00:06:57.0515168Z 
-2025-08-31T00:06:57.0528552Z Check if current Python version is installed...
-2025-08-31T00:06:57.0529368Z 
-2025-08-31T00:06:57.0574713Z Python3.11 (x64) was found in C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_tool\Python...
-2025-08-31T00:06:57.0574969Z 
-2025-08-31T00:06:57.0591486Z Deleting C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_tool\Python\3.11.9\x64...
-2025-08-31T00:06:57.0591783Z 
-2025-08-31T00:06:57.0665271Z Remove registry entries for Python 3.11(x64)...
-2025-08-31T00:06:57.0665428Z 
-2025-08-31T00:06:57.3739745Z VERBOSE: Performing the operation "Remove Key" on target "Item: 
-2025-08-31T00:06:57.3740052Z HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall\{B074012B-9B85-4049-BA01-A58A8C4C2236}".
-2025-08-31T00:06:57.3740254Z 
-2025-08-31T00:06:57.3764000Z VERBOSE: Performing the operation "Remove Key" on target "Item: 
-2025-08-31T00:06:57.3764312Z HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall\{C038789C-DCB5-42D3-8C51-3BC9DDB26B90}".
-2025-08-31T00:06:57.3764529Z 
-2025-08-31T00:06:57.4423497Z Create Python 3.11.9 folder in C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_tool\Python
-2025-08-31T00:06:57.4441880Z Copy Python binaries to C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_tool\Python\3.11.9\x64
-2025-08-31T00:06:57.4442098Z 
-2025-08-31T00:06:57.4506930Z Install Python 3.11.9 in C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_tool\Python...
-2025-08-31T00:06:57.4507234Z 
-2025-08-31T00:06:59.4174373Z ##[error]Error happened during Python installation
-At C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\e5930064-c76d-4425-846d-da16c1be5bd6\se
-2025-08-31T00:06:59.4185723Z ##[error]tup.ps1:127 char:5
+﻿2025-08-31T00:10:57.8547579Z Current runner version: '2.328.0'
+2025-08-31T00:10:57.8551734Z Runner name: 'micros-gpu-01'
+2025-08-31T00:10:57.8552098Z Runner group name: 'Default'
+2025-08-31T00:10:57.8552519Z Machine name: 'DESKTOP-9VVJV75'
+2025-08-31T00:10:57.8554446Z ##[group]GITHUB_TOKEN Permissions
+2025-08-31T00:10:57.8555553Z Contents: read
+2025-08-31T00:10:57.8555825Z Metadata: read
+2025-08-31T00:10:57.8556105Z Packages: read
+2025-08-31T00:10:57.8556353Z ##[endgroup]
+2025-08-31T00:10:57.8557425Z Secret source: Actions
+2025-08-31T00:10:57.8557735Z Prepare workflow directory
+2025-08-31T00:10:57.8809723Z Prepare all required actions
+2025-08-31T00:10:57.8830867Z Getting action download info
+2025-08-31T00:10:58.4601939Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-08-31T00:10:59.0228775Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2025-08-31T00:11:00.2940264Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2025-08-31T00:11:01.0720435Z Complete job name: test-gpu
+2025-08-31T00:11:01.1224023Z ##[group]Run actions/checkout@v4
+2025-08-31T00:11:01.1224756Z with:
+2025-08-31T00:11:01.1225115Z   repository: MoniVibe/Microscope
+2025-08-31T00:11:01.1225713Z   token: ***
+2025-08-31T00:11:01.1226058Z   ssh-strict: true
+2025-08-31T00:11:01.1226421Z   ssh-user: git
+2025-08-31T00:11:01.1226789Z   persist-credentials: true
+2025-08-31T00:11:01.1227195Z   clean: true
+2025-08-31T00:11:01.1227560Z   sparse-checkout-cone-mode: true
+2025-08-31T00:11:01.1227998Z   fetch-depth: 1
+2025-08-31T00:11:01.1228353Z   fetch-tags: false
+2025-08-31T00:11:01.1228722Z   show-progress: true
+2025-08-31T00:11:01.1229095Z   lfs: false
+2025-08-31T00:11:01.1229438Z   submodules: false
+2025-08-31T00:11:01.1229797Z   set-safe-directory: true
+2025-08-31T00:11:01.1230325Z ##[endgroup]
+2025-08-31T00:11:01.3117801Z Syncing repository: MoniVibe/Microscope
+2025-08-31T00:11:01.3118616Z ##[group]Getting Git version info
+2025-08-31T00:11:01.3119007Z Working directory is 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\Microscope\Microscope'
+2025-08-31T00:11:01.3175089Z [command]"c:\program files\git\cmd\git.exe" version
+2025-08-31T00:11:01.3312537Z git version 2.47.0.windows.2
+2025-08-31T00:11:01.3341634Z ##[endgroup]
+2025-08-31T00:11:01.3348956Z Copying 'C:\Users\Moni\.gitconfig' to 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\71500d16-4737-4d03-9af9-4e8e6bd863ea\.gitconfig'
+2025-08-31T00:11:01.3359439Z Temporarily overriding HOME='C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\71500d16-4737-4d03-9af9-4e8e6bd863ea' before making global git config changes
+2025-08-31T00:11:01.3359979Z Adding repository directory to the temporary git global config as a safe directory
+2025-08-31T00:11:01.3364672Z [command]"c:\program files\git\cmd\git.exe" config --global --add safe.directory C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\Microscope\Microscope
+2025-08-31T00:11:01.3530515Z [command]"c:\program files\git\cmd\git.exe" config --local --get remote.origin.url
+2025-08-31T00:11:01.3648784Z https://github.com/MoniVibe/Microscope
+2025-08-31T00:11:01.3678951Z ##[group]Removing previously created refs, to avoid conflicts
+2025-08-31T00:11:01.3683215Z [command]"c:\program files\git\cmd\git.exe" rev-parse --symbolic-full-name --verify --quiet HEAD
+2025-08-31T00:11:01.3801740Z refs/heads/main
+2025-08-31T00:11:01.3829433Z [command]"c:\program files\git\cmd\git.exe" checkout --detach
+2025-08-31T00:11:01.3999217Z HEAD is now at d23aff5 ci: rerun gpu job (user request)
+2025-08-31T00:11:01.4332679Z ##[endgroup]
+2025-08-31T00:11:01.4336256Z [command]"c:\program files\git\cmd\git.exe" submodule status
+2025-08-31T00:11:02.0100173Z ##[group]Cleaning the repository
+2025-08-31T00:11:02.0105052Z [command]"c:\program files\git\cmd\git.exe" clean -ffdx
+2025-08-31T00:11:02.0265623Z [command]"c:\program files\git\cmd\git.exe" reset --hard HEAD
+2025-08-31T00:11:02.0437829Z HEAD is now at d23aff5 ci: rerun gpu job (user request)
+2025-08-31T00:11:02.0463524Z ##[endgroup]
+2025-08-31T00:11:02.0466489Z ##[group]Disabling automatic garbage collection
+2025-08-31T00:11:02.0470551Z [command]"c:\program files\git\cmd\git.exe" config --local gc.auto 0
+2025-08-31T00:11:02.0619676Z ##[endgroup]
+2025-08-31T00:11:02.0619916Z ##[group]Setting up auth
+2025-08-31T00:11:02.0625289Z [command]"c:\program files\git\cmd\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-08-31T00:11:02.0775371Z [command]"c:\program files\git\cmd\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-08-31T00:11:02.7124715Z [command]"c:\program files\git\cmd\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-08-31T00:11:02.7278745Z [command]"c:\program files\git\cmd\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2025-08-31T00:11:03.3349028Z [command]"c:\program files\git\cmd\git.exe" config --local http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2025-08-31T00:11:03.3523358Z ##[endgroup]
+2025-08-31T00:11:03.3523591Z ##[group]Fetching the repository
+2025-08-31T00:11:03.3529529Z [command]"c:\program files\git\cmd\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +b4570f7199a7415bfe337bfe3b93febb9b91b587:refs/remotes/origin/main
+2025-08-31T00:11:11.4724956Z From https://github.com/MoniVibe/Microscope
+2025-08-31T00:11:11.4725248Z  + d23aff5...b4570f7 b4570f7199a7415bfe337bfe3b93febb9b91b587 -> origin/main  (forced update)
+2025-08-31T00:11:11.4834600Z ##[endgroup]
+2025-08-31T00:11:11.4834835Z ##[group]Determining the checkout info
+2025-08-31T00:11:11.4835580Z ##[endgroup]
+2025-08-31T00:11:11.4841632Z [command]"c:\program files\git\cmd\git.exe" sparse-checkout disable
+2025-08-31T00:11:11.5035549Z [command]"c:\program files\git\cmd\git.exe" config --local --unset-all extensions.worktreeConfig
+2025-08-31T00:11:11.5189891Z ##[group]Checking out the ref
+2025-08-31T00:11:11.5194634Z [command]"c:\program files\git\cmd\git.exe" checkout --progress --force -B main refs/remotes/origin/main
+2025-08-31T00:11:13.2877281Z Updating files:  95% (524/547)
+2025-08-31T00:11:13.2886922Z Updating files:  96% (526/547)
+2025-08-31T00:11:13.2903387Z Updating files:  97% (531/547)
+2025-08-31T00:11:13.2919818Z Updating files:  98% (537/547)
+2025-08-31T00:11:13.2929773Z Updating files:  99% (542/547)
+2025-08-31T00:11:13.2929917Z Updating files: 100% (547/547)
+2025-08-31T00:11:13.2930034Z Updating files: 100% (547/547), done.
+2025-08-31T00:11:13.2994384Z branch 'main' set up to track 'origin/main'.
+2025-08-31T00:11:13.2994562Z Your branch is up to date with 'origin/main'.
+2025-08-31T00:11:13.2994812Z Previous HEAD position was d23aff5 ci: rerun gpu job (user request)
+2025-08-31T00:11:13.2995078Z Switched to and reset branch 'main'
+2025-08-31T00:11:13.3198962Z ##[endgroup]
+2025-08-31T00:11:13.3362622Z [command]"c:\program files\git\cmd\git.exe" log -1 --format=%H
+2025-08-31T00:11:13.3492603Z b4570f7199a7415bfe337bfe3b93febb9b91b587
+2025-08-31T00:11:13.3729293Z ##[group]Run actions/setup-python@v5
+2025-08-31T00:11:13.3729440Z with:
+2025-08-31T00:11:13.3729540Z   python-version: 3.11
+2025-08-31T00:11:13.3729636Z   check-latest: false
+2025-08-31T00:11:13.3729820Z   token: ***
+2025-08-31T00:11:13.3729917Z   update-environment: true
+2025-08-31T00:11:13.3730024Z   allow-prereleases: false
+2025-08-31T00:11:13.3730128Z   freethreaded: false
+2025-08-31T00:11:13.3730218Z ##[endgroup]
+2025-08-31T00:11:13.7589349Z ##[group]Installed versions
+2025-08-31T00:11:13.7600279Z Version 3.11 was not found in the local cache
+2025-08-31T00:11:14.8838760Z Version 3.11 is available for downloading
+2025-08-31T00:11:14.8839709Z Download from "https://github.com/actions/python-versions/releases/download/3.11.9-9947079978/python-3.11.9-win32-x64.zip"
+2025-08-31T00:11:16.3091120Z Extract downloaded archive
+2025-08-31T00:11:16.3300695Z [command]c:\windows\system32\windowspowershell\v1.0\powershell.exe -NoLogo -Sta -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command "$ErrorActionPreference = 'Stop' ; try { Add-Type -AssemblyName System.IO.Compression.FileSystem } catch { } ; if ((Get-Command -Name Expand-Archive -Module Microsoft.PowerShell.Archive -ErrorAction Ignore)) { Expand-Archive -LiteralPath 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\python-3.11.9-win32-x64.zip' -DestinationPath 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\a7edf675-afb4-44f1-b03c-d1b0e0121ea4' -Force } else {[System.IO.Compression.ZipFile]::ExtractToDirectory('C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\python-3.11.9-win32-x64.zip', 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\a7edf675-afb4-44f1-b03c-d1b0e0121ea4', $true) }"
+2025-08-31T00:11:16.6523454Z Execute installation script
+2025-08-31T00:11:16.8320151Z Check if Python hostedtoolcache folder exist...
+2025-08-31T00:11:16.8320737Z 
+2025-08-31T00:11:16.8334884Z Check if current Python version is installed...
+2025-08-31T00:11:16.8335017Z 
+2025-08-31T00:11:16.8377293Z Python3.11 (x64) was found in C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_tool\Python...
+2025-08-31T00:11:16.8377882Z 
+2025-08-31T00:11:16.8393767Z Deleting C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_tool\Python\3.11.9\x64...
+2025-08-31T00:11:16.8393967Z 
+2025-08-31T00:11:16.8468877Z Remove registry entries for Python 3.11(x64)...
+2025-08-31T00:11:16.8469091Z 
+2025-08-31T00:11:17.1556237Z VERBOSE: Performing the operation "Remove Key" on target "Item: 
+2025-08-31T00:11:17.1556563Z HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall\{B074012B-9B85-4049-BA01-A58A8C4C2236}".
+2025-08-31T00:11:17.1556775Z 
+2025-08-31T00:11:17.1592420Z VERBOSE: Performing the operation "Remove Key" on target "Item: 
+2025-08-31T00:11:17.1592831Z HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall\{C038789C-DCB5-42D3-8C51-3BC9DDB26B90}".
+2025-08-31T00:11:17.1593234Z 
+2025-08-31T00:11:17.2332062Z Create Python 3.11.9 folder in C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_tool\Python
+2025-08-31T00:11:17.2332289Z 
+2025-08-31T00:11:17.2353012Z Copy Python binaries to C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_tool\Python\3.11.9\x64
+2025-08-31T00:11:17.2353231Z 
+2025-08-31T00:11:17.2420276Z Install Python 3.11.9 in C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_tool\Python...
+2025-08-31T00:11:17.2420628Z 
+2025-08-31T00:11:19.2622167Z ##[error]Error happened during Python installation
+2025-08-31T00:11:19.2627671Z ##[error]At C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\a7edf675-afb4-44f1-b03c-d1b0e0121ea4\se
+tup.ps1:127 char:5
 +     Throw "Error happened during Python installation"
 +     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     + CategoryInfo          : OperationStopped: (Error happened ...on installation:String) [], RuntimeException
     + FullyQualifiedErrorId : Error happened during Python installation
-2025-08-31T00:06:59.4306905Z ##[error]The process 'c:\windows\system32\windowspowershell\v1.0\powershell.exe' failed with exit code 1
-2025-08-31T00:06:59.4628047Z Post job cleanup.
-2025-08-31T00:06:59.5524938Z [command]"c:\program files\git\cmd\git.exe" version
-2025-08-31T00:06:59.5665459Z git version 2.47.0.windows.2
-2025-08-31T00:06:59.5706398Z Copying 'C:\Users\Moni\.gitconfig' to 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\cf0d9b07-3603-418b-a0a4-f8d3bb585106\.gitconfig'
-2025-08-31T00:06:59.5720952Z Temporarily overriding HOME='C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\cf0d9b07-3603-418b-a0a4-f8d3bb585106' before making global git config changes
-2025-08-31T00:06:59.5721744Z Adding repository directory to the temporary git global config as a safe directory
-2025-08-31T00:06:59.5726225Z [command]"c:\program files\git\cmd\git.exe" config --global --add safe.directory C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\Microscope\Microscope
-2025-08-31T00:06:59.5886704Z [command]"c:\program files\git\cmd\git.exe" config --local --name-only --get-regexp core\.sshCommand
-2025-08-31T00:06:59.6046454Z [command]"c:\program files\git\cmd\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
-2025-08-31T00:07:00.2555190Z [command]"c:\program files\git\cmd\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
-2025-08-31T00:07:00.2679668Z http.https://github.com/.extraheader
-2025-08-31T00:07:00.2707902Z [command]"c:\program files\git\cmd\git.exe" config --local --unset-all http.https://github.com/.extraheader
-2025-08-31T00:07:00.2863797Z [command]"c:\program files\git\cmd\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
-2025-08-31T00:07:00.9159825Z Cleaning up orphan processes
-2025-08-31T00:07:00.9315925Z Terminate orphan process: pid (8304) (dllhost)
+2025-08-31T00:11:19.2736923Z ##[error]The process 'c:\windows\system32\windowspowershell\v1.0\powershell.exe' failed with exit code 1
+2025-08-31T00:11:19.2956609Z ##[group]Run $ErrorActionPreference = 'Stop'
+2025-08-31T00:11:19.2956937Z [36;1m$ErrorActionPreference = 'Stop'[0m
+2025-08-31T00:11:19.2957139Z [36;1m$py = $null[0m
+2025-08-31T00:11:19.2957417Z [36;1mtry { & py -3.11 -c "import sys; print(sys.version)" | Out-Host; $py = 'py -3.11' } catch {}[0m
+2025-08-31T00:11:19.2957844Z [36;1mif (-not $py) { & python -c "import sys; print(sys.version)" | Out-Host; $py = 'python' }[0m
+2025-08-31T00:11:19.2958395Z [36;1mecho "PY_EXE=$py" | Out-File -FilePath $env:GITHUB_ENV -Append[0m
+2025-08-31T00:11:19.2958765Z [36;1m& $py -c "import sys; assert sys.version.startswith('3.11.'), sys.version"[0m
+2025-08-31T00:11:19.3047334Z ##[error]pwsh: command not found
+2025-08-31T00:11:19.3190861Z Post job cleanup.
+2025-08-31T00:11:19.4050502Z [command]"c:\program files\git\cmd\git.exe" version
+2025-08-31T00:11:19.4182858Z git version 2.47.0.windows.2
+2025-08-31T00:11:19.4220465Z Copying 'C:\Users\Moni\.gitconfig' to 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\60e53448-912c-4008-aa39-eca34709e4ef\.gitconfig'
+2025-08-31T00:11:19.4232304Z Temporarily overriding HOME='C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\60e53448-912c-4008-aa39-eca34709e4ef' before making global git config changes
+2025-08-31T00:11:19.4233095Z Adding repository directory to the temporary git global config as a safe directory
+2025-08-31T00:11:19.4238012Z [command]"c:\program files\git\cmd\git.exe" config --global --add safe.directory C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\Microscope\Microscope
+2025-08-31T00:11:19.4399925Z [command]"c:\program files\git\cmd\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2025-08-31T00:11:19.4558265Z [command]"c:\program files\git\cmd\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2025-08-31T00:11:20.0237891Z fatal: No url found for submodule path 'actions-runner/_work/Microscope/Microscope' in .gitmodules
+2025-08-31T00:11:20.0635766Z ##[warning]The process 'c:\program files\git\cmd\git.exe' failed with exit code 128
+2025-08-31T00:11:20.0713246Z Cleaning up orphan processes
+2025-08-31T00:11:20.1029097Z Terminate orphan process: pid (32804) (dllhost)

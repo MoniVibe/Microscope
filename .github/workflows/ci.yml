@@ -27,7 +27,7 @@ jobs:
       with: {python-version: '3.11'}
       continue-on-error: true
     - name: Resolve Python 3.11 on host (fallback)
-      shell: pwsh
+      shell: powershell
       run: |
         $ErrorActionPreference = 'Stop'
         $py = $null
@@ -49,21 +49,21 @@ jobs:
       run: |
         $env:PY_EXE -m pip install --upgrade pip
         $env:PY_EXE -m pip install --index-url https://download.pytorch.org/whl/cu121 torch==2.3.* torchvision==0.18.* torchaudio==2.3.*
-      shell: pwsh
+      shell: powershell
     - name: Install project (dev extras)
       run: $env:PY_EXE -m pip install -e .[dev]
-      shell: pwsh
+      shell: powershell
     - name: CUDA availability gate
       run: $env:PY_EXE -c "import torch; assert torch.cuda.is_available()"
-      shell: pwsh
+      shell: powershell
     - name: Print environment
       run: |
         $env:PY_EXE scripts/print_env.py | tee gpu_env.txt
-      shell: pwsh
+      shell: powershell
     - name: Run GPU-marked tests (scoped)
       run: |
         $env:PY_EXE -m pytest -q -m gpu -k "frames or sources or solvers_gaussian_free_space" --maxfail=1 | tee gpu_pytest.txt
-      shell: pwsh
+      shell: powershell
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
