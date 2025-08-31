@@ -133,6 +133,9 @@ def to_world(p_local, T):  # type: ignore[no-untyped-def]
     R = T["R"]
     t = T["t"]
 
+    # Ensure dtype/device consistency
+    p_local = p_local.to(dtype=R.dtype, device=R.device)
+
     # Handle batch dimensions
     if R.dim() == 3:  # Batched transform
         # p_local shape: (N, 3), R shape: (B, 3, 3), t shape: (B, 3)
@@ -166,6 +169,9 @@ def from_world(p_world: torch.Tensor, T: dict[str, torch.Tensor]) -> torch.Tenso
     # Apply inverse transformation: p_local = R^T * (p_world - t)
     R = T["R"]
     t = T["t"]
+
+    # Ensure dtype/device consistency
+    p_world = p_world.to(dtype=R.dtype, device=R.device)
 
     if R.dim() == 3:  # Batched transform
         # Subtract translation then apply inverse rotation
