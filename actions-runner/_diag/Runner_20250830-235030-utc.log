@@ -1,0 +1,81 @@
+[2025-08-30 23:50:30Z INFO HostContext] No proxy settings were found based on environmental variables (http_proxy/https_proxy/HTTP_PROXY/HTTPS_PROXY)
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:50:30Z INFO HostContext] Well known config file 'Credentials': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.credentials'
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:50:30Z INFO HostContext] Well known config file 'Runner': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.runner'
+[2025-08-30 23:50:30Z INFO Listener] Runner is built for Windows (X64) - win-x64.
+[2025-08-30 23:50:30Z INFO Listener] RuntimeInformation: Microsoft Windows 10.0.26100.
+[2025-08-30 23:50:30Z INFO Listener] Version: 2.328.0
+[2025-08-30 23:50:30Z INFO Listener] Commit: 6f9a9110adce65f44ca6f7c0ae142b9cc6af937b
+[2025-08-30 23:50:30Z INFO Listener] Culture: en-IL
+[2025-08-30 23:50:30Z INFO Listener] UI Culture: en-US
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:50:30Z INFO Listener] Validating directory permissions for: 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:50:30Z INFO CommandLineParser] Parse
+[2025-08-30 23:50:30Z INFO CommandLineParser] Parsing 1 args
+[2025-08-30 23:50:30Z INFO CommandLineParser] parsing argument
+[2025-08-30 23:50:30Z INFO CommandLineParser] HasArgs: False
+[2025-08-30 23:50:30Z INFO CommandLineParser] Adding Command: remove
+[2025-08-30 23:50:30Z INFO Listener] Arguments parsed
+[2025-08-30 23:50:30Z INFO Runner] ExecuteCommand
+[2025-08-30 23:50:30Z INFO ConfigurationStore] currentAssemblyLocation: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin\Runner.Listener.dll
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:50:30Z INFO ConfigurationStore] binPath: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:50:30Z INFO ConfigurationStore] RootFolder: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:50:30Z INFO HostContext] Well known config file 'Runner': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.runner'
+[2025-08-30 23:50:30Z INFO ConfigurationStore] ConfigFilePath: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.runner
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:50:30Z INFO HostContext] Well known config file 'MigratedRunner': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.runner_migrated'
+[2025-08-30 23:50:30Z INFO ConfigurationStore] MigratedConfigFilePath: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.runner_migrated
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:50:30Z INFO HostContext] Well known config file 'Credentials': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.credentials'
+[2025-08-30 23:50:30Z INFO ConfigurationStore] CredFilePath: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.credentials
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:50:30Z INFO HostContext] Well known config file 'MigratedCredentials': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.credentials_migrated'
+[2025-08-30 23:50:30Z INFO ConfigurationStore] MigratedCredFilePath: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.credentials_migrated
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:50:30Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:50:30Z INFO HostContext] Well known config file 'Service': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.service'
+[2025-08-30 23:50:30Z INFO ConfigurationStore] ServiceConfigFilePath: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.service
+[2025-08-30 23:50:30Z INFO CommandSettings] Flag 'help': 'False'
+[2025-08-30 23:50:30Z INFO CommandSettings] Flag 'version': 'False'
+[2025-08-30 23:50:30Z INFO CommandSettings] Flag 'commit': 'False'
+[2025-08-30 23:50:30Z INFO CommandSettings] Flag 'check': 'False'
+[2025-08-30 23:50:30Z INFO CommandSettings] Command 'configure': 'False'
+[2025-08-30 23:50:30Z INFO CommandSettings] Command 'remove': 'True'
+[2025-08-30 23:50:30Z INFO CommandSettings] Flag 'local': 'False'
+[2025-08-30 23:50:30Z INFO ConfigurationStore] IsServiceConfigured()
+[2025-08-30 23:50:30Z INFO ConfigurationStore] IsServiceConfigured: False
+[2025-08-30 23:50:30Z INFO ConfigurationStore] IsConfigured()
+[2025-08-30 23:50:30Z INFO ConfigurationStore] IsConfigured: True
+[2025-08-30 23:50:30Z INFO ConfigurationStore] HasCredentials()
+[2025-08-30 23:50:30Z INFO ConfigurationStore] stored True
+[2025-08-30 23:50:30Z INFO ConfigurationStore] Read setting file: 398 chars
+[2025-08-30 23:50:30Z INFO CommandSettings] Arg 'token': ''
+[2025-08-30 23:50:30Z INFO CommandSettings] Flag 'unattended': 'False'
+[2025-08-30 23:50:30Z INFO PromptManager] ReadValue
+[2025-08-30 23:50:30Z INFO Terminal] WRITE: Enter runner remove token: 
+[2025-08-30 23:50:30Z INFO Terminal] READ SECRET
+[2025-08-30 23:51:01Z INFO Terminal] Read value: '***'
+[2025-08-30 23:51:01Z INFO RunnerDotcomServer] Http response code: NoContent from 'Delete https://api.github.com/repos/MoniVibe/Microscope/actions/runners/2' (2C14:27A5EC:2744AE:58443F:68B38E66)
+[2025-08-30 23:51:01Z INFO Terminal] WRITE LINE: 
+[2025-08-30 23:51:01Z INFO ConfigurationStore] IsConfigured()
+[2025-08-30 23:51:01Z INFO ConfigurationStore] IsConfigured: True
+[2025-08-30 23:51:01Z INFO ConfigurationStore] HasCredentials()
+[2025-08-30 23:51:01Z INFO ConfigurationStore] stored True
+[2025-08-30 23:51:01Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:51:01Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:51:01Z INFO HostContext] Well known config file 'RSACredentials': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.credentials_rsaparams'
+[2025-08-30 23:51:01Z INFO RSAEncryptedFileKeyManager] Deleting RSA key parameters file C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.credentials_rsaparams
+[2025-08-30 23:51:01Z INFO Terminal] WRITE LINE: 
+[2025-08-30 23:51:01Z INFO Listener] Runner execution has finished with return code 0

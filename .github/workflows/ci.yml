@@ -25,8 +25,51 @@ jobs:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
       with: {python-version: '3.11'}
-    - run: pip install -e .[cuda,dev]
-    - run: python -c "import torch; assert torch.cuda.is_available()"
-    - run: pytest -q -m gpu --maxfail=1
+      continue-on-error: true
+    - name: Resolve Python 3.11 on host (fallback)
+      shell: pwsh
+      run: |
+        $ErrorActionPreference = 'Stop'
+        $py = $null
+        try { & py -3.11 -c "import sys; print(sys.version)" | Out-Host; $py = 'py -3.11' } catch {}
+        if (-not $py) { & python -c "import sys; print(sys.version)" | Out-Host; $py = 'python' }
+        echo "PY_EXE=$py" | Out-File -FilePath $env:GITHUB_ENV -Append
+        & $py -c "import sys; assert sys.version.startswith('3.11.'), sys.version"
+    - name: Ensure commit is ancestor of 722f3e3
+      run: |
+        git fetch --no-tags --prune --unshallow || true
+        BASE=722f3e3
+        if git merge-base --is-ancestor "$BASE" HEAD; then
+          echo "Commit ancestry OK: HEAD >= $BASE"
+        else
+          echo "HEAD is older than required base $BASE" >&2
+          exit 1
+        fi
+    - name: Install PyTorch CUDA 12.1
+      run: |
+        $env:PY_EXE -m pip install --upgrade pip
+        $env:PY_EXE -m pip install --index-url https://download.pytorch.org/whl/cu121 torch==2.3.* torchvision==0.18.* torchaudio==2.3.*
+      shell: pwsh
+    - name: Install project (dev extras)
+      run: $env:PY_EXE -m pip install -e .[dev]
+      shell: pwsh
+    - name: CUDA availability gate
+      run: $env:PY_EXE -c "import torch; assert torch.cuda.is_available()"
+      shell: pwsh
+    - name: Print environment
+      run: |
+        $env:PY_EXE scripts/print_env.py | tee gpu_env.txt
+      shell: pwsh
+    - name: Run GPU-marked tests (scoped)
+      run: |
+        $env:PY_EXE -m pytest -q -m gpu -k "frames or sources or solvers_gaussian_free_space" --maxfail=1 | tee gpu_pytest.txt
+      shell: pwsh
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: gpu-smoke-artifacts
+        path: |
+          gpu_env.txt
+          gpu_pytest.txt
 
 

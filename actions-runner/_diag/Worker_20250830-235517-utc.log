@@ -1,0 +1,3932 @@
+[2025-08-30 23:55:17Z INFO HostContext] No proxy settings were found based on environmental variables (http_proxy/https_proxy/HTTP_PROXY/HTTPS_PROXY)
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known config file 'Credentials': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.credentials'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known config file 'Runner': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.runner'
+[2025-08-30 23:55:17Z INFO Worker] Version: 2.328.0
+[2025-08-30 23:55:17Z INFO Worker] Commit: 6f9a9110adce65f44ca6f7c0ae142b9cc6af937b
+[2025-08-30 23:55:17Z INFO Worker] Culture: en-IL
+[2025-08-30 23:55:17Z INFO Worker] UI Culture: en-US
+[2025-08-30 23:55:17Z INFO Worker] Waiting to receive the job message from the channel.
+[2025-08-30 23:55:17Z INFO ProcessChannel] Receiving message of length 19431, with hash 'cb33c92c320e1de87c2a38de755522956935f15c5aeb6bbd9064896c1adab635'
+[2025-08-30 23:55:17Z INFO Worker] Message received.
+[2025-08-30 23:55:17Z INFO Worker] Job message:
+ {
+  "fileTable": [
+    ".github/workflows/ci.yml"
+  ],
+  "mask": [
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    },
+    {
+      "type": "regex",
+      "value": "***"
+    }
+  ],
+  "steps": [
+    {
+      "type": "action",
+      "reference": {
+        "type": "repository",
+        "name": "actions/checkout",
+        "ref": "v4",
+        "repositoryType": "GitHub"
+      },
+      "contextName": "__actions_checkout",
+      "condition": "success()",
+      "id": "a1e0fddc-2fdf-465b-b265-8d25eb677507",
+      "name": "__actions_checkout"
+    },
+    {
+      "type": "action",
+      "reference": {
+        "type": "repository",
+        "name": "actions/setup-python",
+        "ref": "v5",
+        "repositoryType": "GitHub"
+      },
+      "contextName": "__actions_setup-python",
+      "inputs": {
+        "type": 2,
+        "file": 1,
+        "line": 27,
+        "col": 13,
+        "map": [
+          {
+            "key": {
+              "type": 0,
+              "file": 1,
+              "line": 27,
+              "col": 14,
+              "lit": "python-version"
+            },
+            "value": {
+              "type": 0,
+              "file": 1,
+              "line": 27,
+              "col": 30,
+              "lit": "3.11"
+            }
+          }
+        ]
+      },
+      "condition": "success()",
+      "id": "3d545bb1-0d3b-405d-a5db-94d364abe265",
+      "name": "__actions_setup-python"
+    },
+    {
+      "type": "action",
+      "reference": {
+        "type": "script"
+      },
+      "contextName": "__run",
+      "inputs": {
+        "type": 2,
+        "map": [
+          {
+            "key": "script",
+            "value": {
+              "type": 0,
+              "file": 1,
+              "line": 28,
+              "col": 12,
+              "lit": "pip install -e .[cuda,dev]"
+            }
+          }
+        ]
+      },
+      "condition": "success()",
+      "id": "4cd42ba1-b2a1-438a-a046-edf31d51d994",
+      "name": "__run"
+    },
+    {
+      "type": "action",
+      "reference": {
+        "type": "script"
+      },
+      "contextName": "__run_2",
+      "inputs": {
+        "type": 2,
+        "map": [
+          {
+            "key": "script",
+            "value": {
+              "type": 0,
+              "file": 1,
+              "line": 29,
+              "col": 12,
+              "lit": "python -c \"import torch; assert torch.cuda.is_available()\""
+            }
+          }
+        ]
+      },
+      "condition": "success()",
+      "id": "af568a99-8232-42c9-9ffc-dbf71bee78bf",
+      "name": "__run_2"
+    },
+    {
+      "type": "action",
+      "reference": {
+        "type": "script"
+      },
+      "contextName": "__run_3",
+      "inputs": {
+        "type": 2,
+        "map": [
+          {
+            "key": "script",
+            "value": {
+              "type": 0,
+              "file": 1,
+              "line": 30,
+              "col": 12,
+              "lit": "pytest -q -m gpu --maxfail=1"
+            }
+          }
+        ]
+      },
+      "condition": "success()",
+      "id": "9bfc87da-2ea0-4290-81cf-c939fb18f47e",
+      "name": "__run_3"
+    }
+  ],
+  "variables": {
+    "Actions.EnableHttpRedirects": {
+      "value": "true"
+    },
+    "DistributedTask.AddWarningToNode12Action": {
+      "value": "true"
+    },
+    "DistributedTask.AddWarningToNode16Action": {
+      "value": "true"
+    },
+    "DistributedTask.AllowRunnerContainerHooks": {
+      "value": "true"
+    },
+    "DistributedTask.DeprecateStepOutputCommands": {
+      "value": "true"
+    },
+    "DistributedTask.DetailUntarFailure": {
+      "value": "true"
+    },
+    "DistributedTask.EnableCompositeActions": {
+      "value": "true"
+    },
+    "DistributedTask.EnableJobServerQueueTelemetry": {
+      "value": "true"
+    },
+    "DistributedTask.EnhancedAnnotations": {
+      "value": "true"
+    },
+    "DistributedTask.ForceGithubJavascriptActionsToNode16": {
+      "value": "true"
+    },
+    "DistributedTask.ForceGithubJavascriptActionsToNode20": {
+      "value": "true"
+    },
+    "DistributedTask.LogTemplateErrorsAsDebugMessages": {
+      "value": "true"
+    },
+    "DistributedTask.MarkJobAsFailedOnWorkerCrash": {
+      "value": "true"
+    },
+    "DistributedTask.NewActionMetadata": {
+      "value": "true"
+    },
+    "DistributedTask.UploadStepSummary": {
+      "value": "true"
+    },
+    "DistributedTask.UseActionArchiveCache": {
+      "value": "true"
+    },
+    "DistributedTask.UseWhich2": {
+      "value": "true"
+    },
+    "RunService.FixEmbeddedIssues": {
+      "value": "true"
+    },
+    "actions_add_check_run_id_to_job_context": {
+      "value": "false"
+    },
+    "actions_display_helpful_actions_download_errors": {
+      "value": "true"
+    },
+    "actions_skip_retry_complete_job_upon_known_errors": {
+      "value": "true"
+    },
+    "actions_uses_cache_service_v2": {
+      "value": "true"
+    },
+    "github_token": {
+      "value": "***",
+      "isSecret": true
+    },
+    "system.from_run_service": {
+      "value": "true"
+    },
+    "system.github.job": {
+      "value": "test-gpu"
+    },
+    "system.github.launch_endpoint": {
+      "value": "https://launch.actions.githubusercontent.com"
+    },
+    "system.github.results_endpoint": {
+      "value": "https://results-receiver.actions.githubusercontent.com/"
+    },
+    "system.github.results_upload_with_sdk": {
+      "value": "true"
+    },
+    "system.github.token": {
+      "value": "***",
+      "isSecret": true
+    },
+    "system.github.token.permissions": {
+      "value": "{\"Contents\":\"read\",\"Metadata\":\"read\",\"Packages\":\"read\"}"
+    },
+    "system.orchestrationId": {
+      "value": "73bd813b-27fb-48df-847a-e63803eef43d.test-gpu.__default"
+    },
+    "system.phaseDisplayName": {
+      "value": "test-gpu"
+    },
+    "system.runner.lowdiskspacethreshold": {
+      "value": "100"
+    },
+    "system.runnerEnvironment": {
+      "value": "self-hosted"
+    },
+    "system.runnerGroupName": {
+      "value": "Default"
+    }
+  },
+  "messageType": "RunnerJobRequest",
+  "plan": {
+    "scopeIdentifier": "00000000-0000-0000-0000-000000000000",
+    "planType": "actions",
+    "version": 0,
+    "planId": "73bd813b-27fb-48df-847a-e63803eef43d",
+    "planGroup": null,
+    "artifactUri": null,
+    "artifactLocation": null,
+    "definition": null,
+    "owner": null
+  },
+  "timeline": {
+    "id": "73bd813b-27fb-48df-847a-e63803eef43d",
+    "changeId": 0,
+    "location": null
+  },
+  "jobId": "ab095936-ae78-59ed-852e-43152d705b5d",
+  "jobDisplayName": "test-gpu",
+  "jobName": "__default",
+  "requestId": 0,
+  "lockedUntil": "0001-01-01T00:00:00",
+  "resources": {
+    "endpoints": [
+      {
+        "data": {
+          "ServerId": "",
+          "ServerName": "",
+          "CacheServerUrl": "https://artifactcache.actions.githubusercontent.com/17FwdVDfg7yJ5adUFESZHbkakJQDwvItYRiky3qOM9Tofh7fB9/",
+          "FeedStreamUrl": "wss://results-receiver.actions.githubusercontent.com/_ws/ingest.sock",
+          "ResultsServiceUrl": "https://results-receiver.actions.githubusercontent.com/",
+          "PipelinesServiceUrl": "https://pipelinesghubeus12.actions.githubusercontent.com/17FwdVDfg7yJ5adUFESZHbkakJQDwvItYRiky3qOM9Tofh7fB9/",
+          "GenerateIdTokenUrl": ""
+        },
+        "name": "SystemVssConnection",
+        "url": "https://run-actions-1-azure-eastus.actions.githubusercontent.com/18/",
+        "authorization": {
+          "parameters": {
+            "AccessToken": "***"
+          },
+          "scheme": "OAuth"
+        },
+        "isShared": false,
+        "isReady": true
+      }
+    ]
+  },
+  "contextData": {
+    "github": {
+      "t": 2,
+      "d": [
+        {
+          "k": "ref",
+          "v": "refs/heads/main"
+        },
+        {
+          "k": "sha",
+          "v": "1e0ebf1d30621065fbe4b1673fcc8dc8a9f2b9f3"
+        },
+        {
+          "k": "repository",
+          "v": "MoniVibe/Microscope"
+        },
+        {
+          "k": "repository_owner",
+          "v": "MoniVibe"
+        },
+        {
+          "k": "repository_owner_id",
+          "v": "218424518"
+        },
+        {
+          "k": "repositoryUrl",
+          "v": "git://github.com/MoniVibe/Microscope.git"
+        },
+        {
+          "k": "run_id",
+          "v": "17349996018"
+        },
+        {
+          "k": "run_number",
+          "v": "3"
+        },
+        {
+          "k": "retention_days",
+          "v": "90"
+        },
+        {
+          "k": "run_attempt",
+          "v": "1"
+        },
+        {
+          "k": "artifact_cache_size_limit",
+          "v": "10"
+        },
+        {
+          "k": "repository_visibility",
+          "v": "public"
+        },
+        {
+          "k": "actor_id",
+          "v": "218424518"
+        },
+        {
+          "k": "actor",
+          "v": "MoniVibe"
+        },
+        {
+          "k": "workflow",
+          "v": "ci"
+        },
+        {
+          "k": "head_ref",
+          "v": ""
+        },
+        {
+          "k": "base_ref",
+          "v": ""
+        },
+        {
+          "k": "event_name",
+          "v": "push"
+        },
+        {
+          "k": "server_url",
+          "v": "https://github.com"
+        },
+        {
+          "k": "api_url",
+          "v": "https://api.github.com"
+        },
+        {
+          "k": "graphql_url",
+          "v": "https://api.github.com/graphql"
+        },
+        {
+          "k": "ref_name",
+          "v": "main"
+        },
+        {
+          "k": "ref_protected",
+          "v": false
+        },
+        {
+          "k": "ref_type",
+          "v": "branch"
+        },
+        {
+          "k": "secret_source",
+          "v": "Actions"
+        },
+        {
+          "k": "event",
+          "v": {
+            "t": 2,
+            "d": [
+              {
+                "k": "after",
+                "v": "1e0ebf1d30621065fbe4b1673fcc8dc8a9f2b9f3"
+              },
+              {
+                "k": "base_ref",
+                "v": null
+              },
+              {
+                "k": "before",
+                "v": "77a392cfb51b803fc384af49df109d6ef946bb33"
+              },
+              {
+                "k": "commits",
+                "v": {
+                  "t": 1,
+                  "a": [
+                    {
+                      "t": 2,
+                      "d": [
+                        {
+                          "k": "author",
+                          "v": {
+                            "t": 2,
+                            "d": [
+                              {
+                                "k": "email",
+                                "v": "shonhay@gmail.com"
+                              },
+                              {
+                                "k": "name",
+                                "v": "MoniVibe"
+                              },
+                              {
+                                "k": "username",
+                                "v": "MoniVibe"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "k": "committer",
+                          "v": {
+                            "t": 2,
+                            "d": [
+                              {
+                                "k": "email",
+                                "v": "shonhay@gmail.com"
+                              },
+                              {
+                                "k": "name",
+                                "v": "MoniVibe"
+                              },
+                              {
+                                "k": "username",
+                                "v": "MoniVibe"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "k": "distinct",
+                          "v": true
+                        },
+                        {
+                          "k": "id",
+                          "v": "1e0ebf1d30621065fbe4b1673fcc8dc8a9f2b9f3"
+                        },
+                        {
+                          "k": "message",
+                          "v": "ci: trigger gpu job (label gpu added)"
+                        },
+                        {
+                          "k": "timestamp",
+                          "v": "2025-08-31T02:53:25+03:00"
+                        },
+                        {
+                          "k": "tree_id",
+                          "v": "9dbfdc34e55085b047ea77ed7beffe97f65aae4c"
+                        },
+                        {
+                          "k": "url",
+                          "v": "https://github.com/MoniVibe/Microscope/commit/1e0ebf1d30621065fbe4b1673fcc8dc8a9f2b9f3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "k": "compare",
+                "v": "https://github.com/MoniVibe/Microscope/compare/77a392cfb51b...1e0ebf1d3062"
+              },
+              {
+                "k": "created",
+                "v": false
+              },
+              {
+                "k": "deleted",
+                "v": false
+              },
+              {
+                "k": "forced",
+                "v": false
+              },
+              {
+                "k": "head_commit",
+                "v": {
+                  "t": 2,
+                  "d": [
+                    {
+                      "k": "author",
+                      "v": {
+                        "t": 2,
+                        "d": [
+                          {
+                            "k": "email",
+                            "v": "shonhay@gmail.com"
+                          },
+                          {
+                            "k": "name",
+                            "v": "MoniVibe"
+                          },
+                          {
+                            "k": "username",
+                            "v": "MoniVibe"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "k": "committer",
+                      "v": {
+                        "t": 2,
+                        "d": [
+                          {
+                            "k": "email",
+                            "v": "shonhay@gmail.com"
+                          },
+                          {
+                            "k": "name",
+                            "v": "MoniVibe"
+                          },
+                          {
+                            "k": "username",
+                            "v": "MoniVibe"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "k": "distinct",
+                      "v": true
+                    },
+                    {
+                      "k": "id",
+                      "v": "1e0ebf1d30621065fbe4b1673fcc8dc8a9f2b9f3"
+                    },
+                    {
+                      "k": "message",
+                      "v": "ci: trigger gpu job (label gpu added)"
+                    },
+                    {
+                      "k": "timestamp",
+                      "v": "2025-08-31T02:53:25+03:00"
+                    },
+                    {
+                      "k": "tree_id",
+                      "v": "9dbfdc34e55085b047ea77ed7beffe97f65aae4c"
+                    },
+                    {
+                      "k": "url",
+                      "v": "https://github.com/MoniVibe/Microscope/commit/1e0ebf1d30621065fbe4b1673fcc8dc8a9f2b9f3"
+                    }
+                  ]
+                }
+              },
+              {
+                "k": "pusher",
+                "v": {
+                  "t": 2,
+                  "d": [
+                    {
+                      "k": "email",
+                      "v": "shonhay@gmail.com"
+                    },
+                    {
+                      "k": "name",
+                      "v": "MoniVibe"
+                    }
+                  ]
+                }
+              },
+              {
+                "k": "ref",
+                "v": "refs/heads/main"
+              },
+              {
+                "k": "repository",
+                "v": {
+                  "t": 2,
+                  "d": [
+                    {
+                      "k": "allow_forking",
+                      "v": true
+                    },
+                    {
+                      "k": "archive_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/{archive_format}{/ref}"
+                    },
+                    {
+                      "k": "archived",
+                      "v": false
+                    },
+                    {
+                      "k": "assignees_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/assignees{/user}"
+                    },
+                    {
+                      "k": "blobs_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/git/blobs{/sha}"
+                    },
+                    {
+                      "k": "branches_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/branches{/branch}"
+                    },
+                    {
+                      "k": "clone_url",
+                      "v": "https://github.com/MoniVibe/Microscope.git"
+                    },
+                    {
+                      "k": "collaborators_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/collaborators{/collaborator}"
+                    },
+                    {
+                      "k": "comments_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/comments{/number}"
+                    },
+                    {
+                      "k": "commits_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/commits{/sha}"
+                    },
+                    {
+                      "k": "compare_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/compare/{base}...{head}"
+                    },
+                    {
+                      "k": "contents_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/contents/{+path}"
+                    },
+                    {
+                      "k": "contributors_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/contributors"
+                    },
+                    {
+                      "k": "created_at",
+                      "v": 1756596009.0
+                    },
+                    {
+                      "k": "default_branch",
+                      "v": "main"
+                    },
+                    {
+                      "k": "deployments_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/deployments"
+                    },
+                    {
+                      "k": "description",
+                      "v": null
+                    },
+                    {
+                      "k": "disabled",
+                      "v": false
+                    },
+                    {
+                      "k": "downloads_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/downloads"
+                    },
+                    {
+                      "k": "events_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/events"
+                    },
+                    {
+                      "k": "fork",
+                      "v": false
+                    },
+                    {
+                      "k": "forks",
+                      "v": 0.0
+                    },
+                    {
+                      "k": "forks_count",
+                      "v": 0.0
+                    },
+                    {
+                      "k": "forks_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/forks"
+                    },
+                    {
+                      "k": "full_name",
+                      "v": "MoniVibe/Microscope"
+                    },
+                    {
+                      "k": "git_commits_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/git/commits{/sha}"
+                    },
+                    {
+                      "k": "git_refs_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/git/refs{/sha}"
+                    },
+                    {
+                      "k": "git_tags_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/git/tags{/sha}"
+                    },
+                    {
+                      "k": "git_url",
+                      "v": "git://github.com/MoniVibe/Microscope.git"
+                    },
+                    {
+                      "k": "has_discussions",
+                      "v": false
+                    },
+                    {
+                      "k": "has_downloads",
+                      "v": true
+                    },
+                    {
+                      "k": "has_issues",
+                      "v": true
+                    },
+                    {
+                      "k": "has_pages",
+                      "v": false
+                    },
+                    {
+                      "k": "has_projects",
+                      "v": true
+                    },
+                    {
+                      "k": "has_wiki",
+                      "v": true
+                    },
+                    {
+                      "k": "homepage",
+                      "v": null
+                    },
+                    {
+                      "k": "hooks_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/hooks"
+                    },
+                    {
+                      "k": "html_url",
+                      "v": "https://github.com/MoniVibe/Microscope"
+                    },
+                    {
+                      "k": "id",
+                      "v": 1047659144.0
+                    },
+                    {
+                      "k": "is_template",
+                      "v": false
+                    },
+                    {
+                      "k": "issue_comment_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/issues/comments{/number}"
+                    },
+                    {
+                      "k": "issue_events_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/issues/events{/number}"
+                    },
+                    {
+                      "k": "issues_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/issues{/number}"
+                    },
+                    {
+                      "k": "keys_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/keys{/key_id}"
+                    },
+                    {
+                      "k": "labels_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/labels{/name}"
+                    },
+                    {
+                      "k": "language",
+                      "v": "Python"
+                    },
+                    {
+                      "k": "languages_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/languages"
+                    },
+                    {
+                      "k": "license",
+                      "v": {
+                        "t": 2,
+                        "d": [
+                          {
+                            "k": "key",
+                            "v": "mit"
+                          },
+                          {
+                            "k": "name",
+                            "v": "MIT License"
+                          },
+                          {
+                            "k": "node_id",
+                            "v": "MDc6TGljZW5zZTEz"
+                          },
+                          {
+                            "k": "spdx_id",
+                            "v": "MIT"
+                          },
+                          {
+                            "k": "url",
+                            "v": "https://api.github.com/licenses/mit"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "k": "master_branch",
+                      "v": "main"
+                    },
+                    {
+                      "k": "merges_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/merges"
+                    },
+                    {
+                      "k": "milestones_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/milestones{/number}"
+                    },
+                    {
+                      "k": "mirror_url",
+                      "v": null
+                    },
+                    {
+                      "k": "name",
+                      "v": "Microscope"
+                    },
+                    {
+                      "k": "node_id",
+                      "v": "R_kgDOPnICiA"
+                    },
+                    {
+                      "k": "notifications_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/notifications{?since,all,participating}"
+                    },
+                    {
+                      "k": "open_issues",
+                      "v": 0.0
+                    },
+                    {
+                      "k": "open_issues_count",
+                      "v": 0.0
+                    },
+                    {
+                      "k": "owner",
+                      "v": {
+                        "t": 2,
+                        "d": [
+                          {
+                            "k": "avatar_url",
+                            "v": "https://avatars.githubusercontent.com/u/218424518?v=4"
+                          },
+                          {
+                            "k": "email",
+                            "v": "shonhay@gmail.com"
+                          },
+                          {
+                            "k": "events_url",
+                            "v": "https://api.github.com/users/MoniVibe/events{/privacy}"
+                          },
+                          {
+                            "k": "followers_url",
+                            "v": "https://api.github.com/users/MoniVibe/followers"
+                          },
+                          {
+                            "k": "following_url",
+                            "v": "https://api.github.com/users/MoniVibe/following{/other_user}"
+                          },
+                          {
+                            "k": "gists_url",
+                            "v": "https://api.github.com/users/MoniVibe/gists{/gist_id}"
+                          },
+                          {
+                            "k": "gravatar_id",
+                            "v": ""
+                          },
+                          {
+                            "k": "html_url",
+                            "v": "https://github.com/MoniVibe"
+                          },
+                          {
+                            "k": "id",
+                            "v": 218424518.0
+                          },
+                          {
+                            "k": "login",
+                            "v": "MoniVibe"
+                          },
+                          {
+                            "k": "name",
+                            "v": "MoniVibe"
+                          },
+                          {
+                            "k": "node_id",
+                            "v": "U_kgDODQTkxg"
+                          },
+                          {
+                            "k": "organizations_url",
+                            "v": "https://api.github.com/users/MoniVibe/orgs"
+                          },
+                          {
+                            "k": "received_events_url",
+                            "v": "https://api.github.com/users/MoniVibe/received_events"
+                          },
+                          {
+                            "k": "repos_url",
+                            "v": "https://api.github.com/users/MoniVibe/repos"
+                          },
+                          {
+                            "k": "site_admin",
+                            "v": false
+                          },
+                          {
+                            "k": "starred_url",
+                            "v": "https://api.github.com/users/MoniVibe/starred{/owner}{/repo}"
+                          },
+                          {
+                            "k": "subscriptions_url",
+                            "v": "https://api.github.com/users/MoniVibe/subscriptions"
+                          },
+                          {
+                            "k": "type",
+                            "v": "User"
+                          },
+                          {
+                            "k": "url",
+                            "v": "https://api.github.com/users/MoniVibe"
+                          },
+                          {
+                            "k": "user_view_type",
+                            "v": "public"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "k": "private",
+                      "v": false
+                    },
+                    {
+                      "k": "pulls_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/pulls{/number}"
+                    },
+                    {
+                      "k": "pushed_at",
+                      "v": 1756598006.0
+                    },
+                    {
+                      "k": "releases_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/releases{/id}"
+                    },
+                    {
+                      "k": "size",
+                      "v": 0.0
+                    },
+                    {
+                      "k": "ssh_url",
+                      "v": "git@github.com:MoniVibe/Microscope.git"
+                    },
+                    {
+                      "k": "stargazers",
+                      "v": 0.0
+                    },
+                    {
+                      "k": "stargazers_count",
+                      "v": 0.0
+                    },
+                    {
+                      "k": "stargazers_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/stargazers"
+                    },
+                    {
+                      "k": "statuses_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/statuses/{sha}"
+                    },
+                    {
+                      "k": "subscribers_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/subscribers"
+                    },
+                    {
+                      "k": "subscription_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/subscription"
+                    },
+                    {
+                      "k": "svn_url",
+                      "v": "https://github.com/MoniVibe/Microscope"
+                    },
+                    {
+                      "k": "tags_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/tags"
+                    },
+                    {
+                      "k": "teams_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/teams"
+                    },
+                    {
+                      "k": "topics",
+                      "v": {
+                        "t": 1
+                      }
+                    },
+                    {
+                      "k": "trees_url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope/git/trees{/sha}"
+                    },
+                    {
+                      "k": "updated_at",
+                      "v": "2025-08-30T23:47:56Z"
+                    },
+                    {
+                      "k": "url",
+                      "v": "https://api.github.com/repos/MoniVibe/Microscope"
+                    },
+                    {
+                      "k": "visibility",
+                      "v": "public"
+                    },
+                    {
+                      "k": "watchers",
+                      "v": 0.0
+                    },
+                    {
+                      "k": "watchers_count",
+                      "v": 0.0
+                    },
+                    {
+                      "k": "web_commit_signoff_required",
+                      "v": false
+                    }
+                  ]
+                }
+              },
+              {
+                "k": "sender",
+                "v": {
+                  "t": 2,
+                  "d": [
+                    {
+                      "k": "avatar_url",
+                      "v": "https://avatars.githubusercontent.com/u/218424518?v=4"
+                    },
+                    {
+                      "k": "events_url",
+                      "v": "https://api.github.com/users/MoniVibe/events{/privacy}"
+                    },
+                    {
+                      "k": "followers_url",
+                      "v": "https://api.github.com/users/MoniVibe/followers"
+                    },
+                    {
+                      "k": "following_url",
+                      "v": "https://api.github.com/users/MoniVibe/following{/other_user}"
+                    },
+                    {
+                      "k": "gists_url",
+                      "v": "https://api.github.com/users/MoniVibe/gists{/gist_id}"
+                    },
+                    {
+                      "k": "gravatar_id",
+                      "v": ""
+                    },
+                    {
+                      "k": "html_url",
+                      "v": "https://github.com/MoniVibe"
+                    },
+                    {
+                      "k": "id",
+                      "v": 218424518.0
+                    },
+                    {
+                      "k": "login",
+                      "v": "MoniVibe"
+                    },
+                    {
+                      "k": "node_id",
+                      "v": "U_kgDODQTkxg"
+                    },
+                    {
+                      "k": "organizations_url",
+                      "v": "https://api.github.com/users/MoniVibe/orgs"
+                    },
+                    {
+                      "k": "received_events_url",
+                      "v": "https://api.github.com/users/MoniVibe/received_events"
+                    },
+                    {
+                      "k": "repos_url",
+                      "v": "https://api.github.com/users/MoniVibe/repos"
+                    },
+                    {
+                      "k": "site_admin",
+                      "v": false
+                    },
+                    {
+                      "k": "starred_url",
+                      "v": "https://api.github.com/users/MoniVibe/starred{/owner}{/repo}"
+                    },
+                    {
+                      "k": "subscriptions_url",
+                      "v": "https://api.github.com/users/MoniVibe/subscriptions"
+                    },
+                    {
+                      "k": "type",
+                      "v": "User"
+                    },
+                    {
+                      "k": "url",
+                      "v": "https://api.github.com/users/MoniVibe"
+                    },
+                    {
+                      "k": "user_view_type",
+                      "v": "public"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "k": "workflow_ref",
+          "v": "MoniVibe/Microscope/.github/workflows/ci.yml@refs/heads/main"
+        },
+        {
+          "k": "workflow_sha",
+          "v": "1e0ebf1d30621065fbe4b1673fcc8dc8a9f2b9f3"
+        },
+        {
+          "k": "repository_id",
+          "v": "1047659144"
+        },
+        {
+          "k": "triggering_actor",
+          "v": "MoniVibe"
+        }
+      ]
+    },
+    "inputs": {
+      "t": 2
+    },
+    "matrix": null,
+    "needs": {
+      "t": 2
+    },
+    "strategy": {
+      "t": 2,
+      "d": [
+        {
+          "k": "fail-fast",
+          "v": true
+        },
+        {
+          "k": "job-index",
+          "v": 0.0
+        },
+        {
+          "k": "job-total",
+          "v": 1.0
+        },
+        {
+          "k": "max-parallel",
+          "v": 1.0
+        }
+      ]
+    },
+    "vars": {
+      "t": 2
+    }
+  },
+  "billingOwnerId": "U_kgDODQTkxg"
+}
+[2025-08-30 23:55:17Z INFO JobRunner] Job ID ab095936-ae78-59ed-852e-43152d705b5d
+[2025-08-30 23:55:17Z INFO ConfigurationStore] currentAssemblyLocation: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin\Runner.Worker.dll
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO ConfigurationStore] binPath: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO ConfigurationStore] RootFolder: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known config file 'Runner': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.runner'
+[2025-08-30 23:55:17Z INFO ConfigurationStore] ConfigFilePath: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.runner
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known config file 'MigratedRunner': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.runner_migrated'
+[2025-08-30 23:55:17Z INFO ConfigurationStore] MigratedConfigFilePath: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.runner_migrated
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known config file 'Credentials': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.credentials'
+[2025-08-30 23:55:17Z INFO ConfigurationStore] CredFilePath: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.credentials
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known config file 'MigratedCredentials': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.credentials_migrated'
+[2025-08-30 23:55:17Z INFO ConfigurationStore] MigratedCredFilePath: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.credentials_migrated
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known config file 'Service': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.service'
+[2025-08-30 23:55:17Z INFO ConfigurationStore] ServiceConfigFilePath: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.service
+[2025-08-30 23:55:17Z INFO ConfigurationStore] Read setting file: 396 chars
+[2025-08-30 23:55:17Z INFO JobRunner] Initializing launch client
+[2025-08-30 23:55:17Z INFO JobServerQueue] Initializing results client
+[2025-08-30 23:55:17Z INFO ResultServer] Creating websocket client ...wss://results-receiver.actions.githubusercontent.com/_ws/ingest.sock
+[2025-08-30 23:55:17Z INFO ResultServer] Attempting to start websocket client with delay 00:00:00.
+[2025-08-30 23:55:17Z INFO JobServerQueue] Start process web console line queue.
+[2025-08-30 23:55:17Z INFO JobServerQueue] Start process file upload queue.
+[2025-08-30 23:55:17Z INFO JobServerQueue] Start results file upload queue.
+[2025-08-30 23:55:17Z INFO JobServerQueue] Starting results-based upload queue...
+[2025-08-30 23:55:17Z INFO JobServerQueue] Start process timeline update queue.
+[2025-08-30 23:55:17Z INFO ExecutionContext] Initializing Job context
+[2025-08-30 23:55:17Z INFO ExecutionContext] Initialize GitHub context
+[2025-08-30 23:55:17Z INFO ExecutionContext] Initialize Env context
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:17Z INFO JobRunner] Starting the job execution context.
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:17Z INFO JobRunner] Validating directory permissions for: 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Tools': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_tool'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Temp': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp'
+[2025-08-30 23:55:17Z INFO JobRunner] Getting job extension.
+[2025-08-30 23:55:17Z INFO JobRunner] Initialize job. Getting all job steps.
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known config file 'Credentials': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.credentials'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known config file 'SetupInfo': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\.setup_info'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:17Z INFO PipelineDirectoryManager] Loading tracking config if exists: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_PipelineMapping\MoniVibe/Microscope\PipelineFolder.json
+[2025-08-30 23:55:17Z INFO PipelineDirectoryManager] Updating job run properties.
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:17Z INFO JobExtension] Downloading actions
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:17Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:17Z INFO Worker] Listening for cancel message from the channel.
+[2025-08-30 23:55:17Z INFO Worker] Waiting for the job to complete or for a cancel message from the channel.
+[2025-08-30 23:55:17Z INFO ResultServer] Successfully started websocket client.
+[2025-08-30 23:55:17Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'ddc7cd61-c204-4e8d-8ca6-59d356c1c897', success rate: 1/1.
+[2025-08-30 23:55:18Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:18Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:18Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:18Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:18Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:18Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:18Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:18Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:18Z INFO ActionManager] Save archive 'https://api.github.com/repos/actions/checkout/zipball/08eba0b27e820071cde6df949e0beb9ba4906955' into C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions\_temp_7045ec2f-c31a-4c1d-8664-8b7f437e1620\14ea2085-2021-48d5-a6e1-682bbf74e262.zip.
+[2025-08-30 23:55:18Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'ddc7cd61-c204-4e8d-8ca6-59d356c1c897', success rate: 1/1.
+[2025-08-30 23:55:18Z INFO JobServerQueue] Job timeline record has been updated for the first time.
+[2025-08-30 23:55:18Z INFO ActionManager] Request URL: https://api.github.com/repos/actions/checkout/zipball/08eba0b27e820071cde6df949e0beb9ba4906955 X-GitHub-Request-Id: 2CC0:3DCADD:6CEE:F9C83:68B38F67 Http Status: OK
+[2025-08-30 23:55:18Z INFO ActionManager] Finished getting action repository.
+[2025-08-30 23:55:18Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:18Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:18Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:18Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:18Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:18Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:18Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:18Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:18Z INFO ActionManager] Save archive 'https://api.github.com/repos/actions/setup-python/zipball/a26af69be951a213d495a4c3e4e4022e16d87065' into C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions\_temp_f807b1df-395f-4f69-8e91-8e4fcaa8080d\4bc1f265-f887-4099-afed-e74a27396d0a.zip.
+[2025-08-30 23:55:18Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'ddc7cd61-c204-4e8d-8ca6-59d356c1c897', success rate: 1/1.
+[2025-08-30 23:55:19Z INFO ActionManager] Request URL: https://api.github.com/repos/actions/setup-python/zipball/a26af69be951a213d495a4c3e4e4022e16d87065 X-GitHub-Request-Id: 2C82:278568:738C:FA3A9:68B38F67 Http Status: OK
+[2025-08-30 23:55:20Z INFO ActionManager] Finished getting action repository.
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Load schema file with definitions: [
+  "null",
+  "boolean",
+  "number",
+  "string",
+  "sequence",
+  "mapping",
+  "any",
+  "action-root",
+  "inputs",
+  "input",
+  "outputs",
+  "output-definition",
+  "runs",
+  "container-runs",
+  "container-runs-args",
+  "container-runs-env",
+  "node-runs",
+  "plugin-runs",
+  "composite-runs",
+  "composite-steps",
+  "composite-step",
+  "run-step",
+  "uses-step",
+  "container-runs-context",
+  "output-value",
+  "input-default-context",
+  "non-empty-string",
+  "string-steps-context",
+  "boolean-steps-context",
+  "step-env",
+  "step-if",
+  "step-with"
+]
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Loaded action.yml file: {
+  "name": "Checkout",
+  "description": "Checkout a Git repository at a particular version",
+  "inputs": {
+    "type": 2,
+    "map": [
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 4,
+          "col": 3,
+          "lit": "repository"
+        },
+        "value": {
+          "type": 3,
+          "file": 2,
+          "line": 6,
+          "col": 14,
+          "expr": "github.repository"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 7,
+          "col": 3,
+          "lit": "ref"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 12,
+          "col": 3,
+          "lit": "token"
+        },
+        "value": {
+          "type": 3,
+          "file": 2,
+          "line": 24,
+          "col": 14,
+          "expr": "github.token"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 25,
+          "col": 3,
+          "lit": "ssh-key"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 37,
+          "col": 3,
+          "lit": "ssh-known-hosts"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 42,
+          "col": 3,
+          "lit": "ssh-strict"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 47,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 48,
+          "col": 3,
+          "lit": "ssh-user"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 51,
+          "col": 14,
+          "lit": "git"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 52,
+          "col": 3,
+          "lit": "persist-credentials"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 54,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 55,
+          "col": 3,
+          "lit": "path"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 57,
+          "col": 3,
+          "lit": "clean"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 59,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 60,
+          "col": 3,
+          "lit": "filter"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 64,
+          "col": 14,
+          "lit": ""
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 65,
+          "col": 3,
+          "lit": "sparse-checkout"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 69,
+          "col": 14,
+          "lit": ""
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 70,
+          "col": 3,
+          "lit": "sparse-checkout-cone-mode"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 73,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 74,
+          "col": 3,
+          "lit": "fetch-depth"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 76,
+          "col": 14,
+          "lit": "1"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 77,
+          "col": 3,
+          "lit": "fetch-tags"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 79,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 80,
+          "col": 3,
+          "lit": "show-progress"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 82,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 83,
+          "col": 3,
+          "lit": "lfs"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 85,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 86,
+          "col": 3,
+          "lit": "submodules"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 94,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 95,
+          "col": 3,
+          "lit": "set-safe-directory"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 97,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 98,
+          "col": 3,
+          "lit": "github-server-url"
+        },
+        "value": ""
+      }
+    ]
+  },
+  "execution": {
+    "executionType": "nodeJS",
+    "hasPre": false,
+    "hasPost": true,
+    "script": "dist/index.js",
+    "pre": null,
+    "post": "dist/index.js",
+    "nodeVersion": "node20",
+    "cleanupCondition": "always()",
+    "initCondition": "always()"
+  },
+  "deprecated": null
+}
+[2025-08-30 23:55:20Z INFO ActionManager] Action node.js file: dist/index.js, no more preparation.
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:20Z INFO ActionManager] Load action that reference repository from 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions\actions\checkout\v4'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Loaded action.yml file: {
+  "name": "Checkout",
+  "description": "Checkout a Git repository at a particular version",
+  "inputs": {
+    "type": 2,
+    "map": [
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 4,
+          "col": 3,
+          "lit": "repository"
+        },
+        "value": {
+          "type": 3,
+          "file": 2,
+          "line": 6,
+          "col": 14,
+          "expr": "github.repository"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 7,
+          "col": 3,
+          "lit": "ref"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 12,
+          "col": 3,
+          "lit": "token"
+        },
+        "value": {
+          "type": 3,
+          "file": 2,
+          "line": 24,
+          "col": 14,
+          "expr": "github.token"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 25,
+          "col": 3,
+          "lit": "ssh-key"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 37,
+          "col": 3,
+          "lit": "ssh-known-hosts"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 42,
+          "col": 3,
+          "lit": "ssh-strict"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 47,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 48,
+          "col": 3,
+          "lit": "ssh-user"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 51,
+          "col": 14,
+          "lit": "git"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 52,
+          "col": 3,
+          "lit": "persist-credentials"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 54,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 55,
+          "col": 3,
+          "lit": "path"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 57,
+          "col": 3,
+          "lit": "clean"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 59,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 60,
+          "col": 3,
+          "lit": "filter"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 64,
+          "col": 14,
+          "lit": ""
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 65,
+          "col": 3,
+          "lit": "sparse-checkout"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 69,
+          "col": 14,
+          "lit": ""
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 70,
+          "col": 3,
+          "lit": "sparse-checkout-cone-mode"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 73,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 74,
+          "col": 3,
+          "lit": "fetch-depth"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 76,
+          "col": 14,
+          "lit": "1"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 77,
+          "col": 3,
+          "lit": "fetch-tags"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 79,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 80,
+          "col": 3,
+          "lit": "show-progress"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 82,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 83,
+          "col": 3,
+          "lit": "lfs"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 85,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 86,
+          "col": 3,
+          "lit": "submodules"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 94,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 95,
+          "col": 3,
+          "lit": "set-safe-directory"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 97,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 98,
+          "col": 3,
+          "lit": "github-server-url"
+        },
+        "value": ""
+      }
+    ]
+  },
+  "execution": {
+    "executionType": "nodeJS",
+    "hasPre": false,
+    "hasPost": true,
+    "script": "dist/index.js",
+    "pre": null,
+    "post": "dist/index.js",
+    "nodeVersion": "node20",
+    "cleanupCondition": "always()",
+    "initCondition": "always()"
+  },
+  "deprecated": null
+}
+[2025-08-30 23:55:20Z INFO ActionManager] Action pre node.js file: N/A.
+[2025-08-30 23:55:20Z INFO ActionManager] Action node.js file: dist/index.js.
+[2025-08-30 23:55:20Z INFO ActionManager] Action post node.js file: dist/index.js.
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Ignore action property author.
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Ignore action property branding.
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Loaded action.yml file: {
+  "name": "Setup Python",
+  "description": "Set up a specific version of Python and add the command-line tools to the PATH.",
+  "inputs": {
+    "type": 2,
+    "map": [
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 6,
+          "col": 3,
+          "lit": "python-version"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 8,
+          "col": 3,
+          "lit": "python-version-file"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 10,
+          "col": 3,
+          "lit": "cache"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 13,
+          "col": 3,
+          "lit": "architecture"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 15,
+          "col": 3,
+          "lit": "check-latest"
+        },
+        "value": {
+          "type": 0,
+          "file": 3,
+          "line": 17,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 18,
+          "col": 3,
+          "lit": "token"
+        },
+        "value": {
+          "type": 3,
+          "file": 3,
+          "line": 20,
+          "col": 14,
+          "expr": "github.server_url == 'https://github.com' && github.token || ''"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 21,
+          "col": 3,
+          "lit": "cache-dependency-path"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 23,
+          "col": 3,
+          "lit": "update-environment"
+        },
+        "value": {
+          "type": 0,
+          "file": 3,
+          "line": 25,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 26,
+          "col": 3,
+          "lit": "allow-prereleases"
+        },
+        "value": {
+          "type": 0,
+          "file": 3,
+          "line": 28,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 29,
+          "col": 3,
+          "lit": "freethreaded"
+        },
+        "value": {
+          "type": 0,
+          "file": 3,
+          "line": 31,
+          "col": 14,
+          "lit": "false"
+        }
+      }
+    ]
+  },
+  "execution": {
+    "executionType": "nodeJS",
+    "hasPre": false,
+    "hasPost": true,
+    "script": "dist/setup/index.js",
+    "pre": null,
+    "post": "dist/cache-save/index.js",
+    "nodeVersion": "node20",
+    "cleanupCondition": "success()",
+    "initCondition": "always()"
+  },
+  "deprecated": null
+}
+[2025-08-30 23:55:20Z INFO ActionManager] Action node.js file: dist/setup/index.js, no more preparation.
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:20Z INFO ActionManager] Load action that reference repository from 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions\actions\setup-python\v5'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Ignore action property author.
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Ignore action property branding.
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Loaded action.yml file: {
+  "name": "Setup Python",
+  "description": "Set up a specific version of Python and add the command-line tools to the PATH.",
+  "inputs": {
+    "type": 2,
+    "map": [
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 6,
+          "col": 3,
+          "lit": "python-version"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 8,
+          "col": 3,
+          "lit": "python-version-file"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 10,
+          "col": 3,
+          "lit": "cache"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 13,
+          "col": 3,
+          "lit": "architecture"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 15,
+          "col": 3,
+          "lit": "check-latest"
+        },
+        "value": {
+          "type": 0,
+          "file": 3,
+          "line": 17,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 18,
+          "col": 3,
+          "lit": "token"
+        },
+        "value": {
+          "type": 3,
+          "file": 3,
+          "line": 20,
+          "col": 14,
+          "expr": "github.server_url == 'https://github.com' && github.token || ''"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 21,
+          "col": 3,
+          "lit": "cache-dependency-path"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 23,
+          "col": 3,
+          "lit": "update-environment"
+        },
+        "value": {
+          "type": 0,
+          "file": 3,
+          "line": 25,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 26,
+          "col": 3,
+          "lit": "allow-prereleases"
+        },
+        "value": {
+          "type": 0,
+          "file": 3,
+          "line": 28,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 29,
+          "col": 3,
+          "lit": "freethreaded"
+        },
+        "value": {
+          "type": 0,
+          "file": 3,
+          "line": 31,
+          "col": 14,
+          "lit": "false"
+        }
+      }
+    ]
+  },
+  "execution": {
+    "executionType": "nodeJS",
+    "hasPre": false,
+    "hasPost": true,
+    "script": "dist/setup/index.js",
+    "pre": null,
+    "post": "dist/cache-save/index.js",
+    "nodeVersion": "node20",
+    "cleanupCondition": "success()",
+    "initCondition": "always()"
+  },
+  "deprecated": null
+}
+[2025-08-30 23:55:20Z INFO ActionManager] Action pre node.js file: N/A.
+[2025-08-30 23:55:20Z INFO ActionManager] Action node.js file: dist/setup/index.js.
+[2025-08-30 23:55:20Z INFO ActionManager] Action post node.js file: dist/cache-save/index.js.
+[2025-08-30 23:55:20Z INFO JobExtension] Adding .
+[2025-08-30 23:55:20Z INFO JobExtension] Adding .
+[2025-08-30 23:55:20Z INFO JobExtension] Adding .
+[2025-08-30 23:55:20Z INFO JobExtension] Adding .
+[2025-08-30 23:55:20Z INFO JobExtension] Adding .
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:20Z INFO JobExtension] Total accessible running process: 303.
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:20Z INFO JobExtension] Start checking service connectivity in background.
+[2025-08-30 23:55:20Z INFO ExecutionContext] Publish step telemetry for current step {
+  "action": "setup_job",
+  "type": "runner",
+  "stage": "Pre",
+  "stepId": "ddc7cd61-c204-4e8d-8ca6-59d356c1c897",
+  "result": "succeeded",
+  "errorMessages": [],
+  "executionTimeInSeconds": 3,
+  "startTime": "2025-08-30T23:55:17.5453358Z",
+  "finishTime": "2025-08-30T23:55:20.1629288Z"
+}.
+[2025-08-30 23:55:20Z INFO JobRunner] Total job steps: 5.
+[2025-08-30 23:55:20Z INFO JobRunner] Run all job steps.
+[2025-08-30 23:55:20Z INFO StepsRunner] Processing step: DisplayName='Run actions/checkout@v4'
+[2025-08-30 23:55:20Z INFO StepsRunner] Evaluating: success()
+[2025-08-30 23:55:20Z INFO StepsRunner] Result: true
+[2025-08-30 23:55:20Z INFO StepsRunner] Starting the step.
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:20Z INFO StepsRunner] Which2: 'chcp'
+[2025-08-30 23:55:20Z INFO StepsRunner] Location: 'c:\windows\system32\chcp.COM'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper] Starting process:
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   File name: 'c:\windows\system32\chcp.COM'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   Arguments: '65001'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   Working directory: 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   Require exit code zero: 'False'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   Encoding web name:  ; code page: ''
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   Force kill process on cancellation: 'False'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   Redirected STDIN: 'False'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   Persist current code page: 'True'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   Keep redirected STDIN open: 'False'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   High priority process: 'False'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper] Process started with process id 29772, waiting for process exit.
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper] Finished process 29772 with exit code 0, and elapsed time 00:00:00.0051566.
+[2025-08-30 23:55:20Z INFO StepsRunner] Successfully returned to code page 65001 (UTF8)
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:20Z INFO ActionManager] Load action that reference repository from 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions\actions\checkout\v4'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Loaded action.yml file: {
+  "name": "Checkout",
+  "description": "Checkout a Git repository at a particular version",
+  "inputs": {
+    "type": 2,
+    "map": [
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 4,
+          "col": 3,
+          "lit": "repository"
+        },
+        "value": {
+          "type": 3,
+          "file": 2,
+          "line": 6,
+          "col": 14,
+          "expr": "github.repository"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 7,
+          "col": 3,
+          "lit": "ref"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 12,
+          "col": 3,
+          "lit": "token"
+        },
+        "value": {
+          "type": 3,
+          "file": 2,
+          "line": 24,
+          "col": 14,
+          "expr": "github.token"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 25,
+          "col": 3,
+          "lit": "ssh-key"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 37,
+          "col": 3,
+          "lit": "ssh-known-hosts"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 42,
+          "col": 3,
+          "lit": "ssh-strict"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 47,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 48,
+          "col": 3,
+          "lit": "ssh-user"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 51,
+          "col": 14,
+          "lit": "git"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 52,
+          "col": 3,
+          "lit": "persist-credentials"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 54,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 55,
+          "col": 3,
+          "lit": "path"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 57,
+          "col": 3,
+          "lit": "clean"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 59,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 60,
+          "col": 3,
+          "lit": "filter"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 64,
+          "col": 14,
+          "lit": ""
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 65,
+          "col": 3,
+          "lit": "sparse-checkout"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 69,
+          "col": 14,
+          "lit": ""
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 70,
+          "col": 3,
+          "lit": "sparse-checkout-cone-mode"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 73,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 74,
+          "col": 3,
+          "lit": "fetch-depth"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 76,
+          "col": 14,
+          "lit": "1"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 77,
+          "col": 3,
+          "lit": "fetch-tags"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 79,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 80,
+          "col": 3,
+          "lit": "show-progress"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 82,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 83,
+          "col": 3,
+          "lit": "lfs"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 85,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 86,
+          "col": 3,
+          "lit": "submodules"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 94,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 95,
+          "col": 3,
+          "lit": "set-safe-directory"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 97,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 98,
+          "col": 3,
+          "lit": "github-server-url"
+        },
+        "value": ""
+      }
+    ]
+  },
+  "execution": {
+    "executionType": "nodeJS",
+    "hasPre": false,
+    "hasPost": true,
+    "script": "dist/index.js",
+    "pre": null,
+    "post": "dist/index.js",
+    "nodeVersion": "node20",
+    "cleanupCondition": "always()",
+    "initCondition": "always()"
+  },
+  "deprecated": null
+}
+[2025-08-30 23:55:20Z INFO ActionManager] Action pre node.js file: N/A.
+[2025-08-30 23:55:20Z INFO ActionManager] Action node.js file: dist/index.js.
+[2025-08-30 23:55:20Z INFO ActionManager] Action post node.js file: dist/index.js.
+[2025-08-30 23:55:20Z INFO ExecutionContext] Reserve record order 7 to 12 for post job actions.
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Temp': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp'
+[2025-08-30 23:55:20Z INFO ExecutionContext] Write event payload to C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\_github_workflow\event.json
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Temp': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp'
+[2025-08-30 23:55:20Z INFO ExtensionManager] Getting extensions for interface: 'GitHub.Runner.Worker.IFileCommandExtension'
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.AddPathFileCommand, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.SetEnvFileCommand, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.CreateStepSummaryCommand, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.SaveStateFileCommand, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.SetOutputFileCommand, Runner.Worker
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'repository': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 6,
+  "col": 14,
+  "lit": "MoniVibe/Microscope"
+}
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'ref': default value evaluate result: ""
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'token': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 24,
+  "col": 14,
+  "lit": "***"
+}
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'ssh-key': default value evaluate result: ""
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'ssh-known-hosts': default value evaluate result: ""
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'ssh-strict': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 47,
+  "col": 14,
+  "lit": "true"
+}
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'ssh-user': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 51,
+  "col": 14,
+  "lit": "git"
+}
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'persist-credentials': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 54,
+  "col": 14,
+  "lit": "true"
+}
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'path': default value evaluate result: ""
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'clean': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 59,
+  "col": 14,
+  "lit": "true"
+}
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'filter': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 64,
+  "col": 14,
+  "lit": ""
+}
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'sparse-checkout': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 69,
+  "col": 14,
+  "lit": ""
+}
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'sparse-checkout-cone-mode': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 73,
+  "col": 14,
+  "lit": "true"
+}
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'fetch-depth': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 76,
+  "col": 14,
+  "lit": "1"
+}
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'fetch-tags': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 79,
+  "col": 14,
+  "lit": "false"
+}
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'show-progress': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 82,
+  "col": 14,
+  "lit": "true"
+}
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'lfs': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 85,
+  "col": 14,
+  "lit": "false"
+}
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'submodules': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 94,
+  "col": 14,
+  "lit": "false"
+}
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'set-safe-directory': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 97,
+  "col": 14,
+  "lit": "true"
+}
+[2025-08-30 23:55:20Z INFO ActionManifestManager] Input 'github-server-url': default value evaluate result: ""
+[2025-08-30 23:55:20Z INFO ExtensionManager] Getting extensions for interface: 'GitHub.Runner.Worker.IActionCommandExtension'
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.InternalPluginSetRepoPathCommandExtension, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.SetEnvCommandExtension, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.SetOutputCommandExtension, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.SaveStateCommandExtension, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.AddPathCommandExtension, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.AddMaskCommandExtension, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.AddMatcherCommandExtension, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.RemoveMatcherCommandExtension, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.WarningCommandExtension, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.ErrorCommandExtension, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.NoticeCommandExtension, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.DebugCommandExtension, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.GroupCommandExtension, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.EndGroupCommandExtension, Runner.Worker
+[2025-08-30 23:55:20Z INFO ExtensionManager] Creating instance: GitHub.Runner.Worker.EchoCommandExtension, Runner.Worker
+[2025-08-30 23:55:20Z INFO ActionCommandManager] Register action command extension for command internal-set-repo-path
+[2025-08-30 23:55:20Z INFO ActionCommandManager] Register action command extension for command set-env
+[2025-08-30 23:55:20Z INFO ActionCommandManager] Register action command extension for command set-output
+[2025-08-30 23:55:20Z INFO ActionCommandManager] Register action command extension for command save-state
+[2025-08-30 23:55:20Z INFO ActionCommandManager] Register action command extension for command add-path
+[2025-08-30 23:55:20Z INFO ActionCommandManager] Register action command extension for command add-mask
+[2025-08-30 23:55:20Z INFO ActionCommandManager] Register action command extension for command add-matcher
+[2025-08-30 23:55:20Z INFO ActionCommandManager] Register action command extension for command remove-matcher
+[2025-08-30 23:55:20Z INFO ActionCommandManager] Register action command extension for command warning
+[2025-08-30 23:55:20Z INFO ActionCommandManager] Register action command extension for command error
+[2025-08-30 23:55:20Z INFO ActionCommandManager] Register action command extension for command notice
+[2025-08-30 23:55:20Z INFO ActionCommandManager] Register action command extension for command debug
+[2025-08-30 23:55:20Z INFO ActionCommandManager] Register action command extension for command group
+[2025-08-30 23:55:20Z INFO ActionCommandManager] Register action command extension for command endgroup
+[2025-08-30 23:55:20Z INFO ActionCommandManager] Register action command extension for command echo
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:20Z INFO HostContext] Well known directory 'Externals': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\externals'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper] Starting process:
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   File name: 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\externals\node20\bin\node.exe'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   Arguments: '"C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions\actions\checkout\v4\dist/index.js"'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   Working directory: 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\Microscope\Microscope'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   Require exit code zero: 'False'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   Encoding web name: utf-8 ; code page: '65001'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   Force kill process on cancellation: 'False'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   Redirected STDIN: 'False'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   Persist current code page: 'True'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   Keep redirected STDIN open: 'False'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper]   High priority process: 'False'
+[2025-08-30 23:55:20Z INFO ProcessInvokerWrapper] Process started with process id 28684, waiting for process exit.
+[2025-08-30 23:55:20Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'ddc7cd61-c204-4e8d-8ca6-59d356c1c897', success rate: 1/1.
+[2025-08-30 23:55:20Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'a1e0fddc-2fdf-465b-b265-8d25eb677507', success rate: 1/1.
+[2025-08-30 23:55:20Z INFO AddMaskCommandExtension] Add new secret mask with length of 76
+[2025-08-30 23:55:20Z INFO JobServerQueue] Got a step log file to send to results service.
+[2025-08-30 23:55:20Z INFO JobServerQueue] Starting upload of step log file to results service ResultsLog, C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag\blocks\73bd813b-27fb-48df-847a-e63803eef43d_ddc7cd61-c204-4e8d-8ca6-59d356c1c897.1
+[2025-08-30 23:55:20Z INFO JobServerQueue] Try to upload 1 log files or attachments, success rate: 1/1.
+[2025-08-30 23:55:20Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'a1e0fddc-2fdf-465b-b265-8d25eb677507', success rate: 1/1.
+[2025-08-30 23:55:21Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'a1e0fddc-2fdf-465b-b265-8d25eb677507', success rate: 1/1.
+[2025-08-30 23:55:21Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'a1e0fddc-2fdf-465b-b265-8d25eb677507', success rate: 1/1.
+[2025-08-30 23:55:21Z INFO JobServerQueue] Tried to upload 1 file(s) to results, success rate: 1/1.
+[2025-08-30 23:55:21Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'a1e0fddc-2fdf-465b-b265-8d25eb677507', success rate: 1/1.
+[2025-08-30 23:55:22Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'a1e0fddc-2fdf-465b-b265-8d25eb677507', success rate: 1/1.
+[2025-08-30 23:55:22Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'a1e0fddc-2fdf-465b-b265-8d25eb677507', success rate: 1/1.
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper] Finished process 28684 with exit code 0, and elapsed time 00:00:02.8066579.
+[2025-08-30 23:55:23Z INFO CreateStepSummaryCommand] Step Summary file (C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\_runner_file_commands\step_summary_96ab83bb-b619-4bf0-b8e0-943530f89c9f) is empty; skipping attachment upload
+[2025-08-30 23:55:23Z INFO StepsRunner] Step result: 
+[2025-08-30 23:55:23Z INFO ExecutionContext] Publish step telemetry for current step {
+  "action": "actions/checkout",
+  "ref": "v4",
+  "type": "node20",
+  "stage": "Main",
+  "stepId": "a1e0fddc-2fdf-465b-b265-8d25eb677507",
+  "stepContextName": "__actions_checkout",
+  "hasPreStep": false,
+  "hasPostStep": true,
+  "result": "succeeded",
+  "errorMessages": [],
+  "executionTimeInSeconds": 3,
+  "startTime": "2025-08-30T23:55:20.1686512Z",
+  "finishTime": "2025-08-30T23:55:23.0151976Z"
+}.
+[2025-08-30 23:55:23Z INFO StepsRunner] No need for updating job result with current step result 'Succeeded'.
+[2025-08-30 23:55:23Z INFO StepsRunner] Current state: job state = ''
+[2025-08-30 23:55:23Z INFO StepsRunner] Processing step: DisplayName='Run actions/setup-python@v5'
+[2025-08-30 23:55:23Z INFO StepsRunner] Evaluating: success()
+[2025-08-30 23:55:23Z INFO StepsRunner] Result: true
+[2025-08-30 23:55:23Z INFO StepsRunner] Starting the step.
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:23Z INFO StepsRunner] Which2: 'chcp'
+[2025-08-30 23:55:23Z INFO StepsRunner] Location: 'c:\windows\system32\chcp.COM'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper] Starting process:
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   File name: 'c:\windows\system32\chcp.COM'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   Arguments: '65001'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   Working directory: 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   Require exit code zero: 'False'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   Encoding web name:  ; code page: ''
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   Force kill process on cancellation: 'False'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   Redirected STDIN: 'False'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   Persist current code page: 'True'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   Keep redirected STDIN open: 'False'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   High priority process: 'False'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper] Process started with process id 228, waiting for process exit.
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper] Finished process 228 with exit code 0, and elapsed time 00:00:00.0042658.
+[2025-08-30 23:55:23Z INFO StepsRunner] Successfully returned to code page 65001 (UTF8)
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:23Z INFO ActionManager] Load action that reference repository from 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions\actions\setup-python\v5'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:23Z INFO ActionManifestManager] Ignore action property author.
+[2025-08-30 23:55:23Z INFO ActionManifestManager] Ignore action property branding.
+[2025-08-30 23:55:23Z INFO ActionManifestManager] Loaded action.yml file: {
+  "name": "Setup Python",
+  "description": "Set up a specific version of Python and add the command-line tools to the PATH.",
+  "inputs": {
+    "type": 2,
+    "map": [
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 6,
+          "col": 3,
+          "lit": "python-version"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 8,
+          "col": 3,
+          "lit": "python-version-file"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 10,
+          "col": 3,
+          "lit": "cache"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 13,
+          "col": 3,
+          "lit": "architecture"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 15,
+          "col": 3,
+          "lit": "check-latest"
+        },
+        "value": {
+          "type": 0,
+          "file": 3,
+          "line": 17,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 18,
+          "col": 3,
+          "lit": "token"
+        },
+        "value": {
+          "type": 3,
+          "file": 3,
+          "line": 20,
+          "col": 14,
+          "expr": "github.server_url == 'https://github.com' && github.token || ''"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 21,
+          "col": 3,
+          "lit": "cache-dependency-path"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 23,
+          "col": 3,
+          "lit": "update-environment"
+        },
+        "value": {
+          "type": 0,
+          "file": 3,
+          "line": 25,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 26,
+          "col": 3,
+          "lit": "allow-prereleases"
+        },
+        "value": {
+          "type": 0,
+          "file": 3,
+          "line": 28,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 3,
+          "line": 29,
+          "col": 3,
+          "lit": "freethreaded"
+        },
+        "value": {
+          "type": 0,
+          "file": 3,
+          "line": 31,
+          "col": 14,
+          "lit": "false"
+        }
+      }
+    ]
+  },
+  "execution": {
+    "executionType": "nodeJS",
+    "hasPre": false,
+    "hasPost": true,
+    "script": "dist/setup/index.js",
+    "pre": null,
+    "post": "dist/cache-save/index.js",
+    "nodeVersion": "node20",
+    "cleanupCondition": "success()",
+    "initCondition": "always()"
+  },
+  "deprecated": null
+}
+[2025-08-30 23:55:23Z INFO ActionManager] Action pre node.js file: N/A.
+[2025-08-30 23:55:23Z INFO ActionManager] Action node.js file: dist/setup/index.js.
+[2025-08-30 23:55:23Z INFO ActionManager] Action post node.js file: dist/cache-save/index.js.
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Temp': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp'
+[2025-08-30 23:55:23Z INFO ExecutionContext] Write event payload to C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\_github_workflow\event.json
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Temp': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp'
+[2025-08-30 23:55:23Z INFO ExtensionManager] Getting extensions for interface: 'GitHub.Runner.Worker.IFileCommandExtension'
+[2025-08-30 23:55:23Z INFO ActionManifestManager] Input 'python-version-file': default value evaluate result: ""
+[2025-08-30 23:55:23Z INFO ActionManifestManager] Input 'cache': default value evaluate result: ""
+[2025-08-30 23:55:23Z INFO ActionManifestManager] Input 'architecture': default value evaluate result: ""
+[2025-08-30 23:55:23Z INFO ActionManifestManager] Input 'check-latest': default value evaluate result: {
+  "type": 0,
+  "file": 3,
+  "line": 17,
+  "col": 14,
+  "lit": "false"
+}
+[2025-08-30 23:55:23Z INFO ActionManifestManager] Input 'token': default value evaluate result: {
+  "type": 0,
+  "file": 3,
+  "line": 20,
+  "col": 14,
+  "lit": "***"
+}
+[2025-08-30 23:55:23Z INFO ActionManifestManager] Input 'cache-dependency-path': default value evaluate result: ""
+[2025-08-30 23:55:23Z INFO ActionManifestManager] Input 'update-environment': default value evaluate result: {
+  "type": 0,
+  "file": 3,
+  "line": 25,
+  "col": 14,
+  "lit": "true"
+}
+[2025-08-30 23:55:23Z INFO ActionManifestManager] Input 'allow-prereleases': default value evaluate result: {
+  "type": 0,
+  "file": 3,
+  "line": 28,
+  "col": 14,
+  "lit": "false"
+}
+[2025-08-30 23:55:23Z INFO ActionManifestManager] Input 'freethreaded': default value evaluate result: {
+  "type": 0,
+  "file": 3,
+  "line": 31,
+  "col": 14,
+  "lit": "false"
+}
+[2025-08-30 23:55:23Z INFO ExtensionManager] Getting extensions for interface: 'GitHub.Runner.Worker.IActionCommandExtension'
+[2025-08-30 23:55:23Z INFO ActionCommandManager] Register action command extension for command internal-set-repo-path
+[2025-08-30 23:55:23Z INFO ActionCommandManager] Register action command extension for command set-env
+[2025-08-30 23:55:23Z INFO ActionCommandManager] Register action command extension for command set-output
+[2025-08-30 23:55:23Z INFO ActionCommandManager] Register action command extension for command save-state
+[2025-08-30 23:55:23Z INFO ActionCommandManager] Register action command extension for command add-path
+[2025-08-30 23:55:23Z INFO ActionCommandManager] Register action command extension for command add-mask
+[2025-08-30 23:55:23Z INFO ActionCommandManager] Register action command extension for command add-matcher
+[2025-08-30 23:55:23Z INFO ActionCommandManager] Register action command extension for command remove-matcher
+[2025-08-30 23:55:23Z INFO ActionCommandManager] Register action command extension for command warning
+[2025-08-30 23:55:23Z INFO ActionCommandManager] Register action command extension for command error
+[2025-08-30 23:55:23Z INFO ActionCommandManager] Register action command extension for command notice
+[2025-08-30 23:55:23Z INFO ActionCommandManager] Register action command extension for command debug
+[2025-08-30 23:55:23Z INFO ActionCommandManager] Register action command extension for command group
+[2025-08-30 23:55:23Z INFO ActionCommandManager] Register action command extension for command endgroup
+[2025-08-30 23:55:23Z INFO ActionCommandManager] Register action command extension for command echo
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:23Z INFO HostContext] Well known directory 'Externals': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\externals'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper] Starting process:
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   File name: 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\externals\node20\bin\node.exe'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   Arguments: '"C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions\actions\setup-python\v5\dist/setup/index.js"'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   Working directory: 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\Microscope\Microscope'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   Require exit code zero: 'False'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   Encoding web name: utf-8 ; code page: '65001'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   Force kill process on cancellation: 'False'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   Redirected STDIN: 'False'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   Persist current code page: 'True'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   Keep redirected STDIN open: 'False'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper]   High priority process: 'False'
+[2025-08-30 23:55:23Z INFO ProcessInvokerWrapper] Process started with process id 22456, waiting for process exit.
+[2025-08-30 23:55:23Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'a1e0fddc-2fdf-465b-b265-8d25eb677507', success rate: 1/1.
+[2025-08-30 23:55:23Z INFO JobServerQueue] Try to append 1 batches web console lines for record '3d545bb1-0d3b-405d-a5db-94d364abe265', success rate: 1/1.
+[2025-08-30 23:55:23Z INFO JobServerQueue] Try to append 1 batches web console lines for record '3d545bb1-0d3b-405d-a5db-94d364abe265', success rate: 1/1.
+[2025-08-30 23:55:23Z INFO JobServerQueue] Got a step log file to send to results service.
+[2025-08-30 23:55:23Z INFO JobServerQueue] Starting upload of step log file to results service ResultsLog, C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag\blocks\73bd813b-27fb-48df-847a-e63803eef43d_a1e0fddc-2fdf-465b-b265-8d25eb677507.1
+[2025-08-30 23:55:23Z INFO JobServerQueue] Try to upload 1 log files or attachments, success rate: 1/1.
+[2025-08-30 23:55:24Z INFO JobServerQueue] Tried to upload 1 file(s) to results, success rate: 1/1.
+[2025-08-30 23:55:24Z INFO JobServerQueue] Try to append 1 batches web console lines for record '3d545bb1-0d3b-405d-a5db-94d364abe265', success rate: 1/1.
+[2025-08-30 23:55:25Z INFO JobServerQueue] Try to append 1 batches web console lines for record '3d545bb1-0d3b-405d-a5db-94d364abe265', success rate: 1/1.
+[2025-08-30 23:55:26Z INFO JobServerQueue] Try to append 1 batches web console lines for record '3d545bb1-0d3b-405d-a5db-94d364abe265', success rate: 1/1.
+[2025-08-30 23:55:26Z INFO JobServerQueue] Try to append 1 batches web console lines for record '3d545bb1-0d3b-405d-a5db-94d364abe265', success rate: 1/1.
+[2025-08-30 23:55:26Z INFO JobServerQueue] Try to append 1 batches web console lines for record '3d545bb1-0d3b-405d-a5db-94d364abe265', success rate: 1/1.
+[2025-08-30 23:55:29Z INFO JobServerQueue] Try to append 1 batches web console lines for record '3d545bb1-0d3b-405d-a5db-94d364abe265', success rate: 1/1.
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper] Finished process 22456 with exit code 1, and elapsed time 00:00:06.4530599.
+[2025-08-30 23:55:29Z INFO CreateStepSummaryCommand] Step Summary file (C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\_runner_file_commands\step_summary_424b6c6a-13b1-4691-bc77-9e4375765de7) is empty; skipping attachment upload
+[2025-08-30 23:55:29Z INFO StepsRunner] Step result: Failed
+[2025-08-30 23:55:29Z INFO ExecutionContext] Publish step telemetry for current step {
+  "action": "actions/setup-python",
+  "ref": "v5",
+  "type": "node20",
+  "stage": "Main",
+  "stepId": "3d545bb1-0d3b-405d-a5db-94d364abe265",
+  "stepContextName": "__actions_setup-python",
+  "hasPreStep": false,
+  "hasPostStep": true,
+  "result": "failed",
+  "errorMessages": [
+    "Error happened during Python installation\r\nAt C:\\Users\\Moni\\Documents\\claudeprojects\\Microscope\\actions-runner\\_work\\_temp\\a35b602e-2280-465f-8448-54c8311344b7\\se",
+    "tup.ps1:127 char:5\r\n+     Throw \"Error happened during Python installation\"\r\n+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : OperationStopped: (Error happened ...on installation:String) [], RuntimeException\r\n    + Ful",
+    "The process 'c:\\windows\\system32\\windowspowershell\\v1.0\\powershell.exe' failed with exit code 1"
+  ],
+  "executionTimeInSeconds": 7,
+  "startTime": "2025-08-30T23:55:23.0156952Z",
+  "finishTime": "2025-08-30T23:55:29.4810328Z"
+}.
+[2025-08-30 23:55:29Z INFO StepsRunner] Update job result with current step result 'Failed'.
+[2025-08-30 23:55:29Z INFO StepsRunner] Current state: job state = 'Failed'
+[2025-08-30 23:55:29Z INFO StepsRunner] Processing step: DisplayName='Run pip install -e .[cuda,dev]'
+[2025-08-30 23:55:29Z INFO StepsRunner] Evaluating: success()
+[2025-08-30 23:55:29Z INFO StepsRunner] Result: false
+[2025-08-30 23:55:29Z INFO StepsRunner] Skipping step due to condition evaluation.
+[2025-08-30 23:55:29Z INFO StepsRunner] No need for updating job result with current step result 'Skipped'.
+[2025-08-30 23:55:29Z INFO StepsRunner] Current state: job state = 'Failed'
+[2025-08-30 23:55:29Z INFO StepsRunner] Processing step: DisplayName='Run python -c "import torch; assert torch.cuda.is_available()"'
+[2025-08-30 23:55:29Z INFO StepsRunner] Evaluating: success()
+[2025-08-30 23:55:29Z INFO StepsRunner] Result: false
+[2025-08-30 23:55:29Z INFO StepsRunner] Skipping step due to condition evaluation.
+[2025-08-30 23:55:29Z INFO StepsRunner] No need for updating job result with current step result 'Skipped'.
+[2025-08-30 23:55:29Z INFO StepsRunner] Current state: job state = 'Failed'
+[2025-08-30 23:55:29Z INFO StepsRunner] Processing step: DisplayName='Run pytest -q -m gpu --maxfail=1'
+[2025-08-30 23:55:29Z INFO StepsRunner] Evaluating: success()
+[2025-08-30 23:55:29Z INFO StepsRunner] Result: false
+[2025-08-30 23:55:29Z INFO StepsRunner] Skipping step due to condition evaluation.
+[2025-08-30 23:55:29Z INFO StepsRunner] No need for updating job result with current step result 'Skipped'.
+[2025-08-30 23:55:29Z INFO StepsRunner] Current state: job state = 'Failed'
+[2025-08-30 23:55:29Z INFO StepsRunner] Processing step: DisplayName='Post Run actions/setup-python@v5'
+[2025-08-30 23:55:29Z INFO StepsRunner] Evaluating: success()
+[2025-08-30 23:55:29Z INFO StepsRunner] Result: false
+[2025-08-30 23:55:29Z INFO StepsRunner] Skipping step due to condition evaluation.
+[2025-08-30 23:55:29Z INFO StepsRunner] No need for updating job result with current step result 'Skipped'.
+[2025-08-30 23:55:29Z INFO StepsRunner] Current state: job state = 'Failed'
+[2025-08-30 23:55:29Z INFO StepsRunner] Processing step: DisplayName='Post Run actions/checkout@v4'
+[2025-08-30 23:55:29Z INFO StepsRunner] Evaluating: always()
+[2025-08-30 23:55:29Z INFO StepsRunner] Result: true
+[2025-08-30 23:55:29Z INFO StepsRunner] Starting the step.
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:29Z INFO StepsRunner] Which2: 'chcp'
+[2025-08-30 23:55:29Z INFO StepsRunner] Location: 'c:\windows\system32\chcp.COM'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper] Starting process:
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   File name: 'c:\windows\system32\chcp.COM'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   Arguments: '65001'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   Working directory: 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   Require exit code zero: 'False'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   Encoding web name:  ; code page: ''
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   Force kill process on cancellation: 'False'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   Redirected STDIN: 'False'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   Persist current code page: 'True'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   Keep redirected STDIN open: 'False'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   High priority process: 'False'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper] Process started with process id 25952, waiting for process exit.
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper] Finished process 25952 with exit code 0, and elapsed time 00:00:00.0075261.
+[2025-08-30 23:55:29Z INFO StepsRunner] Successfully returned to code page 65001 (UTF8)
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:29Z INFO ActionManager] Load action that reference repository from 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions\actions\checkout\v4'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Actions': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions'
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Loaded action.yml file: {
+  "name": "Checkout",
+  "description": "Checkout a Git repository at a particular version",
+  "inputs": {
+    "type": 2,
+    "map": [
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 4,
+          "col": 3,
+          "lit": "repository"
+        },
+        "value": {
+          "type": 3,
+          "file": 2,
+          "line": 6,
+          "col": 14,
+          "expr": "github.repository"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 7,
+          "col": 3,
+          "lit": "ref"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 12,
+          "col": 3,
+          "lit": "token"
+        },
+        "value": {
+          "type": 3,
+          "file": 2,
+          "line": 24,
+          "col": 14,
+          "expr": "github.token"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 25,
+          "col": 3,
+          "lit": "ssh-key"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 37,
+          "col": 3,
+          "lit": "ssh-known-hosts"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 42,
+          "col": 3,
+          "lit": "ssh-strict"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 47,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 48,
+          "col": 3,
+          "lit": "ssh-user"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 51,
+          "col": 14,
+          "lit": "git"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 52,
+          "col": 3,
+          "lit": "persist-credentials"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 54,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 55,
+          "col": 3,
+          "lit": "path"
+        },
+        "value": ""
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 57,
+          "col": 3,
+          "lit": "clean"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 59,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 60,
+          "col": 3,
+          "lit": "filter"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 64,
+          "col": 14,
+          "lit": ""
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 65,
+          "col": 3,
+          "lit": "sparse-checkout"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 69,
+          "col": 14,
+          "lit": ""
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 70,
+          "col": 3,
+          "lit": "sparse-checkout-cone-mode"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 73,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 74,
+          "col": 3,
+          "lit": "fetch-depth"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 76,
+          "col": 14,
+          "lit": "1"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 77,
+          "col": 3,
+          "lit": "fetch-tags"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 79,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 80,
+          "col": 3,
+          "lit": "show-progress"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 82,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 83,
+          "col": 3,
+          "lit": "lfs"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 85,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 86,
+          "col": 3,
+          "lit": "submodules"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 94,
+          "col": 14,
+          "lit": "false"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 95,
+          "col": 3,
+          "lit": "set-safe-directory"
+        },
+        "value": {
+          "type": 0,
+          "file": 2,
+          "line": 97,
+          "col": 14,
+          "lit": "true"
+        }
+      },
+      {
+        "key": {
+          "type": 0,
+          "file": 2,
+          "line": 98,
+          "col": 3,
+          "lit": "github-server-url"
+        },
+        "value": ""
+      }
+    ]
+  },
+  "execution": {
+    "executionType": "nodeJS",
+    "hasPre": false,
+    "hasPost": true,
+    "script": "dist/index.js",
+    "pre": null,
+    "post": "dist/index.js",
+    "nodeVersion": "node20",
+    "cleanupCondition": "always()",
+    "initCondition": "always()"
+  },
+  "deprecated": null
+}
+[2025-08-30 23:55:29Z INFO ActionManager] Action pre node.js file: N/A.
+[2025-08-30 23:55:29Z INFO ActionManager] Action node.js file: dist/index.js.
+[2025-08-30 23:55:29Z INFO ActionManager] Action post node.js file: dist/index.js.
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Temp': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp'
+[2025-08-30 23:55:29Z INFO ExecutionContext] Write event payload to C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\_github_workflow\event.json
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Temp': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp'
+[2025-08-30 23:55:29Z INFO ExtensionManager] Getting extensions for interface: 'GitHub.Runner.Worker.IFileCommandExtension'
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'repository': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 6,
+  "col": 14,
+  "lit": "MoniVibe/Microscope"
+}
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'ref': default value evaluate result: ""
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'token': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 24,
+  "col": 14,
+  "lit": "***"
+}
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'ssh-key': default value evaluate result: ""
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'ssh-known-hosts': default value evaluate result: ""
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'ssh-strict': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 47,
+  "col": 14,
+  "lit": "true"
+}
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'ssh-user': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 51,
+  "col": 14,
+  "lit": "git"
+}
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'persist-credentials': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 54,
+  "col": 14,
+  "lit": "true"
+}
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'path': default value evaluate result: ""
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'clean': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 59,
+  "col": 14,
+  "lit": "true"
+}
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'filter': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 64,
+  "col": 14,
+  "lit": ""
+}
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'sparse-checkout': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 69,
+  "col": 14,
+  "lit": ""
+}
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'sparse-checkout-cone-mode': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 73,
+  "col": 14,
+  "lit": "true"
+}
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'fetch-depth': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 76,
+  "col": 14,
+  "lit": "1"
+}
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'fetch-tags': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 79,
+  "col": 14,
+  "lit": "false"
+}
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'show-progress': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 82,
+  "col": 14,
+  "lit": "true"
+}
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'lfs': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 85,
+  "col": 14,
+  "lit": "false"
+}
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'submodules': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 94,
+  "col": 14,
+  "lit": "false"
+}
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'set-safe-directory': default value evaluate result: {
+  "type": 0,
+  "file": 2,
+  "line": 97,
+  "col": 14,
+  "lit": "true"
+}
+[2025-08-30 23:55:29Z INFO ActionManifestManager] Input 'github-server-url': default value evaluate result: ""
+[2025-08-30 23:55:29Z INFO ExtensionManager] Getting extensions for interface: 'GitHub.Runner.Worker.IActionCommandExtension'
+[2025-08-30 23:55:29Z INFO ActionCommandManager] Register action command extension for command internal-set-repo-path
+[2025-08-30 23:55:29Z INFO ActionCommandManager] Register action command extension for command set-env
+[2025-08-30 23:55:29Z INFO ActionCommandManager] Register action command extension for command set-output
+[2025-08-30 23:55:29Z INFO ActionCommandManager] Register action command extension for command save-state
+[2025-08-30 23:55:29Z INFO ActionCommandManager] Register action command extension for command add-path
+[2025-08-30 23:55:29Z INFO ActionCommandManager] Register action command extension for command add-mask
+[2025-08-30 23:55:29Z INFO ActionCommandManager] Register action command extension for command add-matcher
+[2025-08-30 23:55:29Z INFO ActionCommandManager] Register action command extension for command remove-matcher
+[2025-08-30 23:55:29Z INFO ActionCommandManager] Register action command extension for command warning
+[2025-08-30 23:55:29Z INFO ActionCommandManager] Register action command extension for command error
+[2025-08-30 23:55:29Z INFO ActionCommandManager] Register action command extension for command notice
+[2025-08-30 23:55:29Z INFO ActionCommandManager] Register action command extension for command debug
+[2025-08-30 23:55:29Z INFO ActionCommandManager] Register action command extension for command group
+[2025-08-30 23:55:29Z INFO ActionCommandManager] Register action command extension for command endgroup
+[2025-08-30 23:55:29Z INFO ActionCommandManager] Register action command extension for command echo
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:29Z INFO HostContext] Well known directory 'Externals': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\externals'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper] Starting process:
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   File name: 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\externals\node20\bin\node.exe'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   Arguments: '"C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_actions\actions\checkout\v4\dist/index.js"'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   Working directory: 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\Microscope\Microscope'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   Require exit code zero: 'False'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   Encoding web name: utf-8 ; code page: '65001'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   Force kill process on cancellation: 'False'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   Redirected STDIN: 'False'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   Persist current code page: 'True'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   Keep redirected STDIN open: 'False'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper]   High priority process: 'False'
+[2025-08-30 23:55:29Z INFO ProcessInvokerWrapper] Process started with process id 22008, waiting for process exit.
+[2025-08-30 23:55:29Z INFO JobServerQueue] Try to upload 1 log files or attachments, success rate: 1/1.
+[2025-08-30 23:55:29Z INFO AddMaskCommandExtension] Add new secret mask with length of 32
+[2025-08-30 23:55:29Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'f37008ee-9ea4-47d4-8356-a0475fdc8c31', success rate: 1/1.
+[2025-08-30 23:55:30Z INFO JobServerQueue] Got a step log file to send to results service.
+[2025-08-30 23:55:30Z INFO JobServerQueue] Starting upload of step log file to results service ResultsLog, C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag\blocks\73bd813b-27fb-48df-847a-e63803eef43d_3d545bb1-0d3b-405d-a5db-94d364abe265.1
+[2025-08-30 23:55:30Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:30Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:30Z INFO HostContext] Well known directory 'Work': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work'
+[2025-08-30 23:55:30Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'f37008ee-9ea4-47d4-8356-a0475fdc8c31', success rate: 1/1.
+[2025-08-30 23:55:30Z INFO JobServerQueue] Tried to upload 1 file(s) to results, success rate: 1/1.
+[2025-08-30 23:55:30Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-08-30 23:55:30Z INFO ProcessInvokerWrapper] STDOUT/STDERR stream read finished.
+[2025-08-30 23:55:30Z INFO ProcessInvokerWrapper] Finished process 22008 with exit code 0, and elapsed time 00:00:01.4159867.
+[2025-08-30 23:55:30Z INFO CreateStepSummaryCommand] Step Summary file (C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp\_runner_file_commands\step_summary_907c34dc-4be1-4b70-86e7-c26a1d33b839) is empty; skipping attachment upload
+[2025-08-30 23:55:30Z INFO StepsRunner] Step result: 
+[2025-08-30 23:55:30Z INFO ExecutionContext] Publish step telemetry for current step {
+  "action": "actions/checkout",
+  "ref": "v4",
+  "type": "node20",
+  "stage": "Post",
+  "stepId": "f37008ee-9ea4-47d4-8356-a0475fdc8c31",
+  "result": "succeeded",
+  "errorMessages": [],
+  "executionTimeInSeconds": 2,
+  "startTime": "2025-08-30T23:55:29.4839597Z",
+  "finishTime": "2025-08-30T23:55:30.9224844Z"
+}.
+[2025-08-30 23:55:30Z INFO StepsRunner] No need for updating job result with current step result 'Succeeded'.
+[2025-08-30 23:55:30Z INFO StepsRunner] Current state: job state = 'Failed'
+[2025-08-30 23:55:30Z INFO JobRunner] Finalize job.
+[2025-08-30 23:55:30Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:30Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:30Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:30Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:30Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:30Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:30Z INFO JobExtension] Initialize Env context
+[2025-08-30 23:55:30Z INFO JobExtension] Initialize steps context
+[2025-08-30 23:55:30Z INFO JobExtension] Total accessible running process: 307.
+[2025-08-30 23:55:30Z INFO JobExtension] Inspecting process environment variables. PID: 10416 (dllhost)
+[2025-08-30 23:55:30Z INFO JobExtension] Inspecting process environment variables. PID: 19432 (chrome)
+[2025-08-30 23:55:30Z INFO JobExtension] Inspecting process environment variables. PID: 20096 (chrome)
+[2025-08-30 23:55:30Z INFO JobExtension] Inspecting process environment variables. PID: 30056 (msiexec)
+[2025-08-30 23:55:30Z INFO JobExtension] Inspecting process environment variables. PID: 3816 (dllhost)
+[2025-08-30 23:55:30Z INFO JobExtension] Inspecting process environment variables. PID: 1360 (chrome)
+[2025-08-30 23:55:30Z INFO JobExtension] Inspecting process environment variables. PID: 12896 (chrome)
+[2025-08-30 23:55:30Z INFO ExecutionContext] Publish step telemetry for current step {
+  "action": "complete_job",
+  "type": "runner",
+  "stage": "Post",
+  "stepId": "e267c3bd-1f4e-4992-992f-94ae41caeb7e",
+  "result": "succeeded",
+  "errorMessages": [],
+  "executionTimeInSeconds": 1,
+  "startTime": "2025-08-30T23:55:30.9249242Z",
+  "finishTime": "2025-08-30T23:55:30.9541686Z"
+}.
+[2025-08-30 23:55:30Z INFO JobRunner] Job result after all job steps finish: Failed
+[2025-08-30 23:55:30Z INFO JobRunner] Completing the job execution context.
+[2025-08-30 23:55:30Z INFO JobRunner] Shutting down the job server queue.
+[2025-08-30 23:55:30Z INFO JobServerQueue] Fire signal to shutdown all queues.
+[2025-08-30 23:55:31Z INFO JobServerQueue] All queue process task stopped.
+[2025-08-30 23:55:31Z INFO JobServerQueue] Try to append 1 batches web console lines for record 'e267c3bd-1f4e-4992-992f-94ae41caeb7e', success rate: 1/1.
+[2025-08-30 23:55:31Z INFO JobServerQueue] Web console line queue drained.
+[2025-08-30 23:55:31Z INFO JobServerQueue] Uploading 3 files in one shot.
+[2025-08-30 23:55:31Z INFO JobServerQueue] Try to upload 3 log files or attachments, success rate: 3/3.
+[2025-08-30 23:55:31Z INFO JobServerQueue] File upload queue drained.
+[2025-08-30 23:55:31Z INFO JobServerQueue] Starting results-based upload queue...
+[2025-08-30 23:55:31Z INFO JobServerQueue] Uploading 3 file(s) in one shot through results service.
+[2025-08-30 23:55:31Z INFO JobServerQueue] Got a step log file to send to results service.
+[2025-08-30 23:55:31Z INFO JobServerQueue] Starting upload of step log file to results service ResultsLog, C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag\blocks\73bd813b-27fb-48df-847a-e63803eef43d_f37008ee-9ea4-47d4-8356-a0475fdc8c31.1
+[2025-08-30 23:55:32Z INFO JobServerQueue] Got a step log file to send to results service.
+[2025-08-30 23:55:32Z INFO JobServerQueue] Starting upload of step log file to results service ResultsLog, C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag\blocks\73bd813b-27fb-48df-847a-e63803eef43d_e267c3bd-1f4e-4992-992f-94ae41caeb7e.1
+[2025-08-30 23:55:32Z INFO JobServerQueue] Got a job log file to send to results service.
+[2025-08-30 23:55:32Z INFO JobServerQueue] Starting upload of job log file to results service ResultsLog, C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag\blocks\73bd813b-27fb-48df-847a-e63803eef43d_ab095936-ae78-59ed-852e-43152d705b5d.1
+[2025-08-30 23:55:32Z INFO JobServerQueue] Tried to upload 3 file(s) to results, success rate: 3/3.
+[2025-08-30 23:55:32Z INFO JobServerQueue] Results upload queue drained.
+[2025-08-30 23:55:33Z INFO JobServerQueue] Timeline update queue drained.
+[2025-08-30 23:55:33Z INFO JobServerQueue] Disposing job server ...
+[2025-08-30 23:55:33Z INFO JobServerQueue] Disposing results server ...
+[2025-08-30 23:55:33Z INFO JobServerQueue] All queue process tasks have been stopped, and all queues are drained.
+[2025-08-30 23:55:33Z INFO TempDirectoryManager] Cleaning runner temp folder: C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_work\_temp
+[2025-08-30 23:55:33Z INFO HostContext] Well known directory 'Bin': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\bin'
+[2025-08-30 23:55:33Z INFO HostContext] Well known directory 'Root': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner'
+[2025-08-30 23:55:33Z INFO HostContext] Well known directory 'Diag': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag'
+[2025-08-30 23:55:33Z INFO HostContext] Well known config file 'Telemetry': 'C:\Users\Moni\Documents\claudeprojects\Microscope\actions-runner\_diag\.telemetry'
+[2025-08-30 23:55:33Z INFO JobRunner] Raising job completed against run service
+[2025-08-30 23:55:33Z INFO Worker] Job completed.

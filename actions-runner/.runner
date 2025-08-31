@@ -1,0 +1,11 @@
+﻿{
+  "agentId": 3,
+  "agentName": "micros-gpu-01",
+  "poolId": 1,
+  "poolName": "Default",
+  "serverUrl": "https://pipelinesghubeus12.actions.githubusercontent.com/17FwdVDfg7yJ5adUFESZHbkakJQDwvItYRiky3qOM9Tofh7fB9/",
+  "gitHubUrl": "https://github.com/MoniVibe/Microscope",
+  "workFolder": "_work",
+  "useV2Flow": true,
+  "serverUrlV2": "https://broker.actions.githubusercontent.com/"
+}

@@ -43,11 +43,15 @@ def compose(euler_zyx, t_um):  # type: ignore[no-untyped-def]
             'T': None,
         })
 
-    # Ensure tensors (torch path)
+    # Ensure tensors (torch path) in high precision to guarantee round-trip accuracy
     if not isinstance(euler_zyx, torch.Tensor):
-        euler_zyx = torch.tensor(euler_zyx, dtype=torch.float32)
+        euler_zyx = torch.tensor(euler_zyx, dtype=torch.float64)
+    else:
+        euler_zyx = euler_zyx.to(dtype=torch.float64)
     if not isinstance(t_um, torch.Tensor):
-        t_um = torch.tensor(t_um, dtype=torch.float32)
+        t_um = torch.tensor(t_um, dtype=torch.float64)
+    else:
+        t_um = t_um.to(dtype=torch.float64)
     
     # Handle batch dimension
     batch_shape = euler_zyx.shape[:-1]
@@ -72,7 +76,7 @@ def compose(euler_zyx, t_um):  # type: ignore[no-untyped-def]
     
     # Build rotation matrix using Z-Y-X order
     # R = Rz * Ry * Rx (applied right to left)
-    R = torch.zeros((batch_size, 3, 3), dtype=torch.float32, device=euler_zyx.device)
+    R = torch.zeros((batch_size, 3, 3), dtype=torch.float64, device=euler_zyx.device)
     
     # Combined rotation matrix elements
     R[:, 0, 0] = cy * cz
@@ -88,7 +92,7 @@ def compose(euler_zyx, t_um):  # type: ignore[no-untyped-def]
     R[:, 2, 2] = cx * cy
     
     # Build 4x4 homogeneous transform
-    T = torch.eye(4, dtype=torch.float32, device=euler_zyx.device)
+    T = torch.eye(4, dtype=torch.float64, device=euler_zyx.device)
     T = T.unsqueeze(0).expand(batch_size, -1, -1).contiguous()
     T[:, :3, :3] = R
     T[:, :3, 3] = t_um

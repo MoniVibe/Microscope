@@ -1,0 +1,1679 @@
+﻿2025-08-31T00:06:50.0991288Z Current runner version: '2.328.0'
+2025-08-31T00:06:50.1024201Z ##[group]Runner Image Provisioner
+2025-08-31T00:06:50.1025551Z Hosted Compute Agent
+2025-08-31T00:06:50.1026423Z Version: 20250829.383
+2025-08-31T00:06:50.1027447Z Commit: 27cb235aab5b0e52e153a26cd86b4742e89dac5d
+2025-08-31T00:06:50.1028726Z Build Date: 2025-08-29T13:48:48Z
+2025-08-31T00:06:50.1029747Z ##[endgroup]
+2025-08-31T00:06:50.1030619Z ##[group]Operating System
+2025-08-31T00:06:50.1031569Z Ubuntu
+2025-08-31T00:06:50.1032546Z 22.04.5
+2025-08-31T00:06:50.1033274Z LTS
+2025-08-31T00:06:50.1034058Z ##[endgroup]
+2025-08-31T00:06:50.1034871Z ##[group]Runner Image
+2025-08-31T00:06:50.1035897Z Image: ubuntu-22.04
+2025-08-31T00:06:50.1036683Z Version: 20250825.1.0
+2025-08-31T00:06:50.1038353Z Included Software: https://github.com/actions/runner-images/blob/ubuntu22/20250825.1/images/ubuntu/Ubuntu2204-Readme.md
+2025-08-31T00:06:50.1041221Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu22%2F20250825.1
+2025-08-31T00:06:50.1043155Z ##[endgroup]
+2025-08-31T00:06:50.1045168Z ##[group]GITHUB_TOKEN Permissions
+2025-08-31T00:06:50.1048225Z Contents: read
+2025-08-31T00:06:50.1049122Z Metadata: read
+2025-08-31T00:06:50.1050186Z Packages: read
+2025-08-31T00:06:50.1050954Z ##[endgroup]
+2025-08-31T00:06:50.1055289Z Secret source: Actions
+2025-08-31T00:06:50.1056972Z Prepare workflow directory
+2025-08-31T00:06:50.1504006Z Prepare all required actions
+2025-08-31T00:06:50.1558708Z Getting action download info
+2025-08-31T00:06:50.4278452Z Download action repository 'actions/checkout@v4' (SHA:08eba0b27e820071cde6df949e0beb9ba4906955)
+2025-08-31T00:06:50.5242939Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2025-08-31T00:06:50.7133004Z Complete job name: lint
+2025-08-31T00:06:50.7879424Z ##[group]Run actions/checkout@v4
+2025-08-31T00:06:50.7880256Z with:
+2025-08-31T00:06:50.7880664Z   repository: MoniVibe/Microscope
+2025-08-31T00:06:50.7881331Z   token: ***
+2025-08-31T00:06:50.7881938Z   ssh-strict: true
+2025-08-31T00:06:50.7882418Z   ssh-user: git
+2025-08-31T00:06:50.7882827Z   persist-credentials: true
+2025-08-31T00:06:50.7883277Z   clean: true
+2025-08-31T00:06:50.7883688Z   sparse-checkout-cone-mode: true
+2025-08-31T00:06:50.7884158Z   fetch-depth: 1
+2025-08-31T00:06:50.7884546Z   fetch-tags: false
+2025-08-31T00:06:50.7884937Z   show-progress: true
+2025-08-31T00:06:50.7885342Z   lfs: false
+2025-08-31T00:06:50.7885701Z   submodules: false
+2025-08-31T00:06:50.7886107Z   set-safe-directory: true
+2025-08-31T00:06:50.7886776Z ##[endgroup]
+2025-08-31T00:06:50.8935504Z Syncing repository: MoniVibe/Microscope
+2025-08-31T00:06:50.8937238Z ##[group]Getting Git version info
+2025-08-31T00:06:50.8937950Z Working directory is '/home/runner/work/Microscope/Microscope'
+2025-08-31T00:06:50.8938972Z [command]/usr/bin/git version
+2025-08-31T00:06:50.8999809Z git version 2.51.0
+2025-08-31T00:06:50.9024858Z ##[endgroup]
+2025-08-31T00:06:50.9038182Z Temporarily overriding HOME='/home/runner/work/_temp/0862d1b6-4ad8-420b-876b-b426db380436' before making global git config changes
+2025-08-31T00:06:50.9050283Z Adding repository directory to the temporary git global config as a safe directory
+2025-08-31T00:06:50.9051404Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Microscope/Microscope
+2025-08-31T00:06:50.9081360Z Deleting the contents of '/home/runner/work/Microscope/Microscope'
+2025-08-31T00:06:50.9085083Z ##[group]Initializing the repository
+2025-08-31T00:06:50.9088627Z [command]/usr/bin/git init /home/runner/work/Microscope/Microscope
+2025-08-31T00:06:50.9169705Z hint: Using 'master' as the name for the initial branch. This default branch name
+2025-08-31T00:06:50.9171038Z hint: is subject to change. To configure the initial branch name to use in all
+2025-08-31T00:06:50.9172188Z hint: of your new repositories, which will suppress this warning, call:
+2025-08-31T00:06:50.9173015Z hint:
+2025-08-31T00:06:50.9173846Z hint: 	git config --global init.defaultBranch <name>
+2025-08-31T00:06:50.9174909Z hint:
+2025-08-31T00:06:50.9175863Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-08-31T00:06:50.9177462Z hint: 'development'. The just-created branch can be renamed via this command:
+2025-08-31T00:06:50.9178739Z hint:
+2025-08-31T00:06:50.9179435Z hint: 	git branch -m <name>
+2025-08-31T00:06:50.9180230Z hint:
+2025-08-31T00:06:50.9181308Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2025-08-31T00:06:50.9183286Z Initialized empty Git repository in /home/runner/work/Microscope/Microscope/.git/
+2025-08-31T00:06:50.9187931Z [command]/usr/bin/git remote add origin https://github.com/MoniVibe/Microscope
+2025-08-31T00:06:50.9220966Z ##[endgroup]
+2025-08-31T00:06:50.9222370Z ##[group]Disabling automatic garbage collection
+2025-08-31T00:06:50.9225793Z [command]/usr/bin/git config --local gc.auto 0
+2025-08-31T00:06:50.9254005Z ##[endgroup]
+2025-08-31T00:06:50.9255191Z ##[group]Setting up auth
+2025-08-31T00:06:50.9261037Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-08-31T00:06:50.9291358Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-08-31T00:06:50.9613836Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-08-31T00:06:50.9644201Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-08-31T00:06:50.9862245Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2025-08-31T00:06:50.9895671Z ##[endgroup]
+2025-08-31T00:06:50.9912684Z ##[group]Fetching the repository
+2025-08-31T00:06:50.9914137Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +d23aff5f985e0b33e85520438ce0edaacb98b272:refs/remotes/origin/main
+2025-08-31T00:06:51.1606538Z From https://github.com/MoniVibe/Microscope
+2025-08-31T00:06:51.1607974Z  * [new ref]         d23aff5f985e0b33e85520438ce0edaacb98b272 -> origin/main
+2025-08-31T00:06:51.1644006Z ##[endgroup]
+2025-08-31T00:06:51.1645199Z ##[group]Determining the checkout info
+2025-08-31T00:06:51.1646484Z ##[endgroup]
+2025-08-31T00:06:51.1650448Z [command]/usr/bin/git sparse-checkout disable
+2025-08-31T00:06:51.1687772Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2025-08-31T00:06:51.1715757Z ##[group]Checking out the ref
+2025-08-31T00:06:51.1719126Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2025-08-31T00:06:51.1794743Z Switched to a new branch 'main'
+2025-08-31T00:06:51.1797910Z branch 'main' set up to track 'origin/main'.
+2025-08-31T00:06:51.1804363Z ##[endgroup]
+2025-08-31T00:06:51.1843358Z [command]/usr/bin/git log -1 --format=%H
+2025-08-31T00:06:51.1867242Z d23aff5f985e0b33e85520438ce0edaacb98b272
+2025-08-31T00:06:51.2120144Z ##[group]Run actions/setup-python@v5
+2025-08-31T00:06:51.2120710Z with:
+2025-08-31T00:06:51.2121110Z   python-version: 3.11
+2025-08-31T00:06:51.2121527Z   check-latest: false
+2025-08-31T00:06:51.2122332Z   token: ***
+2025-08-31T00:06:51.2122716Z   update-environment: true
+2025-08-31T00:06:51.2123163Z   allow-prereleases: false
+2025-08-31T00:06:51.2123601Z   freethreaded: false
+2025-08-31T00:06:51.2123995Z ##[endgroup]
+2025-08-31T00:06:51.3808645Z ##[group]Installed versions
+2025-08-31T00:06:51.3858385Z Successfully set up CPython (3.11.13)
+2025-08-31T00:06:51.3860459Z ##[endgroup]
+2025-08-31T00:06:51.3989056Z ##[group]Run pipx install pre-commit
+2025-08-31T00:06:51.3990063Z [36;1mpipx install pre-commit[0m
+2025-08-31T00:06:51.4105653Z shell: /usr/bin/bash -e {0}
+2025-08-31T00:06:51.4106544Z env:
+2025-08-31T00:06:51.4107382Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-08-31T00:06:51.4108587Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib/pkgconfig
+2025-08-31T00:06:51.4110039Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-08-31T00:06:51.4111138Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-08-31T00:06:51.4112395Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-08-31T00:06:51.4113489Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib
+2025-08-31T00:06:51.4114456Z ##[endgroup]
+2025-08-31T00:06:51.8008036Z creating virtual environment...
+2025-08-31T00:06:52.0262954Z installing pre-commit...
+2025-08-31T00:06:55.0319048Z done! ✨ 🌟 ✨
+2025-08-31T00:06:55.0319977Z   installed package pre-commit 4.3.0, installed using Python 3.10.12
+2025-08-31T00:06:55.0320690Z   These apps are now globally available
+2025-08-31T00:06:55.0321230Z     - pre-commit
+2025-08-31T00:06:55.0502856Z ##[group]Run pre-commit run --all-files
+2025-08-31T00:06:55.0503222Z [36;1mpre-commit run --all-files[0m
+2025-08-31T00:06:55.0532428Z shell: /usr/bin/bash -e {0}
+2025-08-31T00:06:55.0532687Z env:
+2025-08-31T00:06:55.0532932Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-08-31T00:06:55.0533364Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib/pkgconfig
+2025-08-31T00:06:55.0533744Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-08-31T00:06:55.0534088Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-08-31T00:06:55.0534431Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-08-31T00:06:55.0534802Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib
+2025-08-31T00:06:55.0535153Z ##[endgroup]
+2025-08-31T00:06:55.1666935Z [INFO] Initializing environment for https://github.com/astral-sh/ruff-pre-commit.
+2025-08-31T00:06:55.3706517Z [INFO] Initializing environment for https://github.com/pre-commit/pre-commit-hooks.
+2025-08-31T00:06:55.5991902Z [WARNING] repo `https://github.com/pre-commit/pre-commit-hooks` uses deprecated stage names (commit, push) which will be removed in a future version.  Hint: often `pre-commit autoupdate --repo https://github.com/pre-commit/pre-commit-hooks` will fix this.  if it does not -- consider reporting an issue to that repo.
+2025-08-31T00:06:55.6025997Z [INFO] Installing environment for https://github.com/astral-sh/ruff-pre-commit.
+2025-08-31T00:06:55.6026898Z [INFO] Once installed this environment will be reused.
+2025-08-31T00:06:55.6027465Z [INFO] This may take a few minutes...
+2025-08-31T00:06:59.6293340Z [INFO] Installing environment for https://github.com/pre-commit/pre-commit-hooks.
+2025-08-31T00:06:59.6295248Z [INFO] Once installed this environment will be reused.
+2025-08-31T00:06:59.6295811Z [INFO] This may take a few minutes...
+2025-08-31T00:07:02.5143289Z ruff.....................................................................Failed
+2025-08-31T00:07:02.5143911Z - hook id: ruff
+2025-08-31T00:07:02.5144272Z - exit code: 1
+2025-08-31T00:07:02.5144560Z - files were modified by this hook
+2025-08-31T00:07:02.5144796Z 
+2025-08-31T00:07:02.5145085Z src/optics_sim/core/config.py:26:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5145608Z    |
+2025-08-31T00:07:02.5145927Z 24 | def load(path: str | Path) -> dict[str, Any]:
+2025-08-31T00:07:02.5146402Z 25 |     """Load configuration from a YAML file.
+2025-08-31T00:07:02.5146813Z 26 |     
+2025-08-31T00:07:02.5147090Z    | ^^^^ W293
+2025-08-31T00:07:02.5147365Z 27 |     Args:
+2025-08-31T00:07:02.5147703Z 28 |         path: Path to YAML configuration file
+2025-08-31T00:07:02.5148139Z    |
+2025-08-31T00:07:02.5148503Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5148821Z 
+2025-08-31T00:07:02.5149133Z src/optics_sim/core/config.py:29:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5149679Z    |
+2025-08-31T00:07:02.5149927Z 27 |     Args:
+2025-08-31T00:07:02.5150272Z 28 |         path: Path to YAML configuration file
+2025-08-31T00:07:02.5150715Z 29 |         
+2025-08-31T00:07:02.5150984Z    | ^^^^^^^^ W293
+2025-08-31T00:07:02.5151257Z 30 |     Returns:
+2025-08-31T00:07:02.5151593Z 31 |         Raw configuration dictionary
+2025-08-31T00:07:02.5153168Z    |
+2025-08-31T00:07:02.5153479Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5153838Z 
+2025-08-31T00:07:02.5154166Z src/optics_sim/core/config.py:32:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5154729Z    |
+2025-08-31T00:07:02.5154996Z 30 |     Returns:
+2025-08-31T00:07:02.5155999Z 31 |         Raw configuration dictionary
+2025-08-31T00:07:02.5156418Z 32 |         
+2025-08-31T00:07:02.5156698Z    | ^^^^^^^^ W293
+2025-08-31T00:07:02.5156977Z 33 |     Raises:
+2025-08-31T00:07:02.5157367Z 34 |         FileNotFoundError: If config file doesn't exist
+2025-08-31T00:07:02.5157831Z    |
+2025-08-31T00:07:02.5158132Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5158443Z 
+2025-08-31T00:07:02.5159537Z src/optics_sim/core/config.py:45:13: B904 Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
+2025-08-31T00:07:02.5160601Z    |
+2025-08-31T00:07:02.5160880Z 43 |             cfg = yaml.safe_load(f)
+2025-08-31T00:07:02.5161283Z 44 |         except yaml.YAMLError as e:
+2025-08-31T00:07:02.5161980Z 45 |             raise yaml.YAMLError(f"Failed to parse YAML config: {e}")
+2025-08-31T00:07:02.5162522Z    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ B904
+2025-08-31T00:07:02.5162776Z 46 | 
+2025-08-31T00:07:02.5162948Z 47 |     if cfg is None:
+2025-08-31T00:07:02.5163135Z    |
+2025-08-31T00:07:02.5163226Z 
+2025-08-31T00:07:02.5163420Z src/optics_sim/core/config.py:53:5: PLR0912 Too many branches (45 > 12)
+2025-08-31T00:07:02.5163747Z    |
+2025-08-31T00:07:02.5163957Z 53 | def validate(cfg: dict[str, Any]) -> dict[str, Any]:
+2025-08-31T00:07:02.5164232Z    |     ^^^^^^^^ PLR0912
+2025-08-31T00:07:02.5164516Z 54 |     """Validate and normalize configuration to standard units.
+2025-08-31T00:07:02.5164803Z    |
+2025-08-31T00:07:02.5164892Z 
+2025-08-31T00:07:02.5165084Z src/optics_sim/core/config.py:53:5: PLR0915 Too many statements (87 > 50)
+2025-08-31T00:07:02.5165414Z    |
+2025-08-31T00:07:02.5165613Z 53 | def validate(cfg: dict[str, Any]) -> dict[str, Any]:
+2025-08-31T00:07:02.5165885Z    |     ^^^^^^^^ PLR0915
+2025-08-31T00:07:02.5166132Z 54 |     """Validate and normalize configuration to standard units.
+2025-08-31T00:07:02.5166402Z    |
+2025-08-31T00:07:02.5166488Z 
+2025-08-31T00:07:02.5166669Z src/optics_sim/core/config.py:55:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5166982Z    |
+2025-08-31T00:07:02.5167183Z 53 | def validate(cfg: dict[str, Any]) -> dict[str, Any]:
+2025-08-31T00:07:02.5167504Z 54 |     """Validate and normalize configuration to standard units.
+2025-08-31T00:07:02.5167779Z 55 |     
+2025-08-31T00:07:02.5167930Z    | ^^^^ W293
+2025-08-31T00:07:02.5168216Z 56 |     Converts all units to micrometers, validates ranges, captures RNG seeds,
+2025-08-31T00:07:02.5168590Z 57 |     and ensures all required fields are present.
+2025-08-31T00:07:02.5168853Z    |
+2025-08-31T00:07:02.5169051Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5169241Z 
+2025-08-31T00:07:02.5169427Z src/optics_sim/core/config.py:58:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5169816Z    |
+2025-08-31T00:07:02.5170090Z 56 |     Converts all units to micrometers, validates ranges, captures RNG seeds,
+2025-08-31T00:07:02.5170453Z 57 |     and ensures all required fields are present.
+2025-08-31T00:07:02.5170700Z 58 |     
+2025-08-31T00:07:02.5170857Z    | ^^^^ W293
+2025-08-31T00:07:02.5171018Z 59 |     Args:
+2025-08-31T00:07:02.5171201Z 60 |         cfg: Raw configuration dictionary
+2025-08-31T00:07:02.5171436Z    |
+2025-08-31T00:07:02.5171786Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5172019Z 
+2025-08-31T00:07:02.5172203Z src/optics_sim/core/config.py:61:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5172519Z    |
+2025-08-31T00:07:02.5172661Z 59 |     Args:
+2025-08-31T00:07:02.5172847Z 60 |         cfg: Raw configuration dictionary
+2025-08-31T00:07:02.5173246Z 61 |         
+2025-08-31T00:07:02.5173415Z    | ^^^^^^^^ W293
+2025-08-31T00:07:02.5173579Z 62 |     Returns:
+2025-08-31T00:07:02.5173809Z 63 |         Normalized Cfg dictionary with validated parameters
+2025-08-31T00:07:02.5174072Z    |
+2025-08-31T00:07:02.5174244Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5174412Z 
+2025-08-31T00:07:02.5174587Z src/optics_sim/core/config.py:64:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5174892Z    |
+2025-08-31T00:07:02.5175037Z 62 |     Returns:
+2025-08-31T00:07:02.5175258Z 63 |         Normalized Cfg dictionary with validated parameters
+2025-08-31T00:07:02.5175524Z 64 |         
+2025-08-31T00:07:02.5175673Z    | ^^^^^^^^ W293
+2025-08-31T00:07:02.5175838Z 65 |     Raises:
+2025-08-31T00:07:02.5176235Z 66 |         ValueError: If required fields are missing or values are out of range
+2025-08-31T00:07:02.5176554Z    |
+2025-08-31T00:07:02.5176723Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5176897Z 
+2025-08-31T00:07:02.5177128Z src/optics_sim/core/config.py:79:14: UP038 Use `X | Y` in `isinstance` call instead of `(X, Y)`
+2025-08-31T00:07:02.5177497Z    |
+2025-08-31T00:07:02.5177660Z 77 |                     cfg['lambda_um'] = {}
+2025-08-31T00:07:02.5177950Z 78 |                 cfg['lambda_um']['max'] = cfg['lambda_nm']['max'] / 1000.0
+2025-08-31T00:07:02.5178272Z 79 |         elif isinstance(cfg['lambda_nm'], (int, float)):
+2025-08-31T00:07:02.5178556Z    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ UP038
+2025-08-31T00:07:02.5178829Z 80 |             cfg['lambda_um'] = cfg['lambda_nm'] / 1000.0
+2025-08-31T00:07:02.5260771Z    |
+2025-08-31T00:07:02.5261333Z    = help: Convert to `X | Y`
+2025-08-31T00:07:02.5261849Z 
+2025-08-31T00:07:02.5262528Z src/optics_sim/core/config.py:128:12: PLR2004 Magic value used in comparison, consider replacing `0.01` with a constant variable
+2025-08-31T00:07:02.5263442Z     |
+2025-08-31T00:07:02.5263757Z 127 |     # Validate NA_max range
+2025-08-31T00:07:02.5264197Z 128 |     if not 0.01 <= cfg['NA_max'] <= 1.4:
+2025-08-31T00:07:02.5264660Z     |            ^^^^ PLR2004
+2025-08-31T00:07:02.5265241Z 129 |         raise ValueError(f"NA_max must be between 0.01 and 1.4, got {cfg['NA_max']}")
+2025-08-31T00:07:02.5265767Z     |
+2025-08-31T00:07:02.5265869Z 
+2025-08-31T00:07:02.5266491Z src/optics_sim/core/config.py:128:37: PLR2004 Magic value used in comparison, consider replacing `1.4` with a constant variable
+2025-08-31T00:07:02.5267406Z     |
+2025-08-31T00:07:02.5267715Z 127 |     # Validate NA_max range
+2025-08-31T00:07:02.5268220Z 128 |     if not 0.01 <= cfg['NA_max'] <= 1.4:
+2025-08-31T00:07:02.5268775Z     |                                     ^^^ PLR2004
+2025-08-31T00:07:02.5269432Z 129 |         raise ValueError(f"NA_max must be between 0.01 and 1.4, got {cfg['NA_max']}")
+2025-08-31T00:07:02.5270204Z     |
+2025-08-31T00:07:02.5270370Z 
+2025-08-31T00:07:02.5270975Z src/optics_sim/core/config.py:145:16: PLR2004 Magic value used in comparison, consider replacing `64` with a constant variable
+2025-08-31T00:07:02.5272002Z     |
+2025-08-31T00:07:02.5272318Z 144 |         # Ensure grid size is reasonable
+2025-08-31T00:07:02.5272775Z 145 |         if not 64 <= grid['target_px'] <= 16384:
+2025-08-31T00:07:02.5273177Z     |                ^^ PLR2004
+2025-08-31T00:07:02.5273799Z 146 |             raise ValueError(f"grid.target_px must be between 64 and 16384, got {grid['target_px']}")
+2025-08-31T00:07:02.5274440Z     |
+2025-08-31T00:07:02.5274583Z 
+2025-08-31T00:07:02.5275124Z src/optics_sim/core/config.py:145:43: PLR2004 Magic value used in comparison, consider replacing `16384` with a constant variable
+2025-08-31T00:07:02.5275878Z     |
+2025-08-31T00:07:02.5276157Z 144 |         # Ensure grid size is reasonable
+2025-08-31T00:07:02.5276584Z 145 |         if not 64 <= grid['target_px'] <= 16384:
+2025-08-31T00:07:02.5277002Z     |                                           ^^^^^ PLR2004
+2025-08-31T00:07:02.5277634Z 146 |             raise ValueError(f"grid.target_px must be between 64 and 16384, got {grid['target_px']}")
+2025-08-31T00:07:02.5278476Z     |
+2025-08-31T00:07:02.5278614Z 
+2025-08-31T00:07:02.5278891Z src/optics_sim/core/config.py:146:101: E501 Line too long (101 > 100)
+2025-08-31T00:07:02.5279395Z     |
+2025-08-31T00:07:02.5279676Z 144 |         # Ensure grid size is reasonable
+2025-08-31T00:07:02.5280095Z 145 |         if not 64 <= grid['target_px'] <= 16384:
+2025-08-31T00:07:02.5280776Z 146 |             raise ValueError(f"grid.target_px must be between 64 and 16384, got {grid['target_px']}")
+2025-08-31T00:07:02.5281500Z     |                                                                                                     ^ E501
+2025-08-31T00:07:02.5282216Z 147 | 
+2025-08-31T00:07:02.5282538Z 148 |         # Convert pitch to micrometers if needed
+2025-08-31T00:07:02.5283146Z     |
+2025-08-31T00:07:02.5283310Z 
+2025-08-31T00:07:02.5283889Z src/optics_sim/core/config.py:215:12: PLR2004 Magic value used in comparison, consider replacing `0.1` with a constant variable
+2025-08-31T00:07:02.5284693Z     |
+2025-08-31T00:07:02.5285002Z 213 |     lambda_max = cfg['lambda_um'].get('max', 0.7)
+2025-08-31T00:07:02.5285399Z 214 | 
+2025-08-31T00:07:02.5285674Z 215 |     if not 0.1 <= lambda_min <= 10.0:
+2025-08-31T00:07:02.5286124Z     |            ^^^ PLR2004
+2025-08-31T00:07:02.5287024Z 216 |         raise ValueError(f"lambda_min must be between 0.1 and 10.0 µm, got {lambda_min}")
+2025-08-31T00:07:02.5287659Z 217 |     if not 0.1 <= lambda_max <= 10.0:
+2025-08-31T00:07:02.5288037Z     |
+2025-08-31T00:07:02.5288176Z 
+2025-08-31T00:07:02.5288733Z src/optics_sim/core/config.py:215:33: PLR2004 Magic value used in comparison, consider replacing `10.0` with a constant variable
+2025-08-31T00:07:02.5289415Z     |
+2025-08-31T00:07:02.5289626Z 213 |     lambda_max = cfg['lambda_um'].get('max', 0.7)
+2025-08-31T00:07:02.5289876Z 214 | 
+2025-08-31T00:07:02.5290048Z 215 |     if not 0.1 <= lambda_min <= 10.0:
+2025-08-31T00:07:02.5290288Z     |                                 ^^^^ PLR2004
+2025-08-31T00:07:02.5290748Z 216 |         raise ValueError(f"lambda_min must be between 0.1 and 10.0 µm, got {lambda_min}")
+2025-08-31T00:07:02.5291109Z 217 |     if not 0.1 <= lambda_max <= 10.0:
+2025-08-31T00:07:02.5291329Z     |
+2025-08-31T00:07:02.5291413Z 
+2025-08-31T00:07:02.5292363Z src/optics_sim/core/config.py:217:12: PLR2004 Magic value used in comparison, consider replacing `0.1` with a constant variable
+2025-08-31T00:07:02.5292866Z     |
+2025-08-31T00:07:02.5293036Z 215 |     if not 0.1 <= lambda_min <= 10.0:
+2025-08-31T00:07:02.5293477Z 216 |         raise ValueError(f"lambda_min must be between 0.1 and 10.0 µm, got {lambda_min}")
+2025-08-31T00:07:02.5293843Z 217 |     if not 0.1 <= lambda_max <= 10.0:
+2025-08-31T00:07:02.5294065Z     |            ^^^ PLR2004
+2025-08-31T00:07:02.5294472Z 218 |         raise ValueError(f"lambda_max must be between 0.1 and 10.0 µm, got {lambda_max}")
+2025-08-31T00:07:02.5294828Z 219 |     if lambda_min > lambda_max:
+2025-08-31T00:07:02.5295037Z     |
+2025-08-31T00:07:02.5295122Z 
+2025-08-31T00:07:02.5295467Z src/optics_sim/core/config.py:217:33: PLR2004 Magic value used in comparison, consider replacing `10.0` with a constant variable
+2025-08-31T00:07:02.5295930Z     |
+2025-08-31T00:07:02.5296094Z 215 |     if not 0.1 <= lambda_min <= 10.0:
+2025-08-31T00:07:02.5296506Z 216 |         raise ValueError(f"lambda_min must be between 0.1 and 10.0 µm, got {lambda_min}")
+2025-08-31T00:07:02.5296866Z 217 |     if not 0.1 <= lambda_max <= 10.0:
+2025-08-31T00:07:02.5297105Z     |                                 ^^^^ PLR2004
+2025-08-31T00:07:02.5297529Z 218 |         raise ValueError(f"lambda_max must be between 0.1 and 10.0 µm, got {lambda_max}")
+2025-08-31T00:07:02.5297885Z 219 |     if lambda_min > lambda_max:
+2025-08-31T00:07:02.5298091Z     |
+2025-08-31T00:07:02.5298182Z 
+2025-08-31T00:07:02.5298513Z src/optics_sim/core/config.py:224:30: PLR2004 Magic value used in comparison, consider replacing `80.0` with a constant variable
+2025-08-31T00:07:02.5298974Z     |
+2025-08-31T00:07:02.5299141Z 222 |     # Validate memory budget
+2025-08-31T00:07:02.5299586Z 223 |     vram_gb = cfg['runtime']['budget']['vram_gb']
+2025-08-31T00:07:02.5299853Z 224 |     if not 1.0 <= vram_gb <= 80.0:
+2025-08-31T00:07:02.5300092Z     |                              ^^^^ PLR2004
+2025-08-31T00:07:02.5300426Z 225 |         raise ValueError(f"vram_gb must be between 1.0 and 80.0, got {vram_gb}")
+2025-08-31T00:07:02.5300752Z     |
+2025-08-31T00:07:02.5300839Z 
+2025-08-31T00:07:02.5301179Z src/optics_sim/core/config.py:228:29: PLR2004 Magic value used in comparison, consider replacing `86400.0` with a constant variable
+2025-08-31T00:07:02.5301847Z     |
+2025-08-31T00:07:02.5302046Z 227 |     time_s = cfg['runtime']['budget']['time_s']
+2025-08-31T00:07:02.5302477Z 228 |     if not 1.0 <= time_s <= 86400.0:  # 1 second to 24 hours
+2025-08-31T00:07:02.5302784Z     |                             ^^^^^^^ PLR2004
+2025-08-31T00:07:02.5303124Z 229 |         raise ValueError(f"time_s must be between 1.0 and 86400.0, got {time_s}")
+2025-08-31T00:07:02.5303456Z     |
+2025-08-31T00:07:02.5303544Z 
+2025-08-31T00:07:02.5303728Z src/optics_sim/core/frames.py:17:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5304085Z    |
+2025-08-31T00:07:02.5304312Z 15 | def compose(euler_zyx, t_um):  # type: ignore[no-untyped-def]
+2025-08-31T00:07:02.5304747Z 16 |     """Compose a Z-Y-X Euler rotation and translation into a transform dictionary.
+2025-08-31T00:07:02.5305077Z 17 |     
+2025-08-31T00:07:02.5305235Z    | ^^^^ W293
+2025-08-31T00:07:02.5305392Z 18 |     Args:
+2025-08-31T00:07:02.5305649Z 19 |         euler_zyx: Euler angles [rz, ry, rx] in radians, shape (3,) or (B, 3)
+2025-08-31T00:07:02.5305951Z    |
+2025-08-31T00:07:02.5306129Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5306301Z 
+2025-08-31T00:07:02.5306482Z src/optics_sim/core/frames.py:21:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5306789Z    |
+2025-08-31T00:07:02.5307025Z 19 |         euler_zyx: Euler angles [rz, ry, rx] in radians, shape (3,) or (B, 3)
+2025-08-31T00:07:02.5307421Z 20 |         t_um: Translation in micrometers [tx, ty, tz], shape (3,) or (B, 3)
+2025-08-31T00:07:02.5307718Z 21 |         
+2025-08-31T00:07:02.5307870Z    | ^^^^^^^^ W293
+2025-08-31T00:07:02.5308037Z 22 |     Returns:
+2025-08-31T00:07:02.5308226Z 23 |         Transform dictionary with keys:
+2025-08-31T00:07:02.5308448Z    |
+2025-08-31T00:07:02.5308622Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5308789Z 
+2025-08-31T00:07:02.5309014Z src/optics_sim/core/frames.py:32:12: UP038 Use `X | Y` in `isinstance` call instead of `(X, Y)`
+2025-08-31T00:07:02.5309377Z    |
+2025-08-31T00:07:02.5309527Z 30 |     if torch is None:
+2025-08-31T00:07:02.5309710Z 31 | 
+2025-08-31T00:07:02.5309921Z 32 |         if isinstance(t_um, (list, tuple)) and len(t_um) == 3:
+2025-08-31T00:07:02.5310211Z    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ UP038
+2025-08-31T00:07:02.5310498Z 33 |             t_tuple = (float(t_um[0]), float(t_um[1]), float(t_um[2]))
+2025-08-31T00:07:02.5310780Z 34 |         else:
+2025-08-31T00:07:02.5310942Z    |
+2025-08-31T00:07:02.5311098Z    = help: Convert to `X | Y`
+2025-08-31T00:07:02.5311238Z 
+2025-08-31T00:07:02.5311563Z src/optics_sim/core/frames.py:32:61: PLR2004 Magic value used in comparison, consider replacing `3` with a constant variable
+2025-08-31T00:07:02.5312345Z    |
+2025-08-31T00:07:02.5312510Z 30 |     if torch is None:
+2025-08-31T00:07:02.5312693Z 31 | 
+2025-08-31T00:07:02.5312901Z 32 |         if isinstance(t_um, (list, tuple)) and len(t_um) == 3:
+2025-08-31T00:07:02.5313195Z    |                                                             ^ PLR2004
+2025-08-31T00:07:02.5313493Z 33 |             t_tuple = (float(t_um[0]), float(t_um[1]), float(t_um[2]))
+2025-08-31T00:07:02.5313770Z 34 |         else:
+2025-08-31T00:07:02.5313929Z    |
+2025-08-31T00:07:02.5314019Z 
+2025-08-31T00:07:02.5314251Z src/optics_sim/core/frames.py:39:46: UP038 Use `X | Y` in `isinstance` call instead of `(X, Y)`
+2025-08-31T00:07:02.5314617Z    |
+2025-08-31T00:07:02.5314912Z 37 |             'R': None,
+2025-08-31T00:07:02.5315110Z 38 |             't': t_tuple,
+2025-08-31T00:07:02.5315479Z 39 |             'euler_zyx': tuple(euler_zyx) if isinstance(euler_zyx, (list, tuple)) else (0.0, 0.0, 0.0),
+2025-08-31T00:07:02.5315874Z    |                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ UP038
+2025-08-31T00:07:02.5316118Z 40 |             'T': None,
+2025-08-31T00:07:02.5316303Z 41 |         })
+2025-08-31T00:07:02.5316456Z    |
+2025-08-31T00:07:02.5316619Z    = help: Convert to `X | Y`
+2025-08-31T00:07:02.5316758Z 
+2025-08-31T00:07:02.5316924Z src/optics_sim/core/frames.py:39:101: E501 Line too long (103 > 100)
+2025-08-31T00:07:02.5317228Z    |
+2025-08-31T00:07:02.5317379Z 37 |             'R': None,
+2025-08-31T00:07:02.5317678Z 38 |             't': t_tuple,
+2025-08-31T00:07:02.5318026Z 39 |             'euler_zyx': tuple(euler_zyx) if isinstance(euler_zyx, (list, tuple)) else (0.0, 0.0, 0.0),
+2025-08-31T00:07:02.5318421Z    |                                                                                                     ^^^ E501
+2025-08-31T00:07:02.5318688Z 40 |             'T': None,
+2025-08-31T00:07:02.5318870Z 41 |         })
+2025-08-31T00:07:02.5319030Z    |
+2025-08-31T00:07:02.5319113Z 
+2025-08-31T00:07:02.5319330Z src/optics_sim/core/frames.py:72:5: N806 Variable `R` in function should be lowercase
+2025-08-31T00:07:02.5319674Z    |
+2025-08-31T00:07:02.5319853Z 70 |     # Build rotation matrix using Z-Y-X order
+2025-08-31T00:07:02.5320127Z 71 |     # R = Rz * Ry * Rx (applied right to left)
+2025-08-31T00:07:02.5320492Z 72 |     R = torch.zeros((batch_size, 3, 3), dtype=torch.float32, device=euler_zyx.device)
+2025-08-31T00:07:02.5320825Z    |     ^ N806
+2025-08-31T00:07:02.5320985Z 73 | 
+2025-08-31T00:07:02.5321163Z 74 |     # Combined rotation matrix elements
+2025-08-31T00:07:02.5321394Z    |
+2025-08-31T00:07:02.5321477Z 
+2025-08-31T00:07:02.5321876Z src/optics_sim/core/frames.py:88:5: N806 Variable `T` in function should be lowercase
+2025-08-31T00:07:02.5322229Z    |
+2025-08-31T00:07:02.5322400Z 87 |     # Build 4x4 homogeneous transform
+2025-08-31T00:07:02.5322706Z 88 |     T = torch.eye(4, dtype=torch.float32, device=euler_zyx.device)
+2025-08-31T00:07:02.5322999Z    |     ^ N806
+2025-08-31T00:07:02.5323236Z 89 |     T = T.unsqueeze(0).expand(batch_size, -1, -1).contiguous()
+2025-08-31T00:07:02.5323527Z 90 |     T[:, :3, :3] = R
+2025-08-31T00:07:02.5323713Z    |
+2025-08-31T00:07:02.5323807Z 
+2025-08-31T00:07:02.5324012Z src/optics_sim/core/frames.py:89:5: N806 Variable `T` in function should be lowercase
+2025-08-31T00:07:02.5324364Z    |
+2025-08-31T00:07:02.5324532Z 87 |     # Build 4x4 homogeneous transform
+2025-08-31T00:07:02.5324845Z 88 |     T = torch.eye(4, dtype=torch.float32, device=euler_zyx.device)
+2025-08-31T00:07:02.5325211Z 89 |     T = T.unsqueeze(0).expand(batch_size, -1, -1).contiguous()
+2025-08-31T00:07:02.5325489Z    |     ^ N806
+2025-08-31T00:07:02.5325656Z 90 |     T[:, :3, :3] = R
+2025-08-31T00:07:02.5325849Z 91 |     T[:, :3, 3] = t_um
+2025-08-31T00:07:02.5326041Z    |
+2025-08-31T00:07:02.5326130Z 
+2025-08-31T00:07:02.5326334Z src/optics_sim/core/frames.py:95:9: N806 Variable `R` in function should be lowercase
+2025-08-31T00:07:02.5326678Z    |
+2025-08-31T00:07:02.5326871Z 93 |     # Remove batch dimension if input was unbatched
+2025-08-31T00:07:02.5327133Z 94 |     if not is_batch:
+2025-08-31T00:07:02.5327323Z 95 |         R = R.squeeze(0)
+2025-08-31T00:07:02.5327520Z    |         ^ N806
+2025-08-31T00:07:02.5327698Z 96 |         t_um = t_um.squeeze(0)
+2025-08-31T00:07:02.5327920Z 97 |         T = T.squeeze(0)
+2025-08-31T00:07:02.5328104Z    |
+2025-08-31T00:07:02.5328192Z 
+2025-08-31T00:07:02.5328390Z src/optics_sim/core/frames.py:97:9: N806 Variable `T` in function should be lowercase
+2025-08-31T00:07:02.5328739Z    |
+2025-08-31T00:07:02.5328887Z 95 |         R = R.squeeze(0)
+2025-08-31T00:07:02.5329090Z 96 |         t_um = t_um.squeeze(0)
+2025-08-31T00:07:02.5329296Z 97 |         T = T.squeeze(0)
+2025-08-31T00:07:02.5329628Z    |         ^ N806
+2025-08-31T00:07:02.5329823Z 98 |         euler_zyx = euler_zyx.squeeze(0)
+2025-08-31T00:07:02.5330056Z    |
+2025-08-31T00:07:02.5330141Z 
+2025-08-31T00:07:02.5330343Z src/optics_sim/core/frames.py:108:23: N803 Argument name `T` should be lowercase
+2025-08-31T00:07:02.5330673Z     |
+2025-08-31T00:07:02.5330905Z 108 | def to_world(p_local, T):  # type: ignore[no-untyped-def]
+2025-08-31T00:07:02.5331196Z     |                       ^ N803
+2025-08-31T00:07:02.5331464Z 109 |     """Transform points from local to world coordinates.
+2025-08-31T00:07:02.5331916Z     |
+2025-08-31T00:07:02.5332012Z 
+2025-08-31T00:07:02.5332195Z src/optics_sim/core/frames.py:110:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5332510Z     |
+2025-08-31T00:07:02.5332853Z 108 | def to_world(p_local, T):  # type: ignore[no-untyped-def]
+2025-08-31T00:07:02.5333192Z 109 |     """Transform points from local to world coordinates.
+2025-08-31T00:07:02.5333455Z 110 |     
+2025-08-31T00:07:02.5333615Z     | ^^^^ W293
+2025-08-31T00:07:02.5333775Z 111 |     Args:
+2025-08-31T00:07:02.5333968Z 112 |         p_local: Local points, shape (..., 3)
+2025-08-31T00:07:02.5334202Z     |
+2025-08-31T00:07:02.5334384Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5334560Z 
+2025-08-31T00:07:02.5334738Z src/optics_sim/core/frames.py:114:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5335057Z     |
+2025-08-31T00:07:02.5335234Z 112 |         p_local: Local points, shape (..., 3)
+2025-08-31T00:07:02.5335509Z 113 |         T: Transform dictionary from compose()
+2025-08-31T00:07:02.5335753Z 114 |         
+2025-08-31T00:07:02.5335911Z     | ^^^^^^^^ W293
+2025-08-31T00:07:02.5336077Z 115 |     Returns:
+2025-08-31T00:07:02.5336262Z 116 |         World points, shape (..., 3)
+2025-08-31T00:07:02.5336489Z     |
+2025-08-31T00:07:02.5336662Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5336840Z 
+2025-08-31T00:07:02.5337042Z src/optics_sim/core/frames.py:131:5: N806 Variable `R` in function should be lowercase
+2025-08-31T00:07:02.5337395Z     |
+2025-08-31T00:07:02.5337560Z 130 |     # Apply rotation and translation
+2025-08-31T00:07:02.5337794Z 131 |     R = T['R']
+2025-08-31T00:07:02.5337962Z     |     ^ N806
+2025-08-31T00:07:02.5338131Z 132 |     t = T['t']
+2025-08-31T00:07:02.5338292Z     |
+2025-08-31T00:07:02.5338385Z 
+2025-08-31T00:07:02.5338709Z src/optics_sim/core/frames.py:135:19: PLR2004 Magic value used in comparison, consider replacing `3` with a constant variable
+2025-08-31T00:07:02.5339170Z     |
+2025-08-31T00:07:02.5339334Z 134 |     # Handle batch dimensions
+2025-08-31T00:07:02.5339574Z 135 |     if R.dim() == 3:  # Batched transform
+2025-08-31T00:07:02.5339813Z     |                   ^ PLR2004
+2025-08-31T00:07:02.5340113Z 136 |         # p_local shape: (N, 3), R shape: (B, 3, 3), t shape: (B, 3)
+2025-08-31T00:07:02.5340442Z 137 |         # Expand p_local to (1, N, 3) for broadcasting
+2025-08-31T00:07:02.5340695Z     |
+2025-08-31T00:07:02.5340780Z 
+2025-08-31T00:07:02.5340977Z src/optics_sim/core/frames.py:148:39: N803 Argument name `T` should be lowercase
+2025-08-31T00:07:02.5341320Z     |
+2025-08-31T00:07:02.5341750Z 148 | def from_world(p_world: torch.Tensor, T: dict[str, torch.Tensor]) -> torch.Tensor:
+2025-08-31T00:07:02.5342315Z     |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ N803
+2025-08-31T00:07:02.5342683Z 149 |     """Transform points from world to local coordinates (inverse transform).
+2025-08-31T00:07:02.5343005Z     |
+2025-08-31T00:07:02.5343097Z 
+2025-08-31T00:07:02.5343272Z src/optics_sim/core/frames.py:150:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5343584Z     |
+2025-08-31T00:07:02.5343869Z 148 | def from_world(p_world: torch.Tensor, T: dict[str, torch.Tensor]) -> torch.Tensor:
+2025-08-31T00:07:02.5344337Z 149 |     """Transform points from world to local coordinates (inverse transform).
+2025-08-31T00:07:02.5344656Z 150 |     
+2025-08-31T00:07:02.5344814Z     | ^^^^ W293
+2025-08-31T00:07:02.5344968Z 151 |     Args:
+2025-08-31T00:07:02.5345315Z 152 |         p_world: World points, shape (..., 3)
+2025-08-31T00:07:02.5345555Z     |
+2025-08-31T00:07:02.5345737Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5345914Z 
+2025-08-31T00:07:02.5346099Z src/optics_sim/core/frames.py:154:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5346415Z     |
+2025-08-31T00:07:02.5346596Z 152 |         p_world: World points, shape (..., 3)
+2025-08-31T00:07:02.5346867Z 153 |         T: Transform dictionary from compose()
+2025-08-31T00:07:02.5347115Z 154 |         
+2025-08-31T00:07:02.5347272Z     | ^^^^^^^^ W293
+2025-08-31T00:07:02.5347440Z 155 |     Returns:
+2025-08-31T00:07:02.5347623Z 156 |         Local points, shape (..., 3)
+2025-08-31T00:07:02.5347848Z     |
+2025-08-31T00:07:02.5348157Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5348343Z 
+2025-08-31T00:07:02.5348551Z src/optics_sim/core/frames.py:165:5: N806 Variable `R` in function should be lowercase
+2025-08-31T00:07:02.5348912Z     |
+2025-08-31T00:07:02.5349157Z 164 |     # Apply inverse transformation: p_local = R^T * (p_world - t)
+2025-08-31T00:07:02.5349465Z 165 |     R = T['R']
+2025-08-31T00:07:02.5349630Z     |     ^ N806
+2025-08-31T00:07:02.5349795Z 166 |     t = T['t']
+2025-08-31T00:07:02.5349954Z     |
+2025-08-31T00:07:02.5350044Z 
+2025-08-31T00:07:02.5350367Z src/optics_sim/core/frames.py:168:19: PLR2004 Magic value used in comparison, consider replacing `3` with a constant variable
+2025-08-31T00:07:02.5350832Z     |
+2025-08-31T00:07:02.5350975Z 166 |     t = T['t']
+2025-08-31T00:07:02.5351143Z 167 | 
+2025-08-31T00:07:02.5351312Z 168 |     if R.dim() == 3:  # Batched transform
+2025-08-31T00:07:02.5351557Z     |                   ^ PLR2004
+2025-08-31T00:07:02.5352019Z 169 |         # Subtract translation then apply inverse rotation
+2025-08-31T00:07:02.5352356Z 170 |         p_local = p_world.unsqueeze(0) - t.unsqueeze(1)
+2025-08-31T00:07:02.5352615Z     |
+2025-08-31T00:07:02.5352704Z 
+2025-08-31T00:07:02.5352894Z src/optics_sim/core/frames.py:180:19: N803 Argument name `T` should be lowercase
+2025-08-31T00:07:02.5353229Z     |
+2025-08-31T00:07:02.5353433Z 179 | def transform_grid(nx: int, ny: int, pitch_um: float,
+2025-08-31T00:07:02.5353755Z 180 |                   T: dict[str, torch.Tensor]) -> torch.Tensor:
+2025-08-31T00:07:02.5354040Z     |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^ N803
+2025-08-31T00:07:02.5354358Z 181 |     """Transform a 2D grid of points from local to world coordinates.
+2025-08-31T00:07:02.5354653Z     |
+2025-08-31T00:07:02.5354743Z 
+2025-08-31T00:07:02.5354918Z src/optics_sim/core/frames.py:182:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5355270Z     |
+2025-08-31T00:07:02.5355459Z 180 |                   T: dict[str, torch.Tensor]) -> torch.Tensor:
+2025-08-31T00:07:02.5355808Z 181 |     """Transform a 2D grid of points from local to world coordinates.
+2025-08-31T00:07:02.5356098Z 182 |     
+2025-08-31T00:07:02.5356249Z     | ^^^^ W293
+2025-08-31T00:07:02.5356494Z 183 |     Creates a grid in the XY plane (Z=0) and transforms all points.
+2025-08-31T00:07:02.5356793Z     |
+2025-08-31T00:07:02.5356967Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5357151Z 
+2025-08-31T00:07:02.5357322Z src/optics_sim/core/frames.py:184:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5357637Z     |
+2025-08-31T00:07:02.5357865Z 183 |     Creates a grid in the XY plane (Z=0) and transforms all points.
+2025-08-31T00:07:02.5358162Z 184 |     
+2025-08-31T00:07:02.5358311Z     | ^^^^ W293
+2025-08-31T00:07:02.5358474Z 185 |     Args:
+2025-08-31T00:07:02.5358657Z 186 |         nx: Number of grid points in X
+2025-08-31T00:07:02.5358886Z     |
+2025-08-31T00:07:02.5359055Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5359230Z 
+2025-08-31T00:07:02.5359403Z src/optics_sim/core/frames.py:190:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5359718Z     |
+2025-08-31T00:07:02.5359893Z 188 |         pitch_um: Grid spacing in micrometers
+2025-08-31T00:07:02.5360203Z 189 |         T: Transform dictionary from compose()
+2025-08-31T00:07:02.5360815Z 190 |         
+2025-08-31T00:07:02.5361014Z     | ^^^^^^^^ W293
+2025-08-31T00:07:02.5361283Z 191 |     Returns:
+2025-08-31T00:07:02.5361905Z 192 |         World coordinates of grid points, shape (ny, nx, 3)
+2025-08-31T00:07:02.5362378Z     |
+2025-08-31T00:07:02.5362664Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5362846Z 
+2025-08-31T00:07:02.5363032Z src/optics_sim/core/frames.py:216:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5363354Z     |
+2025-08-31T00:07:02.5363557Z 214 | def identity():  # type: ignore[no-untyped-def]
+2025-08-31T00:07:02.5363835Z 215 |     """Create an identity transform.
+2025-08-31T00:07:02.5364058Z 216 |     
+2025-08-31T00:07:02.5364205Z     | ^^^^ W293
+2025-08-31T00:07:02.5364512Z 217 |     Returns:
+2025-08-31T00:07:02.5364780Z 218 |         Transform dictionary representing no rotation or translation
+2025-08-31T00:07:02.5365081Z     |
+2025-08-31T00:07:02.5365257Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5365435Z 
+2025-08-31T00:07:02.5365629Z src/optics_sim/core/frames.py:234:12: N803 Argument name `T` should be lowercase
+2025-08-31T00:07:02.5365959Z     |
+2025-08-31T00:07:02.5366195Z 234 | def invert(T: dict[str, torch.Tensor]) -> dict[str, torch.Tensor]:
+2025-08-31T00:07:02.5366516Z     |            ^^^^^^^^^^^^^^^^^^^^^^^^^^ N803
+2025-08-31T00:07:02.5366762Z 235 |     """Compute the inverse of a transform.
+2025-08-31T00:07:02.5366997Z     |
+2025-08-31T00:07:02.5367082Z 
+2025-08-31T00:07:02.5367265Z src/optics_sim/core/frames.py:236:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5367574Z     |
+2025-08-31T00:07:02.5367806Z 234 | def invert(T: dict[str, torch.Tensor]) -> dict[str, torch.Tensor]:
+2025-08-31T00:07:02.5368132Z 235 |     """Compute the inverse of a transform.
+2025-08-31T00:07:02.5368363Z 236 |     
+2025-08-31T00:07:02.5368507Z     | ^^^^ W293
+2025-08-31T00:07:02.5368671Z 237 |     Args:
+2025-08-31T00:07:02.5368867Z 238 |         T: Transform dictionary from compose()
+2025-08-31T00:07:02.5369115Z     |
+2025-08-31T00:07:02.5369297Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5369466Z 
+2025-08-31T00:07:02.5369636Z src/optics_sim/core/frames.py:239:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5369951Z     |
+2025-08-31T00:07:02.5370091Z 237 |     Args:
+2025-08-31T00:07:02.5370291Z 238 |         T: Transform dictionary from compose()
+2025-08-31T00:07:02.5370534Z 239 |         
+2025-08-31T00:07:02.5370698Z     | ^^^^^^^^ W293
+2025-08-31T00:07:02.5370862Z 240 |     Returns:
+2025-08-31T00:07:02.5371055Z 241 |         Inverse transform dictionary
+2025-08-31T00:07:02.5371281Z     |
+2025-08-31T00:07:02.5371459Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5371825Z 
+2025-08-31T00:07:02.5372059Z src/optics_sim/core/frames.py:243:5: N806 Variable `R` in function should be lowercase
+2025-08-31T00:07:02.5372409Z     |
+2025-08-31T00:07:02.5372599Z 241 |         Inverse transform dictionary
+2025-08-31T00:07:02.5372828Z 242 |     """
+2025-08-31T00:07:02.5372993Z 243 |     R = T['R']
+2025-08-31T00:07:02.5373166Z     |     ^ N806
+2025-08-31T00:07:02.5373336Z 244 |     t = T['t']
+2025-08-31T00:07:02.5373507Z     |
+2025-08-31T00:07:02.5373593Z 
+2025-08-31T00:07:02.5373810Z src/optics_sim/core/frames.py:247:5: N806 Variable `R_inv` in function should be lowercase
+2025-08-31T00:07:02.5374180Z     |
+2025-08-31T00:07:02.5374347Z 246 |     # Inverse rotation is transpose
+2025-08-31T00:07:02.5374647Z 247 |     R_inv = R.T if R.dim() == 2 else R.transpose(-2, -1)
+2025-08-31T00:07:02.5374915Z     |     ^^^^^ N806
+2025-08-31T00:07:02.5375084Z 248 | 
+2025-08-31T00:07:02.5375242Z 249 |     # Inverse translation
+2025-08-31T00:07:02.5375447Z     |
+2025-08-31T00:07:02.5375536Z 
+2025-08-31T00:07:02.5375870Z src/optics_sim/core/frames.py:247:31: PLR2004 Magic value used in comparison, consider replacing `2` with a constant variable
+2025-08-31T00:07:02.5376328Z     |
+2025-08-31T00:07:02.5376498Z 246 |     # Inverse rotation is transpose
+2025-08-31T00:07:02.5376919Z 247 |     R_inv = R.T if R.dim() == 2 else R.transpose(-2, -1)
+2025-08-31T00:07:02.5377199Z     |                               ^ PLR2004
+2025-08-31T00:07:02.5377411Z 248 | 
+2025-08-31T00:07:02.5377572Z 249 |     # Inverse translation
+2025-08-31T00:07:02.5377764Z     |
+2025-08-31T00:07:02.5377858Z 
+2025-08-31T00:07:02.5378178Z src/optics_sim/core/frames.py:250:19: PLR2004 Magic value used in comparison, consider replacing `2` with a constant variable
+2025-08-31T00:07:02.5378667Z     |
+2025-08-31T00:07:02.5378938Z 249 |     # Inverse translation
+2025-08-31T00:07:02.5379302Z 250 |     if R.dim() == 2:
+2025-08-31T00:07:02.5379535Z     |                   ^ PLR2004
+2025-08-31T00:07:02.5379972Z 251 |         t_inv = -torch.matmul(R_inv, t)
+2025-08-31T00:07:02.5380615Z 252 |     else:
+2025-08-31T00:07:02.5380929Z     |
+2025-08-31T00:07:02.5381102Z 
+2025-08-31T00:07:02.5381470Z src/optics_sim/core/frames.py:256:5: N806 Variable `T_inv` in function should be lowercase
+2025-08-31T00:07:02.5382333Z     |
+2025-08-31T00:07:02.5382649Z 255 |     # Build inverse transform
+2025-08-31T00:07:02.5383090Z 256 |     T_inv = torch.eye(4, dtype=torch.float32, device=R.device)
+2025-08-31T00:07:02.5383392Z     |     ^^^^^ N806
+2025-08-31T00:07:02.5383578Z 257 |     if R.dim() == 3:
+2025-08-31T00:07:02.5383871Z 258 |         T_inv = T_inv.unsqueeze(0).expand(R.shape[0], -1, -1).contiguous()
+2025-08-31T00:07:02.5384171Z     |
+2025-08-31T00:07:02.5384341Z 
+2025-08-31T00:07:02.5384941Z src/optics_sim/core/frames.py:257:19: PLR2004 Magic value used in comparison, consider replacing `3` with a constant variable
+2025-08-31T00:07:02.5385830Z     |
+2025-08-31T00:07:02.5386118Z 255 |     # Build inverse transform
+2025-08-31T00:07:02.5386501Z 256 |     T_inv = torch.eye(4, dtype=torch.float32, device=R.device)
+2025-08-31T00:07:02.5386853Z 257 |     if R.dim() == 3:
+2025-08-31T00:07:02.5387194Z     |                   ^ PLR2004
+2025-08-31T00:07:02.5387695Z 258 |         T_inv = T_inv.unsqueeze(0).expand(R.shape[0], -1, -1).contiguous()
+2025-08-31T00:07:02.5388263Z 259 |         T_inv[:, :3, :3] = R_inv
+2025-08-31T00:07:02.5388662Z     |
+2025-08-31T00:07:02.5388832Z 
+2025-08-31T00:07:02.5389231Z src/optics_sim/core/frames.py:258:9: N806 Variable `T_inv` in function should be lowercase
+2025-08-31T00:07:02.5389985Z     |
+2025-08-31T00:07:02.5390400Z 256 |     T_inv = torch.eye(4, dtype=torch.float32, device=R.device)
+2025-08-31T00:07:02.5390913Z 257 |     if R.dim() == 3:
+2025-08-31T00:07:02.5391426Z 258 |         T_inv = T_inv.unsqueeze(0).expand(R.shape[0], -1, -1).contiguous()
+2025-08-31T00:07:02.5392211Z     |         ^^^^^ N806
+2025-08-31T00:07:02.5392575Z 259 |         T_inv[:, :3, :3] = R_inv
+2025-08-31T00:07:02.5392976Z 260 |         T_inv[:, :3, 3] = t_inv
+2025-08-31T00:07:02.5393406Z     |
+2025-08-31T00:07:02.5393580Z 
+2025-08-31T00:07:02.5393914Z src/optics_sim/core/frames.py:277:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5394487Z     |
+2025-08-31T00:07:02.5395033Z 275 | def compose_chain(transforms: list[dict[str, torch.Tensor]]) -> dict[str, torch.Tensor]:
+2025-08-31T00:07:02.5395744Z 276 |     """Compose a chain of transforms.
+2025-08-31T00:07:02.5396148Z 277 |     
+2025-08-31T00:07:02.5396405Z     | ^^^^ W293
+2025-08-31T00:07:02.5396683Z 278 |     Args:
+2025-08-31T00:07:02.5397144Z 279 |         transforms: List of transform dictionaries, applied left to right
+2025-08-31T00:07:02.5397680Z     |
+2025-08-31T00:07:02.5397985Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5398296Z 
+2025-08-31T00:07:02.5398610Z src/optics_sim/core/frames.py:280:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5399195Z     |
+2025-08-31T00:07:02.5399455Z 278 |     Args:
+2025-08-31T00:07:02.5399930Z 279 |         transforms: List of transform dictionaries, applied left to right
+2025-08-31T00:07:02.5400487Z 280 |         
+2025-08-31T00:07:02.5400769Z     | ^^^^^^^^ W293
+2025-08-31T00:07:02.5401066Z 281 |     Returns:
+2025-08-31T00:07:02.5401390Z 282 |         Combined transform dictionary
+2025-08-31T00:07:02.5402248Z     |
+2025-08-31T00:07:02.5402568Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5402899Z 
+2025-08-31T00:07:02.5403330Z src/optics_sim/core/frames.py:291:5: N806 Variable `T_combined` in function should be lowercase
+2025-08-31T00:07:02.5404011Z     |
+2025-08-31T00:07:02.5404307Z 290 |     # Start with first transform
+2025-08-31T00:07:02.5404751Z 291 |     T_combined = transforms[0]['T'].clone()
+2025-08-31T00:07:02.5405187Z     |     ^^^^^^^^^^ N806
+2025-08-31T00:07:02.5405506Z 292 | 
+2025-08-31T00:07:02.5405809Z 293 |     # Multiply subsequent transforms
+2025-08-31T00:07:02.5406225Z     |
+2025-08-31T00:07:02.5406379Z 
+2025-08-31T00:07:02.5406737Z src/optics_sim/core/frames.py:294:9: N806 Variable `T` in function should be lowercase
+2025-08-31T00:07:02.5407543Z     |
+2025-08-31T00:07:02.5407857Z 293 |     # Multiply subsequent transforms
+2025-08-31T00:07:02.5408303Z 294 |     for T in transforms[1:]:
+2025-08-31T00:07:02.5408681Z     |         ^ N806
+2025-08-31T00:07:02.5409078Z 295 |         T_combined = torch.matmul(T['T'], T_combined)
+2025-08-31T00:07:02.5409533Z     |
+2025-08-31T00:07:02.5409696Z 
+2025-08-31T00:07:02.5410111Z src/optics_sim/core/frames.py:295:9: N806 Variable `T_combined` in function should be lowercase
+2025-08-31T00:07:02.5410795Z     |
+2025-08-31T00:07:02.5411093Z 293 |     # Multiply subsequent transforms
+2025-08-31T00:07:02.5411538Z 294 |     for T in transforms[1:]:
+2025-08-31T00:07:02.5412194Z 295 |         T_combined = torch.matmul(T['T'], T_combined)
+2025-08-31T00:07:02.5412672Z     |         ^^^^^^^^^^ N806
+2025-08-31T00:07:02.5413008Z 296 | 
+2025-08-31T00:07:02.5413363Z 297 |     # Extract rotation and translation
+2025-08-31T00:07:02.5413856Z     |
+2025-08-31T00:07:02.5414010Z 
+2025-08-31T00:07:02.5414388Z src/optics_sim/core/frames.py:298:5: N806 Variable `R` in function should be lowercase
+2025-08-31T00:07:02.5415023Z     |
+2025-08-31T00:07:02.5415330Z 297 |     # Extract rotation and translation
+2025-08-31T00:07:02.5415920Z 298 |     R = T_combined[:3, :3] if T_combined.dim() == 2 else T_combined[:, :3, :3]
+2025-08-31T00:07:02.5416477Z     |     ^ N806
+2025-08-31T00:07:02.5416939Z 299 |     t = T_combined[:3, 3] if T_combined.dim() == 2 else T_combined[:, :3, 3]
+2025-08-31T00:07:02.5417493Z     |
+2025-08-31T00:07:02.5417653Z 
+2025-08-31T00:07:02.5418260Z src/optics_sim/core/frames.py:298:51: PLR2004 Magic value used in comparison, consider replacing `2` with a constant variable
+2025-08-31T00:07:02.5419130Z     |
+2025-08-31T00:07:02.5419448Z 297 |     # Extract rotation and translation
+2025-08-31T00:07:02.5420050Z 298 |     R = T_combined[:3, :3] if T_combined.dim() == 2 else T_combined[:, :3, :3]
+2025-08-31T00:07:02.5420635Z     |                                                   ^ PLR2004
+2025-08-31T00:07:02.5421220Z 299 |     t = T_combined[:3, 3] if T_combined.dim() == 2 else T_combined[:, :3, 3]
+2025-08-31T00:07:02.5421977Z     |
+2025-08-31T00:07:02.5422131Z 
+2025-08-31T00:07:02.5422714Z src/optics_sim/core/frames.py:299:50: PLR2004 Magic value used in comparison, consider replacing `2` with a constant variable
+2025-08-31T00:07:02.5423593Z     |
+2025-08-31T00:07:02.5423909Z 297 |     # Extract rotation and translation
+2025-08-31T00:07:02.5424499Z 298 |     R = T_combined[:3, :3] if T_combined.dim() == 2 else T_combined[:, :3, :3]
+2025-08-31T00:07:02.5425244Z 299 |     t = T_combined[:3, 3] if T_combined.dim() == 2 else T_combined[:, :3, 3]
+2025-08-31T00:07:02.5425873Z     |                                                  ^ PLR2004
+2025-08-31T00:07:02.5426354Z 300 | 
+2025-08-31T00:07:02.5426610Z 301 |     return {
+2025-08-31T00:07:02.5426902Z     |
+2025-08-31T00:07:02.5427049Z 
+2025-08-31T00:07:02.5427304Z src/optics_sim/io/tiff.py:7:101: E501 Line too long (111 > 100)
+2025-08-31T00:07:02.5427810Z   |
+2025-08-31T00:07:02.5428451Z 7 | def write_tiff_stack(path: str, planes: dict[str, np.ndarray], metadata: dict[str, str] | None = None) -> None:
+2025-08-31T00:07:02.5429285Z   |                                                                                                     ^^^^^^^^^^^ E501
+2025-08-31T00:07:02.5430075Z 8 |     """Write a set of planes to a TIFF stack.
+2025-08-31T00:07:02.5430497Z   |
+2025-08-31T00:07:02.5430650Z 
+2025-08-31T00:07:02.5430971Z src/optics_sim/prop/plan.py:18:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5431543Z    |
+2025-08-31T00:07:02.5432011Z 16 | class Plan:
+2025-08-31T00:07:02.5432424Z 17 |     """Propagation plan with grid and stepping parameters.
+2025-08-31T00:07:02.5432921Z 18 |     
+2025-08-31T00:07:02.5433199Z    | ^^^^ W293
+2025-08-31T00:07:02.5433500Z 19 |     Attributes:
+2025-08-31T00:07:02.5433898Z 20 |         dx_um, dy_um: Grid spacing in micrometers
+2025-08-31T00:07:02.5434347Z    |
+2025-08-31T00:07:02.5434686Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5435234Z 
+2025-08-31T00:07:02.5435576Z src/optics_sim/prop/plan.py:54:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5436148Z    |
+2025-08-31T00:07:02.5436441Z 52 |     def get_memory_estimate(self) -> float:
+2025-08-31T00:07:02.5436937Z 53 |         """Calculate memory estimate for this plan.
+2025-08-31T00:07:02.5437415Z 54 |         
+2025-08-31T00:07:02.5437683Z    | ^^^^^^^^ W293
+2025-08-31T00:07:02.5437987Z 55 |         Returns:
+2025-08-31T00:07:02.5438338Z 56 |             Estimated memory usage in GB
+2025-08-31T00:07:02.5438762Z    |
+2025-08-31T00:07:02.5439084Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5439423Z 
+2025-08-31T00:07:02.5439744Z src/optics_sim/prop/plan.py:83:5: PLR0912 Too many branches (24 > 12)
+2025-08-31T00:07:02.5440330Z    |
+2025-08-31T00:07:02.5440652Z 83 | def make_plan(cfg: dict) -> Plan:
+2025-08-31T00:07:02.5441085Z    |     ^^^^^^^^^ PLR0912
+2025-08-31T00:07:02.5441497Z 84 |     """Create propagation plan from configuration.
+2025-08-31T00:07:02.5442167Z    |
+2025-08-31T00:07:02.5442321Z 
+2025-08-31T00:07:02.5442634Z src/optics_sim/prop/plan.py:83:5: PLR0915 Too many statements (79 > 50)
+2025-08-31T00:07:02.5443207Z    |
+2025-08-31T00:07:02.5443498Z 83 | def make_plan(cfg: dict) -> Plan:
+2025-08-31T00:07:02.5443935Z    |     ^^^^^^^^^ PLR0915
+2025-08-31T00:07:02.5444355Z 84 |     """Create propagation plan from configuration.
+2025-08-31T00:07:02.5444800Z    |
+2025-08-31T00:07:02.5444953Z 
+2025-08-31T00:07:02.5445266Z src/optics_sim/prop/plan.py:85:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5445834Z    |
+2025-08-31T00:07:02.5446147Z 83 | def make_plan(cfg: dict) -> Plan:
+2025-08-31T00:07:02.5446639Z 84 |     """Create propagation plan from configuration.
+2025-08-31T00:07:02.5447072Z 85 |     
+2025-08-31T00:07:02.5447321Z    | ^^^^ W293
+2025-08-31T00:07:02.5447594Z 86 |     Args:
+2025-08-31T00:07:02.5447938Z 87 |         cfg: Validated configuration dictionary
+2025-08-31T00:07:02.5448385Z    |
+2025-08-31T00:07:02.5448712Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5449055Z 
+2025-08-31T00:07:02.5449366Z src/optics_sim/prop/plan.py:88:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5449921Z    |
+2025-08-31T00:07:02.5450175Z 86 |     Args:
+2025-08-31T00:07:02.5450535Z 87 |         cfg: Validated configuration dictionary
+2025-08-31T00:07:02.5450979Z 88 |         
+2025-08-31T00:07:02.5451274Z    | ^^^^^^^^ W293
+2025-08-31T00:07:02.5451569Z 89 |     Returns:
+2025-08-31T00:07:02.5452146Z 90 |         Plan object with computed parameters
+2025-08-31T00:07:02.5452591Z    |
+2025-08-31T00:07:02.5452907Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5453227Z 
+2025-08-31T00:07:02.5453854Z src/optics_sim/prop/plan.py:120:40: PLR2004 Magic value used in comparison, consider replacing `0.8` with a constant variable
+2025-08-31T00:07:02.5454717Z     |
+2025-08-31T00:07:02.5455365Z 118 |     # Nyquist criterion: Δx ≤ λ/(2·NA)
+2025-08-31T00:07:02.5455879Z 119 |     # High-NA preset uses tighter sampling
+2025-08-31T00:07:02.5456411Z 120 |     if preset == 'High-NA' or na_max > 0.8:
+2025-08-31T00:07:02.5456891Z     |                                        ^^^ PLR2004
+2025-08-31T00:07:02.5457368Z 121 |         # Tighter sampling for high NA
+2025-08-31T00:07:02.5458221Z 122 |         dx_factor = 3.0  # Δx ≤ λ/(3·NA)
+2025-08-31T00:07:02.5458646Z     |
+2025-08-31T00:07:02.5458816Z 
+2025-08-31T00:07:02.5459431Z src/optics_sim/prop/plan.py:150:57: PLR2004 Magic value used in comparison, consider replacing `0.8` with a constant variable
+2025-08-31T00:07:02.5460324Z     |
+2025-08-31T00:07:02.5460662Z 149 |     # Adjust for memory constraints
+2025-08-31T00:07:02.5461217Z 150 |     max_size = _compute_max_grid_size(vram_gb, na_max > 0.8)
+2025-08-31T00:07:02.5462042Z     |                                                         ^^^ PLR2004
+2025-08-31T00:07:02.5462509Z 151 |     if nx > max_size:
+2025-08-31T00:07:02.5462861Z 152 |         nx = ny = max_size
+2025-08-31T00:07:02.5463211Z     |
+2025-08-31T00:07:02.5463369Z 
+2025-08-31T00:07:02.5464224Z src/optics_sim/prop/plan.py:186:25: PLR2004 Magic value used in comparison, consider replacing `0.01` with a constant variable
+2025-08-31T00:07:02.5465141Z     |
+2025-08-31T00:07:02.5465434Z 184 |             rel_bw = bw / center
+2025-08-31T00:07:02.5465825Z 185 | 
+2025-08-31T00:07:02.5466101Z 186 |             if rel_bw < 0.01:
+2025-08-31T00:07:02.5466486Z     |                         ^^^^ PLR2004
+2025-08-31T00:07:02.5466911Z 187 |                 spectral_samples = 3
+2025-08-31T00:07:02.5467319Z 188 |             elif rel_bw < 0.05:
+2025-08-31T00:07:02.5467685Z     |
+2025-08-31T00:07:02.5467836Z 
+2025-08-31T00:07:02.5468430Z src/optics_sim/prop/plan.py:188:27: PLR2004 Magic value used in comparison, consider replacing `0.05` with a constant variable
+2025-08-31T00:07:02.5469329Z     |
+2025-08-31T00:07:02.5469617Z 186 |             if rel_bw < 0.01:
+2025-08-31T00:07:02.5470039Z 187 |                 spectral_samples = 3
+2025-08-31T00:07:02.5470478Z 188 |             elif rel_bw < 0.05:
+2025-08-31T00:07:02.5470903Z     |                           ^^^^ PLR2004
+2025-08-31T00:07:02.5471372Z 189 |                 spectral_samples = 7
+2025-08-31T00:07:02.5471998Z 190 |             else:
+2025-08-31T00:07:02.5472328Z     |
+2025-08-31T00:07:02.5472482Z 
+2025-08-31T00:07:02.5473064Z src/optics_sim/prop/plan.py:219:63: PLR2004 Magic value used in comparison, consider replacing `8.0` with a constant variable
+2025-08-31T00:07:02.5473898Z     |
+2025-08-31T00:07:02.5474177Z 218 |     # Mixed precision
+2025-08-31T00:07:02.5474701Z 219 |     use_mixed_precision = preset == 'Aggressive' or vram_gb < 8.0
+2025-08-31T00:07:02.5475313Z     |                                                               ^^^ PLR2004
+2025-08-31T00:07:02.5475741Z 220 | 
+2025-08-31T00:07:02.5476025Z 221 |     # Create plan
+2025-08-31T00:07:02.5476340Z     |
+2025-08-31T00:07:02.5476503Z 
+2025-08-31T00:07:02.5476793Z src/optics_sim/prop/plan.py:244:101: E501 Line too long (108 > 100)
+2025-08-31T00:07:02.5477336Z     |
+2025-08-31T00:07:02.5477630Z 242 |     # Validate memory usage
+2025-08-31T00:07:02.5478058Z 243 |     if plan.memory_estimate_gb > vram_gb:
+2025-08-31T00:07:02.5478859Z 244 |         print(f"Warning: Estimated memory {plan.memory_estimate_gb:.2f} GB exceeds budget {vram_gb:.1f} GB")
+2025-08-31T00:07:02.5479699Z     |                                                                                                     ^^^^^^^^ E501
+2025-08-31T00:07:02.5480150Z 245 | 
+2025-08-31T00:07:02.5480427Z 246 |     return plan
+2025-08-31T00:07:02.5480734Z     |
+2025-08-31T00:07:02.5480897Z 
+2025-08-31T00:07:02.5481212Z src/optics_sim/prop/plan.py:251:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5481999Z     |
+2025-08-31T00:07:02.5482484Z 249 | def _compute_max_grid_size(vram_gb: float, high_na: bool = False) -> int:
+2025-08-31T00:07:02.5483200Z 250 |     """Compute maximum grid size that fits in memory.
+2025-08-31T00:07:02.5483667Z 251 |     
+2025-08-31T00:07:02.5483941Z     | ^^^^ W293
+2025-08-31T00:07:02.5484231Z 252 |     Args:
+2025-08-31T00:07:02.5484583Z 253 |         vram_gb: Available VRAM in GB
+2025-08-31T00:07:02.5485006Z     |
+2025-08-31T00:07:02.5485338Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5485670Z 
+2025-08-31T00:07:02.5486236Z src/optics_sim/prop/plan.py:255:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5486823Z     |
+2025-08-31T00:07:02.5487129Z 253 |         vram_gb: Available VRAM in GB
+2025-08-31T00:07:02.5487641Z 254 |         high_na: Whether high-NA mode (needs more memory)
+2025-08-31T00:07:02.5488135Z 255 |         
+2025-08-31T00:07:02.5488443Z     | ^^^^^^^^ W293
+2025-08-31T00:07:02.5488755Z 256 |     Returns:
+2025-08-31T00:07:02.5489160Z 257 |         Maximum grid dimension (assumes square grid)
+2025-08-31T00:07:02.5489646Z     |
+2025-08-31T00:07:02.5489966Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5490302Z 
+2025-08-31T00:07:02.5490623Z src/optics_sim/prop/plan.py:287:5: PLR0912 Too many branches (13 > 12)
+2025-08-31T00:07:02.5491214Z     |
+2025-08-31T00:07:02.5492122Z 287 | def _compute_z_steps(cfg: dict, dx: float, lambda_min: float,
+2025-08-31T00:07:02.5492758Z     |     ^^^^^^^^^^^^^^^^ PLR0912
+2025-08-31T00:07:02.5493250Z 288 |                     na_max: float, preset: str) -> list[float]:
+2025-08-31T00:07:02.5493855Z 289 |     """Compute adaptive z-steps for propagation.
+2025-08-31T00:07:02.5494302Z     |
+2025-08-31T00:07:02.5494460Z 
+2025-08-31T00:07:02.5494774Z src/optics_sim/prop/plan.py:290:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5495358Z     |
+2025-08-31T00:07:02.5495719Z 288 |                     na_max: float, preset: str) -> list[float]:
+2025-08-31T00:07:02.5496303Z 289 |     """Compute adaptive z-steps for propagation.
+2025-08-31T00:07:02.5496765Z 290 |     
+2025-08-31T00:07:02.5497054Z     | ^^^^ W293
+2025-08-31T00:07:02.5497350Z 291 |     Args:
+2025-08-31T00:07:02.5497701Z 292 |         cfg: Configuration dictionary
+2025-08-31T00:07:02.5498116Z     |
+2025-08-31T00:07:02.5498444Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5498787Z 
+2025-08-31T00:07:02.5499100Z src/optics_sim/prop/plan.py:297:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5499703Z     |
+2025-08-31T00:07:02.5500006Z 295 |         na_max: Maximum NA
+2025-08-31T00:07:02.5500522Z 296 |         preset: Configuration preset
+2025-08-31T00:07:02.5500958Z 297 |         
+2025-08-31T00:07:02.5501252Z     | ^^^^^^^^ W293
+2025-08-31T00:07:02.5501571Z 298 |     Returns:
+2025-08-31T00:07:02.5502142Z 299 |         List of z-steps in micrometers
+2025-08-31T00:07:02.5502575Z     |
+2025-08-31T00:07:02.5502901Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5503243Z 
+2025-08-31T00:07:02.5503687Z src/optics_sim/prop/plan.py:302:5: F841 Local variable `components` is assigned to but never used
+2025-08-31T00:07:02.5504411Z     |
+2025-08-31T00:07:02.5504677Z 300 |     """
+2025-08-31T00:07:02.5505005Z 301 |     # Get propagation distance
+2025-08-31T00:07:02.5505456Z 302 |     components = cfg.get('components', [])
+2025-08-31T00:07:02.5505941Z     |     ^^^^^^^^^^ F841
+2025-08-31T00:07:02.5506342Z 303 |     recorders = cfg.get('recorders', [])
+2025-08-31T00:07:02.5506791Z     |
+2025-08-31T00:07:02.5507190Z     = help: Remove assignment to unused variable `components`
+2025-08-31T00:07:02.5507615Z 
+2025-08-31T00:07:02.5508229Z src/optics_sim/prop/plan.py:323:40: PLR2004 Magic value used in comparison, consider replacing `0.8` with a constant variable
+2025-08-31T00:07:02.5509130Z     |
+2025-08-31T00:07:02.5509813Z 321 |     # Δz_max = Δx² / λ for paraxial
+2025-08-31T00:07:02.5510377Z 322 |     # For wide-angle, use more conservative stepping
+2025-08-31T00:07:02.5510927Z 323 |     if preset == 'High-NA' or na_max > 0.8:
+2025-08-31T00:07:02.5511392Z     |                                        ^^^ PLR2004
+2025-08-31T00:07:02.5512089Z 324 |         # Very fine stepping for high NA
+2025-08-31T00:07:02.5512579Z 325 |         dz_max = 0.5 * dx**2 / lambda_min
+2025-08-31T00:07:02.5513015Z     |
+2025-08-31T00:07:02.5513181Z 
+2025-08-31T00:07:02.5513527Z src/optics_sim/prop/plan.py:369:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5514105Z     |
+2025-08-31T00:07:02.5514486Z 367 | def validate_plan(plan: Plan, cfg: dict) -> bool:
+2025-08-31T00:07:02.5515373Z 368 |     """Validate that plan meets configuration requirements.
+2025-08-31T00:07:02.5515907Z 369 |     
+2025-08-31T00:07:02.5516190Z     | ^^^^ W293
+2025-08-31T00:07:02.5516476Z 370 |     Args:
+2025-08-31T00:07:02.5516806Z 371 |         plan: Propagation plan
+2025-08-31T00:07:02.5517212Z     |
+2025-08-31T00:07:02.5517538Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5517885Z 
+2025-08-31T00:07:02.5518209Z src/optics_sim/prop/plan.py:373:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5518800Z     |
+2025-08-31T00:07:02.5519097Z 371 |         plan: Propagation plan
+2025-08-31T00:07:02.5519529Z 372 |         cfg: Configuration dictionary
+2025-08-31T00:07:02.5519934Z 373 |         
+2025-08-31T00:07:02.5520211Z     | ^^^^^^^^ W293
+2025-08-31T00:07:02.5520725Z 374 |     Returns:
+2025-08-31T00:07:02.5521129Z 375 |         True if valid, raises ValueError otherwise
+2025-08-31T00:07:02.5521565Z     |
+2025-08-31T00:07:02.5522086Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5522409Z 
+2025-08-31T00:07:02.5522998Z src/optics_sim/prop/plan.py:395:18: PLR2004 Magic value used in comparison, consider replacing `64` with a constant variable
+2025-08-31T00:07:02.5523880Z     |
+2025-08-31T00:07:02.5524173Z 394 |     # Check grid size
+2025-08-31T00:07:02.5524567Z 395 |     if plan.nx < 64 or plan.ny < 64:
+2025-08-31T00:07:02.5524976Z     |                  ^^ PLR2004
+2025-08-31T00:07:02.5525533Z 396 |         raise ValueError(f"Grid size {plan.nx}x{plan.ny} too small (min 64x64)")
+2025-08-31T00:07:02.5526142Z     |
+2025-08-31T00:07:02.5526304Z 
+2025-08-31T00:07:02.5526911Z src/optics_sim/prop/plan.py:395:34: PLR2004 Magic value used in comparison, consider replacing `64` with a constant variable
+2025-08-31T00:07:02.5527773Z     |
+2025-08-31T00:07:02.5528052Z 394 |     # Check grid size
+2025-08-31T00:07:02.5528432Z 395 |     if plan.nx < 64 or plan.ny < 64:
+2025-08-31T00:07:02.5528888Z     |                                  ^^ PLR2004
+2025-08-31T00:07:02.5529540Z 396 |         raise ValueError(f"Grid size {plan.nx}x{plan.ny} too small (min 64x64)")
+2025-08-31T00:07:02.5530158Z     |
+2025-08-31T00:07:02.5530315Z 
+2025-08-31T00:07:02.5530915Z src/optics_sim/prop/plan.py:398:18: PLR2004 Magic value used in comparison, consider replacing `16384` with a constant variable
+2025-08-31T00:07:02.5531997Z     |
+2025-08-31T00:07:02.5532493Z 396 |         raise ValueError(f"Grid size {plan.nx}x{plan.ny} too small (min 64x64)")
+2025-08-31T00:07:02.5533108Z 397 | 
+2025-08-31T00:07:02.5533453Z 398 |     if plan.nx > 16384 or plan.ny > 16384:
+2025-08-31T00:07:02.5533901Z     |                  ^^^^^ PLR2004
+2025-08-31T00:07:02.5534532Z 399 |         raise ValueError(f"Grid size {plan.nx}x{plan.ny} too large (max 16384x16384)")
+2025-08-31T00:07:02.5535151Z     |
+2025-08-31T00:07:02.5535336Z 
+2025-08-31T00:07:02.5535944Z src/optics_sim/prop/plan.py:398:37: PLR2004 Magic value used in comparison, consider replacing `16384` with a constant variable
+2025-08-31T00:07:02.5536816Z     |
+2025-08-31T00:07:02.5537323Z 396 |         raise ValueError(f"Grid size {plan.nx}x{plan.ny} too small (min 64x64)")
+2025-08-31T00:07:02.5537946Z 397 | 
+2025-08-31T00:07:02.5538261Z 398 |     if plan.nx > 16384 or plan.ny > 16384:
+2025-08-31T00:07:02.5538722Z     |                                     ^^^^^ PLR2004
+2025-08-31T00:07:02.5539375Z 399 |         raise ValueError(f"Grid size {plan.nx}x{plan.ny} too large (max 16384x16384)")
+2025-08-31T00:07:02.5539976Z     |
+2025-08-31T00:07:02.5540137Z 
+2025-08-31T00:07:02.5540588Z src/optics_sim/prop/samplers.py:10:8: N812 Lowercase `functional` imported as non-lowercase `F`
+2025-08-31T00:07:02.5541294Z    |
+2025-08-31T00:07:02.5541577Z  8 | import numpy as np
+2025-08-31T00:07:02.5542112Z  9 | import torch
+2025-08-31T00:07:02.5542458Z 10 | import torch.nn.functional as F
+2025-08-31T00:07:02.5542873Z    |        ^^^^^^^^^^^^^^^^^^^^^^^^ N812
+2025-08-31T00:07:02.5543256Z    |
+2025-08-31T00:07:02.5543405Z 
+2025-08-31T00:07:02.5543731Z src/optics_sim/prop/samplers.py:19:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5544586Z    |
+2025-08-31T00:07:02.5544929Z 17 |             anti_alias: bool = True) -> torch.Tensor:
+2025-08-31T00:07:02.5545509Z 18 |     """Resample complex field to different grid spacing.
+2025-08-31T00:07:02.5546012Z 19 |     
+2025-08-31T00:07:02.5546274Z    | ^^^^ W293
+2025-08-31T00:07:02.5546799Z 20 |     Preserves phase information and applies anti-aliasing when downsampling.
+2025-08-31T00:07:02.5547404Z    |
+2025-08-31T00:07:02.5547744Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5548073Z 
+2025-08-31T00:07:02.5548415Z src/optics_sim/prop/samplers.py:21:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5549029Z    |
+2025-08-31T00:07:02.5549716Z 20 |     Preserves phase information and applies anti-aliasing when downsampling.
+2025-08-31T00:07:02.5550368Z 21 |     
+2025-08-31T00:07:02.5550839Z    | ^^^^ W293
+2025-08-31T00:07:02.5551116Z 22 |     Args:
+2025-08-31T00:07:02.5551500Z 23 |         field: Complex field tensor of shape (..., ny, nx)
+2025-08-31T00:07:02.5552163Z    |
+2025-08-31T00:07:02.5552485Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5552806Z 
+2025-08-31T00:07:02.5553152Z src/optics_sim/prop/samplers.py:28:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5553771Z    |
+2025-08-31T00:07:02.5554203Z 26 |         method: Interpolation method ('fourier', 'bilinear', 'bicubic')
+2025-08-31T00:07:02.5554895Z 27 |         anti_alias: Apply anti-aliasing filter when downsampling
+2025-08-31T00:07:02.5555455Z 28 |         
+2025-08-31T00:07:02.5555721Z    | ^^^^^^^^ W293
+2025-08-31T00:07:02.5556015Z 29 |     Returns:
+2025-08-31T00:07:02.5556484Z 30 |         Resampled field with same physical extent but different resolution
+2025-08-31T00:07:02.5557062Z    |
+2025-08-31T00:07:02.5557402Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5557746Z 
+2025-08-31T00:07:02.5558094Z src/optics_sim/prop/samplers.py:31:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5558699Z    |
+2025-08-31T00:07:02.5558959Z 29 |     Returns:
+2025-08-31T00:07:02.5559440Z 30 |         Resampled field with same physical extent but different resolution
+2025-08-31T00:07:02.5559989Z 31 |         
+2025-08-31T00:07:02.5560259Z    | ^^^^^^^^ W293
+2025-08-31T00:07:02.5560538Z 32 |     Raises:
+2025-08-31T00:07:02.5560959Z 33 |         ValueError: If resampling violates Nyquist criterion
+2025-08-31T00:07:02.5561450Z    |
+2025-08-31T00:07:02.5561971Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5562294Z 
+2025-08-31T00:07:02.5562796Z src/optics_sim/prop/samplers.py:36:5: F841 Local variable `original_shape` is assigned to but never used
+2025-08-31T00:07:02.5563577Z    |
+2025-08-31T00:07:02.5563853Z 34 |     """
+2025-08-31T00:07:02.5564163Z 35 |     # Get dimensions
+2025-08-31T00:07:02.5564568Z 36 |     original_shape = field.shape
+2025-08-31T00:07:02.5564989Z    |     ^^^^^^^^^^^^^^ F841
+2025-08-31T00:07:02.5565365Z 37 |     if field.dim() < 2:
+2025-08-31T00:07:02.5565900Z 38 |         raise ValueError(f"Field must be at least 2D, got shape {field.shape}")
+2025-08-31T00:07:02.5566491Z    |
+2025-08-31T00:07:02.5566897Z    = help: Remove assignment to unused variable `original_shape`
+2025-08-31T00:07:02.5567345Z 
+2025-08-31T00:07:02.5567959Z src/optics_sim/prop/samplers.py:37:22: PLR2004 Magic value used in comparison, consider replacing `2` with a constant variable
+2025-08-31T00:07:02.5568850Z    |
+2025-08-31T00:07:02.5569219Z 35 |     # Get dimensions
+2025-08-31T00:07:02.5569609Z 36 |     original_shape = field.shape
+2025-08-31T00:07:02.5570022Z 37 |     if field.dim() < 2:
+2025-08-31T00:07:02.5570398Z    |                      ^ PLR2004
+2025-08-31T00:07:02.5570983Z 38 |         raise ValueError(f"Field must be at least 2D, got shape {field.shape}")
+2025-08-31T00:07:02.5571583Z    |
+2025-08-31T00:07:02.5571953Z 
+2025-08-31T00:07:02.5572582Z src/optics_sim/prop/samplers.py:52:16: PLR2004 Magic value used in comparison, consider replacing `2.0` with a constant variable
+2025-08-31T00:07:02.5573722Z    |
+2025-08-31T00:07:02.5574022Z 50 |     # Check Nyquist criterion
+2025-08-31T00:07:02.5574458Z 51 |     ratio = to_pitch_um / from_pitch_um
+2025-08-31T00:07:02.5574904Z 52 |     if ratio > 2.0:
+2025-08-31T00:07:02.5575246Z    |                ^^^ PLR2004
+2025-08-31T00:07:02.5575840Z 53 |         print(f"Warning: Resampling ratio {ratio:.2f} may violate Nyquist criterion")
+2025-08-31T00:07:02.5576476Z    |
+2025-08-31T00:07:02.5576641Z 
+2025-08-31T00:07:02.5577255Z src/optics_sim/prop/samplers.py:56:22: PLR2004 Magic value used in comparison, consider replacing `2` with a constant variable
+2025-08-31T00:07:02.5578138Z    |
+2025-08-31T00:07:02.5578431Z 55 |     # Reshape for processing
+2025-08-31T00:07:02.5578835Z 56 |     if field.dim() > 2:
+2025-08-31T00:07:02.5579426Z    |                      ^ PLR2004
+2025-08-31T00:07:02.5579889Z 57 |         batch_shape = field.shape[:-2]
+2025-08-31T00:07:02.5580370Z 58 |         field = field.reshape(-1, ny_old, nx_old)
+2025-08-31T00:07:02.5580817Z    |
+2025-08-31T00:07:02.5580988Z 
+2025-08-31T00:07:02.5581340Z src/optics_sim/prop/samplers.py:88:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5582233Z    |
+2025-08-31T00:07:02.5582639Z 86 |                      anti_alias: bool = True) -> torch.Tensor:
+2025-08-31T00:07:02.5583179Z 87 |     """Resample using Fourier interpolation.
+2025-08-31T00:07:02.5583630Z 88 |     
+2025-08-31T00:07:02.5583900Z    | ^^^^ W293
+2025-08-31T00:07:02.5584299Z 89 |     Best for preserving phase and avoiding artifacts.
+2025-08-31T00:07:02.5584780Z    |
+2025-08-31T00:07:02.5585098Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5585431Z 
+2025-08-31T00:07:02.5585789Z src/optics_sim/prop/samplers.py:90:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5586399Z    |
+2025-08-31T00:07:02.5586779Z 89 |     Best for preserving phase and avoiding artifacts.
+2025-08-31T00:07:02.5587235Z 90 |     
+2025-08-31T00:07:02.5587490Z    | ^^^^ W293
+2025-08-31T00:07:02.5587778Z 91 |     Args:
+2025-08-31T00:07:02.5588157Z 92 |         field: Complex field (batch, ny_old, nx_old)
+2025-08-31T00:07:02.5588616Z    |
+2025-08-31T00:07:02.5588939Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5589260Z 
+2025-08-31T00:07:02.5589606Z src/optics_sim/prop/samplers.py:96:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5590204Z    |
+2025-08-31T00:07:02.5590493Z 94 |         nx_new: New width
+2025-08-31T00:07:02.5616646Z 95 |         anti_alias: Apply anti-aliasing
+2025-08-31T00:07:02.5617114Z 96 |         
+2025-08-31T00:07:02.5617401Z    | ^^^^^^^^ W293
+2025-08-31T00:07:02.5617706Z 97 |     Returns:
+2025-08-31T00:07:02.5618058Z 98 |         Resampled field (batch, ny_new, nx_new)
+2025-08-31T00:07:02.5618508Z    |
+2025-08-31T00:07:02.5618835Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5619166Z 
+2025-08-31T00:07:02.5619513Z src/optics_sim/prop/samplers.py:168:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5620137Z     |
+2025-08-31T00:07:02.5620496Z 166 |                      anti_alias: bool = True) -> torch.Tensor:
+2025-08-31T00:07:02.5621059Z 167 |     """Resample using spatial interpolation.
+2025-08-31T00:07:02.5621514Z 168 |     
+2025-08-31T00:07:02.5622000Z     | ^^^^ W293
+2025-08-31T00:07:02.5622392Z 169 |     Works separately on real and imaginary parts.
+2025-08-31T00:07:02.5622869Z     |
+2025-08-31T00:07:02.5623200Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5623529Z 
+2025-08-31T00:07:02.5623877Z src/optics_sim/prop/samplers.py:170:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5624492Z     |
+2025-08-31T00:07:02.5624863Z 169 |     Works separately on real and imaginary parts.
+2025-08-31T00:07:02.5625324Z 170 |     
+2025-08-31T00:07:02.5625590Z     | ^^^^ W293
+2025-08-31T00:07:02.5625895Z 171 |     Args:
+2025-08-31T00:07:02.5626283Z 172 |         field: Complex field (batch, ny_old, nx_old)
+2025-08-31T00:07:02.5626759Z     |
+2025-08-31T00:07:02.5627092Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5627416Z 
+2025-08-31T00:07:02.5628023Z src/optics_sim/prop/samplers.py:177:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5628658Z     |
+2025-08-31T00:07:02.5629041Z 175 |         mode: Interpolation mode ('bilinear' or 'bicubic')
+2025-08-31T00:07:02.5629611Z 176 |         anti_alias: Apply anti-aliasing
+2025-08-31T00:07:02.5630048Z 177 |         
+2025-08-31T00:07:02.5630344Z     | ^^^^^^^^ W293
+2025-08-31T00:07:02.5630651Z 178 |     Returns:
+2025-08-31T00:07:02.5631043Z 179 |         Resampled field (batch, ny_new, nx_new)
+2025-08-31T00:07:02.5631502Z     |
+2025-08-31T00:07:02.5632066Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5632394Z 
+2025-08-31T00:07:02.5632759Z src/optics_sim/prop/samplers.py:222:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5633379Z     |
+2025-08-31T00:07:02.5634088Z 220 | def _gaussian_blur(tensor: torch.Tensor, sigma: float) -> torch.Tensor:
+2025-08-31T00:07:02.5634820Z 221 |     """Apply Gaussian blur for anti-aliasing.
+2025-08-31T00:07:02.5635281Z 222 |     
+2025-08-31T00:07:02.5635558Z     | ^^^^ W293
+2025-08-31T00:07:02.5635864Z 223 |     Args:
+2025-08-31T00:07:02.5636290Z 224 |         tensor: Input tensor (batch, channels, height, width)
+2025-08-31T00:07:02.5636786Z     |
+2025-08-31T00:07:02.5637124Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5637467Z 
+2025-08-31T00:07:02.5637822Z src/optics_sim/prop/samplers.py:226:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5638419Z     |
+2025-08-31T00:07:02.5638818Z 224 |         tensor: Input tensor (batch, channels, height, width)
+2025-08-31T00:07:02.5639378Z 225 |         sigma: Gaussian standard deviation
+2025-08-31T00:07:02.5639780Z 226 |         
+2025-08-31T00:07:02.5640039Z     | ^^^^^^^^ W293
+2025-08-31T00:07:02.5640325Z 227 |     Returns:
+2025-08-31T00:07:02.5640655Z 228 |         Blurred tensor
+2025-08-31T00:07:02.5640986Z     |
+2025-08-31T00:07:02.5641293Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5641604Z 
+2025-08-31T00:07:02.5642164Z src/optics_sim/prop/samplers.py:272:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5642814Z     |
+2025-08-31T00:07:02.5643143Z 270 |                  na: float) -> bool:
+2025-08-31T00:07:02.5643641Z 271 |     """Check if sampling satisfies Nyquist criterion.
+2025-08-31T00:07:02.5644120Z 272 |     
+2025-08-31T00:07:02.5644397Z     | ^^^^ W293
+2025-08-31T00:07:02.5644692Z 273 |     Args:
+2025-08-31T00:07:02.5645025Z 274 |         field: Complex field tensor
+2025-08-31T00:07:02.5645447Z     |
+2025-08-31T00:07:02.5645807Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5646124Z 
+2025-08-31T00:07:02.5646462Z src/optics_sim/prop/samplers.py:278:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5647069Z     |
+2025-08-31T00:07:02.5647411Z 276 |         wavelength_um: Wavelength in micrometers
+2025-08-31T00:07:02.5647875Z 277 |         na: Numerical aperture
+2025-08-31T00:07:02.5648238Z 278 |         
+2025-08-31T00:07:02.5648519Z     | ^^^^^^^^ W293
+2025-08-31T00:07:02.5648806Z 279 |     Returns:
+2025-08-31T00:07:02.5649170Z 280 |         True if Nyquist criterion is satisfied
+2025-08-31T00:07:02.5649596Z     |
+2025-08-31T00:07:02.5649927Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5650257Z 
+2025-08-31T00:07:02.5650616Z src/optics_sim/prop/samplers.py:292:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5651228Z     |
+2025-08-31T00:07:02.5651578Z 290 |                      pitch_um: float) -> tuple[float, float]:
+2025-08-31T00:07:02.5652376Z 291 |     """Compute spatial frequency bandwidth of field.
+2025-08-31T00:07:02.5652863Z 292 |     
+2025-08-31T00:07:02.5653141Z     | ^^^^ W293
+2025-08-31T00:07:02.5653427Z 293 |     Args:
+2025-08-31T00:07:02.5653778Z 294 |         field: Complex field tensor (..., ny, nx)
+2025-08-31T00:07:02.5654233Z     |
+2025-08-31T00:07:02.5654569Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5654906Z 
+2025-08-31T00:07:02.5655305Z src/optics_sim/prop/samplers.py:296:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5656164Z     |
+2025-08-31T00:07:02.5656486Z 294 |         field: Complex field tensor (..., ny, nx)
+2025-08-31T00:07:02.5656979Z 295 |         pitch_um: Grid spacing in micrometers
+2025-08-31T00:07:02.5657397Z 296 |         
+2025-08-31T00:07:02.5657674Z     | ^^^^^^^^ W293
+2025-08-31T00:07:02.5657956Z 297 |     Returns:
+2025-08-31T00:07:02.5658515Z 298 |         Tuple of (fx_max, fy_max) in cycles/µm
+2025-08-31T00:07:02.5658950Z     |
+2025-08-31T00:07:02.5659267Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5659593Z 
+2025-08-31T00:07:02.5659972Z src/optics_sim/prop/samplers.py:332:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5660556Z     |
+2025-08-31T00:07:02.5660878Z 330 |                      na: float) -> torch.Tensor:
+2025-08-31T00:07:02.5661865Z 331 |     """Adaptively resample based on field content and NA.
+2025-08-31T00:07:02.5662428Z 332 |     
+2025-08-31T00:07:02.5662700Z     | ^^^^ W293
+2025-08-31T00:07:02.5663109Z 333 |     Automatically selects best method and parameters.
+2025-08-31T00:07:02.5663623Z     |
+2025-08-31T00:07:02.5663950Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5664267Z 
+2025-08-31T00:07:02.5664609Z src/optics_sim/prop/samplers.py:334:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5665220Z     |
+2025-08-31T00:07:02.5665643Z 333 |     Automatically selects best method and parameters.
+2025-08-31T00:07:02.5666152Z 334 |     
+2025-08-31T00:07:02.5666433Z     | ^^^^ W293
+2025-08-31T00:07:02.5666720Z 335 |     Args:
+2025-08-31T00:07:02.5667063Z 336 |         field: Complex field tensor
+2025-08-31T00:07:02.5667490Z     |
+2025-08-31T00:07:02.5667818Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5668144Z 
+2025-08-31T00:07:02.5668499Z src/optics_sim/prop/samplers.py:341:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5669072Z     |
+2025-08-31T00:07:02.5669359Z 339 |         wavelength_um: Wavelength
+2025-08-31T00:07:02.5669759Z 340 |         na: Numerical aperture
+2025-08-31T00:07:02.5670131Z 341 |         
+2025-08-31T00:07:02.5670396Z     | ^^^^^^^^ W293
+2025-08-31T00:07:02.5670680Z 342 |     Returns:
+2025-08-31T00:07:02.5670984Z 343 |         Resampled field
+2025-08-31T00:07:02.5671331Z     |
+2025-08-31T00:07:02.5671817Z     = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5672136Z 
+2025-08-31T00:07:02.5672459Z src/optics_sim/sources/base.py:17:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5673030Z    |
+2025-08-31T00:07:02.5673307Z 15 | class Source(Protocol):
+2025-08-31T00:07:02.5673693Z 16 |     """Protocol for field sources.
+2025-08-31T00:07:02.5674083Z 17 |     
+2025-08-31T00:07:02.5674213Z    | ^^^^ W293
+2025-08-31T00:07:02.5674363Z 18 |     All sources must implement:
+2025-08-31T00:07:02.5674634Z 19 |     - prepare(): Initialize with configuration and device
+2025-08-31T00:07:02.5674757Z    |
+2025-08-31T00:07:02.5674935Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5674955Z 
+2025-08-31T00:07:02.5675290Z src/optics_sim/sources/base.py:25:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5675420Z    |
+2025-08-31T00:07:02.5675684Z 23 |     def prepare(self, cfg: dict, device: str = "cpu") -> None:
+2025-08-31T00:07:02.5675850Z 24 |         """Prepare source with configuration.
+2025-08-31T00:07:02.5675958Z 25 |         
+2025-08-31T00:07:02.5676089Z    | ^^^^^^^^ W293
+2025-08-31T00:07:02.5676208Z 26 |         Args:
+2025-08-31T00:07:02.5676379Z 27 |             cfg: Configuration dictionary
+2025-08-31T00:07:02.5676493Z    |
+2025-08-31T00:07:02.5676668Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5676686Z 
+2025-08-31T00:07:02.5677019Z src/optics_sim/sources/base.py:34:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5677138Z    |
+2025-08-31T00:07:02.5677450Z 32 |     def emit(self, sample_idx: int = 0):  # type: ignore[no-untyped-def]
+2025-08-31T00:07:02.5677623Z 33 |         """Emit complex field for given sample.
+2025-08-31T00:07:02.5677737Z 34 |         
+2025-08-31T00:07:02.5677863Z    | ^^^^^^^^ W293
+2025-08-31T00:07:02.5678239Z 35 |         Args:
+2025-08-31T00:07:02.5678499Z 36 |             sample_idx: Sample index for spectral/angular sampling
+2025-08-31T00:07:02.5678611Z    |
+2025-08-31T00:07:02.5678797Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5678817Z 
+2025-08-31T00:07:02.5679150Z src/optics_sim/sources/base.py:37:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5679263Z    |
+2025-08-31T00:07:02.5679386Z 35 |         Args:
+2025-08-31T00:07:02.5679630Z 36 |             sample_idx: Sample index for spectral/angular sampling
+2025-08-31T00:07:02.5679746Z 37 |             
+2025-08-31T00:07:02.5679869Z    | ^^^^^^^^^^^^ W293
+2025-08-31T00:07:02.5679990Z 38 |         Returns:
+2025-08-31T00:07:02.5680177Z 39 |             Complex field tensor of shape (ny, nx)
+2025-08-31T00:07:02.5680476Z    |
+2025-08-31T00:07:02.5680684Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5680706Z 
+2025-08-31T00:07:02.5681043Z src/optics_sim/sources/base.py:67:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5681163Z    |
+2025-08-31T00:07:02.5681403Z 65 |     def set_grid(self, ny: int, nx: int, pitch_um: float):
+2025-08-31T00:07:02.5681593Z 66 |         """Set grid parameters for field generation.
+2025-08-31T00:07:02.5681919Z 67 |         
+2025-08-31T00:07:02.5682045Z    | ^^^^^^^^ W293
+2025-08-31T00:07:02.5682160Z 68 |         Args:
+2025-08-31T00:07:02.5682319Z 69 |             ny: Number of grid points in Y
+2025-08-31T00:07:02.5682428Z    |
+2025-08-31T00:07:02.5682604Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5682619Z 
+2025-08-31T00:07:02.5682939Z src/optics_sim/sources/base.py:78:1: W293 Blank line contains whitespace
+2025-08-31T00:07:02.5683049Z    |
+2025-08-31T00:07:02.5683207Z 76 |     def get_grid(self) -> tuple:
+2025-08-31T00:07:02.5683374Z 77 |         """Get current grid parameters.
+2025-08-31T00:07:02.5683485Z 78 |         
+2025-08-31T00:07:02.5683606Z    | ^^^^^^^^ W293
+2025-08-31T00:07:02.5683724Z 79 |         Returns:
+2025-08-31T00:07:02.5683972Z 80 |             Tuple of (ny, nx, pitch_um) or (None, None, None) if not set
+2025-08-31T00:07:02.5684080Z    |
+2025-08-31T00:07:02.5684254Z    = help: Remove whitespace from blank line
+2025-08-31T00:07:02.5684271Z 
+2025-08-31T00:07:02.5684591Z tests/test_frames.py:19:5: N806 Variable `T` in function should be lowercase
+2025-08-31T00:07:02.5684702Z    |
+2025-08-31T00:07:02.5684867Z 17 | def test_identity_transform():
+2025-08-31T00:07:02.5685026Z 18 |     """Test identity transform."""
+2025-08-31T00:07:02.5685155Z 19 |     T = identity()
+2025-08-31T00:07:02.5685268Z    |     ^ N806
+2025-08-31T00:07:02.5685387Z 20 | 
+2025-08-31T00:07:02.5685557Z 21 |     # Identity should not change points
+2025-08-31T00:07:02.5685667Z    |
+2025-08-31T00:07:02.5685683Z 
+2025-08-31T00:07:02.5686029Z tests/test_frames.py:33:5: N806 Variable `T` in function should be lowercase
+2025-08-31T00:07:02.5686137Z    |
+2025-08-31T00:07:02.5686286Z 31 |     t = torch.tensor([1.0, 2.0, 3.0])
+2025-08-31T00:07:02.5686399Z 32 | 
+2025-08-31T00:07:02.5686545Z 33 |     T = compose(euler, t)
+2025-08-31T00:07:02.5686653Z    |     ^ N806
+2025-08-31T00:07:02.5686758Z 34 | 
+2025-08-31T00:07:02.5686897Z 35 |     # Test single point
+2025-08-31T00:07:02.5687004Z    |
+2025-08-31T00:07:02.5687021Z 
+2025-08-31T00:07:02.5687346Z tests/test_frames.py:48:5: N806 Variable `T` in function should be lowercase
+2025-08-31T00:07:02.5687474Z    |
+2025-08-31T00:07:02.5687610Z 46 |     t = torch.zeros(3)
+2025-08-31T00:07:02.5687725Z 47 | 
+2025-08-31T00:07:02.5687868Z 48 |     T = compose(euler, t)
+2025-08-31T00:07:02.5687991Z    |     ^ N806
+2025-08-31T00:07:02.5688104Z 49 | 
+2025-08-31T00:07:02.5688289Z 50 |     # Point on X axis should rotate to Y axis
+2025-08-31T00:07:02.5688400Z    |
+2025-08-31T00:07:02.5688415Z 
+2025-08-31T00:07:02.5688735Z tests/test_frames.py:64:5: N806 Variable `T` in function should be lowercase
+2025-08-31T00:07:02.5688838Z    |
+2025-08-31T00:07:02.5689002Z 62 |     t = torch.tensor([10.0, 20.0, 30.0])
+2025-08-31T00:07:02.5689114Z 63 | 
+2025-08-31T00:07:02.5689489Z 64 |     T = compose(euler, t)
+2025-08-31T00:07:02.5689607Z    |     ^ N806
+2025-08-31T00:07:02.5689725Z 65 | 
+2025-08-31T00:07:02.5689870Z 66 |     # Test multiple points
+2025-08-31T00:07:02.5689981Z    |
+2025-08-31T00:07:02.5690001Z 
+2025-08-31T00:07:02.5690567Z tests/test_frames.py:77:24: PLR2004 Magic value used in comparison, consider replacing `1e-6` with a constant variable
+2025-08-31T00:07:02.5690686Z    |
+2025-08-31T00:07:02.5690846Z 75 |     max_error = error.max().item()
+2025-08-31T00:07:02.5690958Z 76 | 
+2025-08-31T00:07:02.5691494Z 77 |     assert max_error < 1e-6, f"Round-trip error {max_error:.2e} µm exceeds 1e-6 µm"
+2025-08-31T00:07:02.5691840Z    |                        ^^^^ PLR2004
+2025-08-31T00:07:02.5691952Z    |
+2025-08-31T00:07:02.5691967Z 
+2025-08-31T00:07:02.5692491Z tests/test_frames.py:85:5: N806 Variable `T` in function should be lowercase
+2025-08-31T00:07:02.5692625Z    |
+2025-08-31T00:07:02.5692783Z 83 |     t = torch.tensor([5.0, 10.0, 0.0])
+2025-08-31T00:07:02.5692909Z 84 | 
+2025-08-31T00:07:02.5693048Z 85 |     T = compose(euler, t)
+2025-08-31T00:07:02.5693160Z    |     ^ N806
+2025-08-31T00:07:02.5693269Z 86 | 
+2025-08-31T00:07:02.5693398Z 87 |     # Small grid
+2025-08-31T00:07:02.5693502Z    |
+2025-08-31T00:07:02.5693515Z 
+2025-08-31T00:07:02.5693848Z tests/test_frames.py:105:5: N806 Variable `T1` in function should be lowercase
+2025-08-31T00:07:02.5693970Z     |
+2025-08-31T00:07:02.5694162Z 103 |     """Test composing multiple transforms."""
+2025-08-31T00:07:02.5694302Z 104 |     # Two translations
+2025-08-31T00:07:02.5694553Z 105 |     T1 = compose(torch.zeros(3), torch.tensor([1.0, 0.0, 0.0]))
+2025-08-31T00:07:02.5694682Z     |     ^^ N806
+2025-08-31T00:07:02.5694925Z 106 |     T2 = compose(torch.zeros(3), torch.tensor([0.0, 2.0, 0.0]))
+2025-08-31T00:07:02.5695053Z     |
+2025-08-31T00:07:02.5695072Z 
+2025-08-31T00:07:02.5695409Z tests/test_frames.py:106:5: N806 Variable `T2` in function should be lowercase
+2025-08-31T00:07:02.5695519Z     |
+2025-08-31T00:07:02.5695664Z 104 |     # Two translations
+2025-08-31T00:07:02.5695910Z 105 |     T1 = compose(torch.zeros(3), torch.tensor([1.0, 0.0, 0.0]))
+2025-08-31T00:07:02.5696144Z 106 |     T2 = compose(torch.zeros(3), torch.tensor([0.0, 2.0, 0.0]))
+2025-08-31T00:07:02.5696255Z     |     ^^ N806
+2025-08-31T00:07:02.5696368Z 107 | 
+2025-08-31T00:07:02.5696536Z 108 |     T_combined = compose_chain([T1, T2])
+2025-08-31T00:07:02.5696641Z     |
+2025-08-31T00:07:02.5696655Z 
+2025-08-31T00:07:02.5697019Z tests/test_frames.py:108:5: N806 Variable `T_combined` in function should be lowercase
+2025-08-31T00:07:02.5697134Z     |
+2025-08-31T00:07:02.5697373Z 106 |     T2 = compose(torch.zeros(3), torch.tensor([0.0, 2.0, 0.0]))
+2025-08-31T00:07:02.5697480Z 107 | 
+2025-08-31T00:07:02.5697662Z 108 |     T_combined = compose_chain([T1, T2])
+2025-08-31T00:07:02.5697778Z     |     ^^^^^^^^^^ N806
+2025-08-31T00:07:02.5697883Z 109 | 
+2025-08-31T00:07:02.5698033Z 110 |     # Should sum translations
+2025-08-31T00:07:02.5698153Z     |
+2025-08-31T00:07:02.5698177Z 
+2025-08-31T00:07:02.5698512Z tests/test_frames.py:123:5: N806 Variable `T` in function should be lowercase
+2025-08-31T00:07:02.5698626Z     |
+2025-08-31T00:07:02.5698803Z 121 |     t = torch.tensor([5.0, 10.0, 15.0])
+2025-08-31T00:07:02.5698915Z 122 | 
+2025-08-31T00:07:02.5699057Z 123 |     T = compose(euler, t)
+2025-08-31T00:07:02.5699186Z     |     ^ N806
+2025-08-31T00:07:02.5699319Z 124 |     T_inv = invert(T)
+2025-08-31T00:07:02.5699426Z     |
+2025-08-31T00:07:02.5699439Z 
+2025-08-31T00:07:02.5699788Z tests/test_frames.py:124:5: N806 Variable `T_inv` in function should be lowercase
+2025-08-31T00:07:02.5699913Z     |
+2025-08-31T00:07:02.5700052Z 123 |     T = compose(euler, t)
+2025-08-31T00:07:02.5700186Z 124 |     T_inv = invert(T)
+2025-08-31T00:07:02.5700323Z     |     ^^^^^ N806
+2025-08-31T00:07:02.5700437Z 125 | 
+2025-08-31T00:07:02.5700643Z 126 |     # Applying T then T_inv should give identity
+2025-08-31T00:07:02.5700756Z     |
+2025-08-31T00:07:02.5700782Z 
+2025-08-31T00:07:02.5701352Z tests/test_frames.py:144:5: N806 Variable `T` in function should be lowercase
+2025-08-31T00:07:02.5701462Z     |
+2025-08-31T00:07:02.5701598Z 142 |     t = torch.zeros(3)
+2025-08-31T00:07:02.5701917Z 143 | 
+2025-08-31T00:07:02.5702054Z 144 |     T = compose(euler, t)
+2025-08-31T00:07:02.5702165Z     |     ^ N806
+2025-08-31T00:07:02.5702285Z 145 |     R = T['R']
+2025-08-31T00:07:02.5702394Z     |
+2025-08-31T00:07:02.5702410Z 
+2025-08-31T00:07:02.5702747Z tests/test_frames.py:145:5: N806 Variable `R` in function should be lowercase
+2025-08-31T00:07:02.5702862Z     |
+2025-08-31T00:07:02.5703011Z 144 |     T = compose(euler, t)
+2025-08-31T00:07:02.5703132Z 145 |     R = T['R']
+2025-08-31T00:07:02.5703248Z     |     ^ N806
+2025-08-31T00:07:02.5703364Z 146 | 
+2025-08-31T00:07:02.5703831Z 147 |     # Build expected matrix manually
+2025-08-31T00:07:02.5703964Z     |
+2025-08-31T00:07:02.5703980Z 
+2025-08-31T00:07:02.5704332Z tests/test_frames.py:153:5: N806 Variable `Rz` in function should be lowercase
+2025-08-31T00:07:02.5704454Z     |
+2025-08-31T00:07:02.5704603Z 152 |     # Z-Y-X order: R = Rz * Ry * Rx
+2025-08-31T00:07:02.5704733Z 153 |     Rz = torch.tensor([
+2025-08-31T00:07:02.5704850Z     |     ^^ N806
+2025-08-31T00:07:02.5704976Z 154 |         [cz, -sz, 0],
+2025-08-31T00:07:02.5705102Z 155 |         [sz, cz, 0],
+2025-08-31T00:07:02.5705222Z     |
+2025-08-31T00:07:02.5705239Z 
+2025-08-31T00:07:02.5705580Z tests/test_frames.py:159:5: N806 Variable `Ry` in function should be lowercase
+2025-08-31T00:07:02.5705695Z     |
+2025-08-31T00:07:02.5705839Z 157 |     ], dtype=torch.float32)
+2025-08-31T00:07:02.5705958Z 158 | 
+2025-08-31T00:07:02.5706094Z 159 |     Ry = torch.tensor([
+2025-08-31T00:07:02.5706207Z     |     ^^ N806
+2025-08-31T00:07:02.5706341Z 160 |         [cy, 0, sy],
+2025-08-31T00:07:02.5706461Z 161 |         [0, 1, 0],
+2025-08-31T00:07:02.5706572Z     |
+2025-08-31T00:07:02.5706588Z 
+2025-08-31T00:07:02.5706934Z tests/test_frames.py:165:5: N806 Variable `Rx` in function should be lowercase
+2025-08-31T00:07:02.5707054Z     |
+2025-08-31T00:07:02.5707198Z 163 |     ], dtype=torch.float32)
+2025-08-31T00:07:02.5707310Z 164 | 
+2025-08-31T00:07:02.5707456Z 165 |     Rx = torch.tensor([
+2025-08-31T00:07:02.5707569Z     |     ^^ N806
+2025-08-31T00:07:02.5707689Z 166 |         [1, 0, 0],
+2025-08-31T00:07:02.5707834Z 167 |         [0, cx, -sx],
+2025-08-31T00:07:02.5707947Z     |
+2025-08-31T00:07:02.5707963Z 
+2025-08-31T00:07:02.5708345Z tests/test_frames.py:171:5: N806 Variable `R_expected` in function should be lowercase
+2025-08-31T00:07:02.5708462Z     |
+2025-08-31T00:07:02.5708613Z 169 |     ], dtype=torch.float32)
+2025-08-31T00:07:02.5708727Z 170 | 
+2025-08-31T00:07:02.5708867Z 171 |     R_expected = Rz @ Ry @ Rx
+2025-08-31T00:07:02.5708997Z     |     ^^^^^^^^^^ N806
+2025-08-31T00:07:02.5709108Z 172 | 
+2025-08-31T00:07:02.5709382Z 173 |     torch.testing.assert_close(R, R_expected, atol=1e-6)
+2025-08-31T00:07:02.5709498Z     |
+2025-08-31T00:07:02.5709522Z 
+2025-08-31T00:07:02.5709862Z tests/test_frames.py:182:5: N806 Variable `T` in function should be lowercase
+2025-08-31T00:07:02.5709986Z     |
+2025-08-31T00:07:02.5710162Z 180 |     t = torch.randn(batch_size, 3) * 10
+2025-08-31T00:07:02.5710286Z 181 | 
+2025-08-31T00:07:02.5710419Z 182 |     T = compose(euler, t)
+2025-08-31T00:07:02.5710530Z     |     ^ N806
+2025-08-31T00:07:02.5710640Z 183 | 
+2025-08-31T00:07:02.5710795Z 184 |     # Should have batch dimension
+2025-08-31T00:07:02.5710905Z     |
+2025-08-31T00:07:02.5710923Z 
+2025-08-31T00:07:02.5711299Z tests/test_frames.py:189:5: F841 Local variable `points` is assigned to but never used
+2025-08-31T00:07:02.5711425Z     |
+2025-08-31T00:07:02.5711573Z 188 |     # Transform points
+2025-08-31T00:07:02.5711946Z 189 |     points = torch.randn(10, 3)
+2025-08-31T00:07:02.5712093Z     |     ^^^^^^ F841
+2025-08-31T00:07:02.5712422Z 190 |     # Note: batched transform not fully implemented in simplified version
+2025-08-31T00:07:02.5712612Z 191 |     # This test documents expected behavior
+2025-08-31T00:07:02.5712725Z     |
+2025-08-31T00:07:02.5713195Z     = help: Remove assignment to unused variable `points`
+2025-08-31T00:07:02.5713212Z 
+2025-08-31T00:07:02.5713544Z tests/test_frames.py:199:5: N806 Variable `T` in function should be lowercase
+2025-08-31T00:07:02.5713654Z     |
+2025-08-31T00:07:02.5713828Z 197 |     t = torch.tensor([10.0, 20.0, 30.0])
+2025-08-31T00:07:02.5713934Z 198 | 
+2025-08-31T00:07:02.5714076Z 199 |     T = compose(euler, t)
+2025-08-31T00:07:02.5714192Z     |     ^ N806
+2025-08-31T00:07:02.5714300Z 200 | 
+2025-08-31T00:07:02.5714444Z 201 |     # Create two points
+2025-08-31T00:07:02.5714550Z     |
+2025-08-31T00:07:02.5714565Z 
+2025-08-31T00:07:02.5715047Z tests/test_frames.py:221:5: N806 Variable `T` in function should be lowercase
+2025-08-31T00:07:02.5715169Z     |
+2025-08-31T00:07:02.5715519Z 219 |     t = torch.tensor([12.345, 67.890, 34.567])
+2025-08-31T00:07:02.5715647Z 220 | 
+2025-08-31T00:07:02.5715803Z 221 |     T = compose(euler, t)
+2025-08-31T00:07:02.5715916Z     |     ^ N806
+2025-08-31T00:07:02.5716035Z 222 | 
+2025-08-31T00:07:02.5716171Z 223 |     # Start with a point
+2025-08-31T00:07:02.5716286Z     |
+2025-08-31T00:07:02.5716303Z 
+2025-08-31T00:07:02.5716857Z tests/test_frames.py:234:20: PLR2004 Magic value used in comparison, consider replacing `1e-5` with a constant variable
+2025-08-31T00:07:02.5716973Z     |
+2025-08-31T00:07:02.5717130Z 232 |     # Error should still be tiny
+2025-08-31T00:07:02.5717323Z 233 |     error = torch.norm(p - p_original).item()
+2025-08-31T00:07:02.5717795Z 234 |     assert error < 1e-5, f"Error after 100 round trips: {error:.2e} µm"
+2025-08-31T00:07:02.5717946Z     |                    ^^^^ PLR2004
+2025-08-31T00:07:02.5718056Z     |
+2025-08-31T00:07:02.5718071Z 
+2025-08-31T00:07:02.5718673Z tests/test_sources_gauss.py:36:20: PLR2004 Magic value used in comparison, consider replacing `0.02` with a constant variable
+2025-08-31T00:07:02.5718805Z    |
+2025-08-31T00:07:02.5719090Z 34 |     error = src.compute_convergence_metric(reference_samples=18)
+2025-08-31T00:07:02.5719214Z 35 | 
+2025-08-31T00:07:02.5719526Z 36 |     assert error < 0.02, f"Spectral convergence error {error:.3%} exceeds 2%"
+2025-08-31T00:07:02.5719677Z    |                    ^^^^ PLR2004
+2025-08-31T00:07:02.5719781Z    |
+2025-08-31T00:07:02.5719794Z 
+2025-08-31T00:07:02.5720360Z tests/test_sources_gauss.py:63:30: PLR2004 Magic value used in comparison, consider replacing `3` with a constant variable
+2025-08-31T00:07:02.5720486Z    |
+2025-08-31T00:07:02.5720644Z 62 |     # Peak should be near center
+2025-08-31T00:07:02.5720794Z 63 |     assert abs(cy - ny//2) < 3
+2025-08-31T00:07:02.5720944Z    |                              ^ PLR2004
+2025-08-31T00:07:02.5721089Z 64 |     assert abs(cx - nx//2) < 3
+2025-08-31T00:07:02.5721196Z    |
+2025-08-31T00:07:02.5721212Z 
+2025-08-31T00:07:02.5721997Z tests/test_sources_gauss.py:64:30: PLR2004 Magic value used in comparison, consider replacing `3` with a constant variable
+2025-08-31T00:07:02.5722112Z    |
+2025-08-31T00:07:02.5722246Z 62 |     # Peak should be near center
+2025-08-31T00:07:02.5722377Z 63 |     assert abs(cy - ny//2) < 3
+2025-08-31T00:07:02.5722507Z 64 |     assert abs(cx - nx//2) < 3
+2025-08-31T00:07:02.5722636Z    |                              ^ PLR2004
+2025-08-31T00:07:02.5722739Z 65 | 
+2025-08-31T00:07:02.5722882Z 66 |     # Extract radial profile
+2025-08-31T00:07:02.5722985Z    |
+2025-08-31T00:07:02.5722998Z 
+2025-08-31T00:07:02.5723567Z tests/test_sources_gauss.py:82:59: PLR2004 Magic value used in comparison, consider replacing `0.2` with a constant variable
+2025-08-31T00:07:02.5723705Z    |
+2025-08-31T00:07:02.5723912Z 81 |     # Check within 20% (loose due to discretization)
+2025-08-31T00:07:02.5724176Z 82 |     assert abs(ratio - expected_ratio) / expected_ratio < 0.2
+2025-08-31T00:07:02.5724364Z    |                                                           ^^^ PLR2004
+2025-08-31T00:07:02.5724491Z    |
+2025-08-31T00:07:02.5724506Z 
+2025-08-31T00:07:02.5725074Z tests/test_sources_gauss.py:152:44: PLR2004 Magic value used in comparison, consider replacing `0.001` with a constant variable
+2025-08-31T00:07:02.5725450Z     |
+2025-08-31T00:07:02.5725588Z 150 |     # Check centering
+2025-08-31T00:07:02.5725962Z 151 |     mean_wavelength = np.average(wavelengths, weights=info['weights'])
+2025-08-31T00:07:02.5726247Z 152 |     assert abs(mean_wavelength - center) < 0.001
+2025-08-31T00:07:02.5726404Z     |                                            ^^^^^ PLR2004
+2025-08-31T00:07:02.5726510Z     |
+2025-08-31T00:07:02.5726524Z 
+2025-08-31T00:07:02.5726969Z tests/test_sources_gauss.py:184:5: F841 Local variable `std_collimated` is assigned to but never used
+2025-08-31T00:07:02.5727086Z     |
+2025-08-31T00:07:02.5727350Z 182 |     # Phase standard deviation should be larger for divergent beam
+2025-08-31T00:07:02.5727776Z 183 |     # (This is a simplified test - actual implementation may differ)
+2025-08-31T00:07:02.5727954Z 184 |     std_collimated = torch.std(phase_collimated)
+2025-08-31T00:07:02.5728082Z     |     ^^^^^^^^^^^^^^ F841
+2025-08-31T00:07:02.5728284Z 185 |     std_divergent = torch.std(phase_divergent)
+2025-08-31T00:07:02.5728397Z     |
+2025-08-31T00:07:02.5728660Z     = help: Remove assignment to unused variable `std_collimated`
+2025-08-31T00:07:02.5728678Z 
+2025-08-31T00:07:02.5729124Z tests/test_sources_gauss.py:185:5: F841 Local variable `std_divergent` is assigned to but never used
+2025-08-31T00:07:02.5729239Z     |
+2025-08-31T00:07:02.5729523Z 183 |     # (This is a simplified test - actual implementation may differ)
+2025-08-31T00:07:02.5729734Z 184 |     std_collimated = torch.std(phase_collimated)
+2025-08-31T00:07:02.5729929Z 185 |     std_divergent = torch.std(phase_divergent)
+2025-08-31T00:07:02.5730054Z     |     ^^^^^^^^^^^^^ F841
+2025-08-31T00:07:02.5730176Z 186 | 
+2025-08-31T00:07:02.5730460Z 187 |     # Just check they're different (implementation-dependent)
+2025-08-31T00:07:02.5730579Z     |
+2025-08-31T00:07:02.5730849Z     = help: Remove assignment to unused variable `std_divergent`
+2025-08-31T00:07:02.5730867Z 
+2025-08-31T00:07:02.5731463Z tests/test_sources_gauss.py:243:39: PLR2004 Magic value used in comparison, consider replacing `1e-6` with a constant variable
+2025-08-31T00:07:02.5731574Z     |
+2025-08-31T00:07:02.5731915Z 242 |     # Weights should sum to 1
+2025-08-31T00:07:02.5732095Z 243 |     assert abs(weights.sum() - 1.0) < 1e-6
+2025-08-31T00:07:02.5732245Z     |                                       ^^^^ PLR2004
+2025-08-31T00:07:02.5732353Z     |
+2025-08-31T00:07:02.5732375Z 
+2025-08-31T00:07:02.5732548Z Found 478 errors (326 fixed, 152 remaining).
+2025-08-31T00:07:02.5732921Z No fixes available (64 hidden fixes can be enabled with the `--unsafe-fixes` option).
+2025-08-31T00:07:02.5732938Z 
+2025-08-31T00:07:02.5733212Z ruff-format..............................................................Failed
+2025-08-31T00:07:02.5733361Z - hook id: ruff-format
+2025-08-31T00:07:02.5733513Z - files were modified by this hook
+2025-08-31T00:07:02.5733529Z 
+2025-08-31T00:07:02.5733708Z 36 files reformatted, 1 file left unchanged
+2025-08-31T00:07:02.5733734Z 
+2025-08-31T00:07:02.5963330Z check yaml...............................................................Passed
+2025-08-31T00:07:02.6442757Z fix end of files.........................................................Failed
+2025-08-31T00:07:02.6443448Z - hook id: end-of-file-fixer
+2025-08-31T00:07:02.6443706Z - exit code: 1
+2025-08-31T00:07:02.6443907Z - files were modified by this hook
+2025-08-31T00:07:02.6444078Z 
+2025-08-31T00:07:02.6444149Z Fixing LICENSE
+2025-08-31T00:07:02.6444327Z Fixing README.md
+2025-08-31T00:07:02.6444514Z Fixing examples/mid_na.yml
+2025-08-31T00:07:02.6444728Z Fixing examples/high_na.yml
+2025-08-31T00:07:02.6444973Z Fixing src/optics_sim.egg-info/SOURCES.txt
+2025-08-31T00:07:02.6445248Z Fixing Directives/claudetask0.md
+2025-08-31T00:07:02.6445462Z Fixing .ruff.toml
+2025-08-31T00:07:02.6445727Z Fixing Directives/optics_sim_project_blueprint_v_0.md
+2025-08-31T00:07:02.6446019Z Fixing .github/workflows/ci.yml
+2025-08-31T00:07:02.6446257Z Fixing .pre-commit-config.yaml
+2025-08-31T00:07:02.6446756Z Fixing docs/CONFIG.md
+2025-08-31T00:07:02.6446954Z Fixing Directives/cursortask0.md
+2025-08-31T00:07:02.6447179Z Fixing pyproject.toml
+2025-08-31T00:07:02.6447384Z Fixing Directives/microscope_sim_v_0.md
+2025-08-31T00:07:02.6447731Z Fixing Directives/reports/cursorreports/2025-08-30_cursor_report.md
+2025-08-31T00:07:02.6448056Z Fixing mypy.ini
+2025-08-31T00:07:02.6448285Z Fixing src/optics_sim.egg-info/dependency_links.txt
+2025-08-31T00:07:02.6448563Z Fixing examples/low_na.yml
+2025-08-31T00:07:02.6448705Z 
+2025-08-31T00:07:02.6933405Z trim trailing whitespace.................................................Passed
+2025-08-31T00:07:02.7093321Z ##[error]Process completed with exit code 1.
+2025-08-31T00:07:02.7187393Z Post job cleanup.
+2025-08-31T00:07:02.8124207Z [command]/usr/bin/git version
+2025-08-31T00:07:02.8159377Z git version 2.51.0
+2025-08-31T00:07:02.8207685Z Temporarily overriding HOME='/home/runner/work/_temp/1b358bad-ec3d-4960-9bc6-e0c51c482d35' before making global git config changes
+2025-08-31T00:07:02.8208958Z Adding repository directory to the temporary git global config as a safe directory
+2025-08-31T00:07:02.8228877Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Microscope/Microscope
+2025-08-31T00:07:02.8256162Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2025-08-31T00:07:02.8292676Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2025-08-31T00:07:02.8547580Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2025-08-31T00:07:02.8572192Z http.https://github.com/.extraheader
+2025-08-31T00:07:02.8585444Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2025-08-31T00:07:02.8619372Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2025-08-31T00:07:02.8975421Z Cleaning up orphan processes

@@ -1,0 +1,15 @@
+na: 0.25
+grid: {nx: 256, ny: 256, pitch_um: 0.5}
+solver: bpm_split_step_fourier
+spectral_samples: 1
+angular_samples: 1
+device: cuda
+sources:
+  - type: gaussian_finite_band
+    center_nm: 550
+    bandwidth_nm: 1
+recorders:
+  - z_um: 0.0
+    what: [intensity]
+
+
