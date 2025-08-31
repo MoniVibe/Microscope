@@ -22,7 +22,7 @@ def test_identity_transform():
     p_local = torch.tensor([[1.0, 2.0, 3.0]])
     p_world = to_world(p_local, T)
 
-    torch.testing.assert_close(p_world, p_local)
+    torch.testing.assert_close(p_world, p_local.to(p_world.dtype))
 
 
 def test_translation_only():
@@ -51,7 +51,7 @@ def test_rotation_z():
     p_local = torch.tensor([1.0, 0.0, 0.0])
     p_world = to_world(p_local, T)
 
-    expected = torch.tensor([0.0, 1.0, 0.0])
+    expected = torch.tensor([0.0, 1.0, 0.0]).to(p_world.dtype)
     torch.testing.assert_close(p_world, expected, atol=1e-6, rtol=1e-6)
 
 

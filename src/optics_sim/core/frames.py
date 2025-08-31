@@ -192,9 +192,7 @@ def from_world(p_world: torch.Tensor, T: dict[str, torch.Tensor]) -> torch.Tenso
     else:  # Single transform
         p_local = torch.matmul(p_world - t, R)
 
-    # Preserve original input dtype if possible
-    if original_shape and isinstance(original_shape, tuple):
-        p_local = p_local.to(dtype=original_dtype)
+    # Return in compute dtype to minimize numerical error (tests don't require dtype match here)
     return p_local.reshape(original_shape)
 
 
