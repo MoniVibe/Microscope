@@ -38,10 +38,7 @@ jobs:
       run: |
         $ErrorActionPreference='Stop'
         python -V
-        python - << 'PY'
-import sys
-assert sys.version.startswith("3.11."), sys.version
-PY
+        python -c 'import sys; assert sys.version.startswith("3.11."), sys.version'
 
     - name: Install PyTorch CUDA 12.1
       run: |
@@ -54,14 +51,8 @@ PY
 
     - name: CUDA availability gate
       run: |
-        python - << 'PY' | Tee-Object -FilePath env.txt
-import torch
-print("torch", torch.__version__)
-print("cuda", getattr(torch.version,"cuda",None))
-print("avail", torch.cuda.is_available())
-print("n", torch.cuda.device_count())
-assert torch.cuda.is_available()
-PY
+        python -c 'import torch,sys; print("torch", torch.__version__); print("cuda", getattr(torch.version,"cuda",None)); print("avail", torch.cuda.is_available()); print("n", torch.cuda.device_count()); assert torch.cuda.is_available()' `
+        | Tee-Object -FilePath env.txt
 
     - name: Run GPU-marked tests
       run: |
