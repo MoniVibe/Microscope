@@ -28,7 +28,6 @@ def compose(euler_zyx, t_um):  # type: ignore[no-untyped-def]
     """
     # Fallback minimal implementation when torch is not available
     if torch is None:
-
         if isinstance(t_um, (list, tuple)) and len(t_um) == 3:
             t_tuple = (float(t_um[0]), float(t_um[1]), float(t_um[2]))
         else:

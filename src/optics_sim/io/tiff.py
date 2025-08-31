@@ -389,9 +389,7 @@ def _read_basic_tiff(filename: Path) -> tuple[np.ndarray, dict]:
     return data, {}
 
 
-def write_field_stack(
-    filename: str | Path, fields: dict[str, torch.Tensor], config: dict
-) -> None:
+def write_field_stack(filename: str | Path, fields: dict[str, torch.Tensor], config: dict) -> None:
     """Write multiple fields to a TIFF stack with full metadata.
 
     Args:
