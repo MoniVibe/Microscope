@@ -33,38 +33,14 @@ include = ["optics_sim*"]
 [tool.ruff]
 line-length = 100
 target-version = "py311"
-
-[tool.ruff.lint]
 # Keep lint minimal to ensure green CI quickly; expand later as needed
-select = ["E","F","I"]
+select = ["I"]
 
-[tool.ruff.lint.per-file-ignores]
-# Loosen lint rules for tests to keep focus on functionality
-"tests/**/*" = [
-  "N806",  # non-lowercase variable in function (common in math/tests)
-  "PLR2004",  # magic values in comparisons
-  "PLR0915",  # too many statements in function
-  "PLC0415",  # import not at top of file (intentional in tests)
-  "F401",  # unused imports (guarded optional deps)
-  "F841",  # assigned but unused (documenting behavior)
-  "E501",  # line length in test output
-  "PLW2901",  # with-statement variable overwritten
-]
+[tool.ruff.per-file-ignores]
+# Loosen rules for tests to keep focus on functionality
+"tests/**/*" = ["F401", "F841", "E501"]
 # Root-level ad-hoc tests
-"test_*.py" = [
-  "N806",
-  "PLR2004",
-  "PLR0915",
-  "PLC0415",
-  "F401",
-  "F841",
-  "E501",
-]
-# Math-heavy modules: allow uppercase temporaries and magic numbers
-"src/optics_sim/prop/solvers/bpm_vector_wide.py" = ["N806", "PLR2004"]
-"src/optics_sim/validation/cases.py" = ["N806", "PLR0913", "PLC0415", "F841", "PLR2004"]
-"src/optics_sim/validation/metrics.py" = ["N806", "F841", "PLR2004"]
-"src/optics_sim/recorders/planes.py" = ["PLR2004"]
+"test_*.py" = ["F401", "F841", "E501"]
 
 [tool.mypy]
 python_version = "3.11"
