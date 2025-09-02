@@ -133,6 +133,14 @@ def to_world(p_local, T):  # type: ignore[no-untyped-def]
     R = T["R"]
     t = T["t"]
 
+    # Align dtypes/devices to avoid matmul dtype mismatch
+    target_dtype = R.dtype
+    target_device = R.device
+    if p_local.dtype != target_dtype or p_local.device != target_device:
+        p_local = p_local.to(dtype=target_dtype, device=target_device)
+    if t.dtype != target_dtype or t.device != target_device:
+        t = t.to(dtype=target_dtype, device=target_device)
+
     # Handle batch dimensions
     if R.dim() == 3:  # Batched transform
         # p_local shape: (N, 3), R shape: (B, 3, 3), t shape: (B, 3)
@@ -166,6 +174,14 @@ def from_world(p_world: torch.Tensor, T: dict[str, torch.Tensor]) -> torch.Tenso
     # Apply inverse transformation: p_local = R^T * (p_world - t)
     R = T["R"]
     t = T["t"]
+
+    # Align dtypes/devices
+    target_dtype = R.dtype
+    target_device = R.device
+    if p_world.dtype != target_dtype or p_world.device != target_device:
+        p_world = p_world.to(dtype=target_dtype, device=target_device)
+    if t.dtype != target_dtype or t.device != target_device:
+        t = t.to(dtype=target_dtype, device=target_device)
 
     if R.dim() == 3:  # Batched transform
         # Subtract translation then apply inverse rotation
@@ -254,8 +270,8 @@ def invert(T: dict[str, torch.Tensor]) -> dict[str, torch.Tensor]:
     else:
         t_inv = -torch.matmul(R_inv, t.unsqueeze(-1)).squeeze(-1)
 
-    # Build inverse transform
-    T_inv = torch.eye(4, dtype=torch.float32, device=R.device)
+    # Build inverse transform with matching dtype/device
+    T_inv = torch.eye(4, dtype=R.dtype, device=R.device)
     if R.dim() == 3:
         T_inv = T_inv.unsqueeze(0).expand(R.shape[0], -1, -1).contiguous()
         T_inv[:, :3, :3] = R_inv

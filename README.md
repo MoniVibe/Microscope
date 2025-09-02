@@ -20,6 +20,10 @@ Tests:
 - python -m pytest -q                           # CPU tests (non-GPU)
 - python -m pytest -q -m gpu                    # GPU smoke (requires CUDA)
 
+GPU runner scripts:
+- PowerShell (Windows): `scripts/run_gpu_smoke.ps1` → writes `env.txt` and `pytest_gpu.log`
+- Bash (Linux): `scripts/run_gpu_smoke.sh` → writes `env.txt` and `pytest_gpu.log`
+
 GPU smoke example configs (256x256, 1 spectral × 1 angle):
 - examples/gpu_smoke_bpm_vector.yml
 - examples/gpu_smoke_ssf.yml
@@ -30,6 +34,9 @@ Layout:
 - tests/
 - examples/
 - scripts/
+
+Development
+- Precision policy: see docs/precision_policy.md
 
 License: MIT
 

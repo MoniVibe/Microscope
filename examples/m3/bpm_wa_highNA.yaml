@@ -1,0 +1,72 @@
+# Wide-Angle BPM - High-NA focusing
+# Demonstrates wide-angle propagation for NA > 0.7
+# Target: 8GB GPU, <90s runtime, strict FP32
+
+# Solver configuration
+solver:
+  type: wide_angle_bpm
+  params:
+    wavelength: 488.0e-9  # Argon laser blue
+    n_medium: 1.33        # Water immersion
+    NA: 0.85              # High NA objective
+    pade_order: [1, 1]    # Padé approximant order
+    n_steps: 100          # Fine stepping for accuracy
+
+# Source configuration  
+source:
+  type: gaussian
+  params:
+    waist: 3.0e-3         # 3mm collimated beam
+    wavelength: 488.0e-9
+
+# Computational grid
+grid:
+  N: 768                  # Grid size (768x768)
+  dx: 0.2e-6             # 200 nm sampling (fine for high NA)
+
+# Propagation parameters
+propagation:
+  distance: 5.0e-3       # 5 mm to focus
+  lens:
+    enabled: true
+    focal_length: 5.0e-3  # 5 mm focal length
+    NA: 0.85
+    aperture_radius: 4.25e-3  # NA = n*sin(theta)
+
+# Metrics configuration
+metrics:
+  compute_psf: true
+  compute_strehl: true
+  compute_energy: true
+  compute_fwhm: true
+  compute_encircled_energy: true
+  radii_um: [0.5, 1.0, 2.0, 5.0]  # Encircled energy radii
+
+# Output configuration
+output:
+  directory: output/bpm_wa_highNA
+  save_field: true
+  save_intensity: true
+  save_phase: false
+  save_psf_profiles: true
+
+# Recording planes
+recorders:
+  - type: intensity
+    z_positions: [0, 0.0049, 0.005, 0.0051]  # Around focus
+  - type: field
+    z_positions: [0.005]  # At focus
+
+# Performance settings
+device: cuda
+mixed_fft: false      # Strict FP32
+deterministic: true
+seed: 1337
+
+# Expected metrics
+expected:
+  l2_error: 0.025       # Higher error acceptable for high NA
+  energy_error: 0.01
+  strehl_ratio: 0.96    # Slightly lower for wide-angle approx
+  fwhm_nm: 350          # ~0.35λ for NA=0.85
+  encircled_50: 0.8     # 80% energy in first Airy disk

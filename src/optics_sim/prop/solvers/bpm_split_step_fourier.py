@@ -9,6 +9,12 @@ from __future__ import annotations
 import numpy as np
 import torch
 
+from optics_sim.core.precision import (
+    enforce_fp32_cuda,
+    assert_fp32_cuda,
+    fft2_with_precision,
+)
+
 
 def run(
     field: torch.Tensor,
@@ -44,12 +50,8 @@ def run(
     )
     na_max = plan.na_max if hasattr(plan, "na_max") else plan.get("na_max", 0.25)
 
-    # Configuration flags
-    use_mixed = (
-        plan.use_mixed_precision
-        if hasattr(plan, "use_mixed_precision")
-        else plan.get("use_mixed_precision", False)
-    )
+    # Configuration flags - mixed precision disabled until M2
+    use_mixed = False  # DISABLED - DO NOT ENABLE before M2 sign-off
     pml_thickness = (
         plan.pml_thickness_px
         if hasattr(plan, "pml_thickness_px")
@@ -57,6 +59,10 @@ def run(
     )
 
     device = field.device
+    
+    # Enforce FP32 on CUDA
+    if device.type == "cuda":
+        field = field.to(torch.complex64)
 
     # Handle spectral dimension
     if field.dim() == 2:
@@ -87,6 +93,11 @@ def run(
         k0 = 2 * np.pi / lambda_um
 
         E = field[s].clone()
+        
+        # Ensure FP32 on CUDA
+        if device.type == "cuda":
+            E = enforce_fp32_cuda(E, "input field")
+        
         E = E * pml  # Apply input PML
 
         # Propagate through z-steps
@@ -207,7 +218,7 @@ def _split_step_fourier(
     na_max: float,
     pml: torch.Tensor,
     band_mask: torch.Tensor,
-    use_mixed: bool = False,
+    use_mixed: bool = False,  # DISABLED until M2
 ) -> torch.Tensor:
     """Perform one split-step Fourier propagation.
 
@@ -229,11 +240,14 @@ def _split_step_fourier(
     n_avg = n.mean()
     k_avg = k0 * n_avg
 
-    # Mixed precision setup
-    if use_mixed and device.type == "cuda":
-        compute_dtype = torch.complex32  # FP16 complex
-        accumulate_dtype = torch.complex64  # FP32 complex
+    # Precision setup - FP32 on CUDA, FP64 allowed on CPU
+    if device.type == "cuda":
+        # Always FP32 on CUDA
+        E = enforce_fp32_cuda(E, "field")
+        compute_dtype = torch.complex64
+        accumulate_dtype = torch.complex64
     else:
+        # CPU can use FP64
         compute_dtype = torch.complex64
         accumulate_dtype = torch.complex64
 
@@ -241,11 +255,8 @@ def _split_step_fourier(
     phase_spatial = 0.5 * k0 * (n - n_avg) * dz
     E = E * torch.exp(1j * phase_spatial.to(E.dtype))
 
-    # Step 2: Fourier transform
-    if use_mixed:
-        E_fft = torch.fft.fft2(E.to(compute_dtype))
-    else:
-        E_fft = torch.fft.fft2(E)
+    # Step 2: Fourier transform with precision enforcement
+    E_fft = fft2_with_precision(E, inverse=False)
 
     # Step 3: Apply propagation in frequency domain
     fx = torch.fft.fftfreq(nx, d=dx, device=device)
@@ -300,11 +311,12 @@ def _split_step_fourier(
     propagator = decay * torch.exp(1j * prop_phase.to(E_fft.dtype))
     E_fft = E_fft * propagator
 
-    # Step 4: Inverse Fourier transform
-    E = torch.fft.ifft2(E_fft)
-
-    if use_mixed:
-        E = E.to(accumulate_dtype)
+    # Step 4: Inverse Fourier transform with precision enforcement
+    E = fft2_with_precision(E_fft, inverse=True)
+    
+    # Ensure FP32 on CUDA
+    if device.type == "cuda":
+        E = enforce_fp32_cuda(E, "field after propagation")
 
     # Step 5: Apply second half of refractive index phase
     E = E * torch.exp(1j * phase_spatial.to(E.dtype))

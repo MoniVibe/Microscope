@@ -1,3 +1,47 @@
+## M3 CI run report — 2025-09-02
+
+Summary
+- CPU baseline: tests passed, validation suite failed. Halting before GPU and build+docs per gate order.
+
+CPU Baseline
+- pytest tests/test_precision_policy.py: PASS (JUnit: pytest_precision.xml)
+- run_validation_suite.py: FAIL
+
+Validation failures (key excerpts)
+```
+1. GAUSSIAN FREE SPACE PROPAGATION
+✗ BPM Vector Wide: L2 error 115.453% exceeds 3%
+✓ Split-step Fourier: L2 ≤3%, Energy ≤1%
+✓ Angular Spectrum: L2 ≤3%, Energy ≤1%
+
+2. AIRY PATTERN (APERTURE DIFFRACTION)
+✗ Airy pattern: First zero position error 10.6% exceeds 2%
+
+3. THIN LENS FOCUSING (PARAXIAL)
+✗ Thin lens: Strehl ratio 0.045 < 0.95 for paraxial lens
+
+4. PHASE GRATING DIFFRACTION ORDERS
+✗ Grating orders: Order -2 efficiency error 4.9% exceeds 3%
+
+6. TIFF I/O WITH METADATA
+✗ TIFF I/O: Complex should have 2 planes
+
+Summary: OVERALL: 4/9 tests passed (bpm_gaussian, airy, lens, grating, tiff failed)
+```
+
+Artifacts (CPU gate)
+- Generated: pytest_precision.xml, validation_suite.log
+- Not applicable: GPU artifacts (not executed), dist/* (not executed)
+
+Stop reason
+- Gate order requires CPU baseline to pass first. Validation suite failed several numeric thresholds.
+
+Next steps (proposed)
+- Investigate BPM Vector Wide parameters/units leading to high L2.
+- Review Airy first-zero calculation and lens Strehl computation; ensure precision policy and dtype consistency across solvers.
+- Fix TIFF complex-plane layout expectations in tests or writer.
+- Re-run CPU gate; proceed to GPU smoke and build once green.
+
 ### Cursor CI Wiring Report: M3 runner, gates, wheels, docs
 
 - Branch/PR: `m3/ci-wire-and-release` — Wire M3 runner in CI, enforce gates, build docs and wheels.

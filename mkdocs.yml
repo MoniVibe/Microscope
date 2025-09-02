@@ -1,0 +1,12 @@
+site_name: Microscope Docs
+docs_dir: .
+nav:
+  - Home: README.md
+  - Precision Policy: docs/precision_policy.md
+theme:
+  name: material
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+

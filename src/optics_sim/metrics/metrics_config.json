@@ -1,0 +1,22 @@
+{
+  "canonical_keys": {
+    "energy_error": ["energy_error", "energy_err"],
+    "l2_error": ["l2_error", "L2"],
+    "strehl_ratio": ["strehl_ratio", "strehl"],
+    "airy_first_zero_error": ["airy_first_zero_error", "airy_first_zero_err"],
+    "mtf_cutoff_error": ["mtf_cutoff_error", "mtf_cutoff_err"]
+  },
+  "thresholds": {
+    "energy_error": 0.01,
+    "l2_error": 0.03,
+    "strehl_ratio": 0.95,
+    "airy_first_zero_error": 0.02,
+    "mtf_cutoff_error": 0.02
+  },
+  "precision_policy": {
+    "cuda": "complex64",
+    "cpu": "complex128_allowed_for_intermediates",
+    "fft_norm": "ortho",
+    "mixed_precision": false
+  }
+}

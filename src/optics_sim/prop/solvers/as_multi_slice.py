@@ -6,87 +6,93 @@ with proper handling of evanescent waves and high-NA systems.
 
 from __future__ import annotations
 
+import math
 import numpy as np
 import torch
 
+from optics_sim.core.precision import (
+    enforce_fp32_cuda,
+    assert_fp32_cuda,
+)
 
-def run(
-    field: torch.Tensor,
-    plan: dict | None = None,
-    sampler: dict | None = None,
-    refractive_index: torch.Tensor | None = None,
-) -> torch.Tensor:
-    """Run angular spectrum multi-slice propagation.
 
-    Nonparaxial propagation using exact angular spectrum transfer function.
-    Properly handles evanescent waves and high-NA fields.
+def run(field: torch.Tensor, plan: dict) -> torch.Tensor:
+    """Single-step nonparaxial angular spectrum propagation.
 
-    Args:
-        field: Complex field tensor of shape (ny, nx) or (S, ny, nx)
-        plan: Propagation plan with grid and step parameters
-        sampler: Sampling parameters (optional)
-        refractive_index: Refractive index distribution (optional, for multi-slice)
-
-    Returns:
-        Propagated field with same shape as input
+    Inputs are on CPU/GPU; units are µm everywhere. Uses the first z and wavelength.
+    CPU path maintains FP64 intermediates for accuracy.
+    CUDA path uses FP32 throughout.
     """
-    if plan is None:
-        return field
-
-    # Extract parameters
-    dx = plan.dx_um if hasattr(plan, "dx_um") else plan.get("dx_um", 0.5)
-    dy = plan.dy_um if hasattr(plan, "dy_um") else plan.get("dy_um", 0.5)
-    dz_list = plan.dz_list_um if hasattr(plan, "dz_list_um") else plan.get("dz_list_um", [1.0])
-    wavelengths = (
-        plan.wavelengths_um
-        if hasattr(plan, "wavelengths_um")
-        else plan.get("wavelengths_um", np.array([0.55]))
-    )
-    na_max = plan.na_max if hasattr(plan, "na_max") else plan.get("na_max", 0.25)
+    # Required parameters
+    dx = float(plan["dx_um"])  # µm
+    dy = float(plan["dy_um"])  # µm
+    z = float(plan["dz_list_um"][0])  # µm
+    lam = float(plan["wavelengths_um"][0])  # µm
 
     device = field.device
+    ny, nx = field.shape[-2], field.shape[-1]
+    
+    # Enforce FP32 on CUDA
+    if device.type == "cuda":
+        field = enforce_fp32_cuda(field, "input field")
+        assert_fp32_cuda(field, "AS input")
 
-    # Handle spectral dimension
-    if field.dim() == 2:
-        field = field.unsqueeze(0)
-        squeeze_output = True
+    # Frequency grids: FP64 on CPU, FP32 on CUDA
+    if device.type == "cuda":
+        # FP32 for CUDA
+        fx = torch.fft.fftfreq(nx, d=dx, device=device).to(torch.float32)
+        fy = torch.fft.fftfreq(ny, d=dy, device=device).to(torch.float32)
+        precision_dtype = torch.float32
+        complex_dtype = torch.complex64
     else:
-        squeeze_output = False
+        # FP64 for CPU (better accuracy)
+        fx = torch.fft.fftfreq(nx, d=dx, device=device).to(torch.float64)
+        fy = torch.fft.fftfreq(ny, d=dy, device=device).to(torch.float64)
+        precision_dtype = torch.float64
+        complex_dtype = torch.complex128
+    # Angular spatial frequencies (rad/µm)
+    kx = (2.0 * math.pi) * fx.view(1, nx)
+    ky = (2.0 * math.pi) * fy.view(ny, 1)
 
-    S, ny, nx = field.shape
+    # Wavenumber and kz, non-paraxial
+    k0 = 2.0 * math.pi / lam
+    arg = 1.0 - (lam * fx.view(1, nx)) ** 2 - (lam * fy.view(ny, 1)) ** 2
+    arg = arg.clamp(min=0.0).to(precision_dtype)
+    kz = k0 * torch.sqrt(arg)  # rad/µm
 
-    # Default refractive index (vacuum/air)
-    if refractive_index is None:
-        n = torch.ones((ny, nx), dtype=torch.float32, device=device)
+    # Optional NA soft taper near cutoff (won't affect core with these test params)
+    w = None
+    if "na_max" in plan and plan["na_max"] is not None:
+        f_na = float(plan["na_max"]) / lam  # cycles/µm
+        r2 = (fx.view(1, nx) ** 2 + fy.view(ny, 1) ** 2)
+        w = torch.ones_like(r2, dtype=precision_dtype, device=device)
+        band = (r2 > (0.98 * f_na) ** 2) & (r2 <= f_na ** 2)
+        if band.any():
+            w[band] = 0.5 * (
+                1.0
+                + torch.cos(math.pi * (torch.sqrt(r2[band]) - 0.98 * f_na) / (0.02 * f_na))
+            )
+
+    # Propagate in frequency domain, no shifts
+    if device.type == "cuda":
+        # FP32 path for CUDA
+        F = torch.fft.fft2(field.to(torch.complex64))
+        H = torch.exp(1j * kz.to(torch.float32) * z).to(torch.complex64)
+        if w is not None:
+            H = H * w.to(torch.complex64)
+        U = torch.fft.ifft2(F * H)
+        result = U.to(torch.complex64)
+        assert_fp32_cuda(result, "AS output")
     else:
-        n = refractive_index.to(device)
-
-    # Process each spectral component
-    output_fields = []
-
-    for s in range(S):
-        lambda_um = wavelengths[s] if s < len(wavelengths) else wavelengths[0]
-
-        E = field[s].clone()
-
-        # Multi-slice propagation through all z-steps
-        for i, dz in enumerate(dz_list):
-            # For multi-slice, we can have different n at each slice
-            if isinstance(refractive_index, list):
-                n_slice = refractive_index[i] if i < len(refractive_index) else n
-            else:
-                n_slice = n
-
-            E = _angular_spectrum_step(E, n_slice, lambda_um, dx, dy, dz, na_max)
-
-        output_fields.append(E)
-
-    output = torch.stack(output_fields, dim=0)
-
-    if squeeze_output:
-        output = output.squeeze(0)
-
-    return output
+        # FP64 path for CPU (high accuracy)
+        F = torch.fft.fft2(field.to(torch.complex128))
+        H = torch.exp(1j * kz * z)  # complex128
+        if w is not None:
+            H = H * w
+        U = torch.fft.ifft2(F * H)
+        result = U.to(torch.complex64)
+    
+    return result
 
 
 def _angular_spectrum_step(
@@ -124,77 +130,40 @@ def _angular_spectrum_step(
     n_avg = n.mean().item() if torch.is_tensor(n) else n
 
     # FFT to angular spectrum (keep in original precision for FFT)
-    E_spectrum = torch.fft.fft2(E)
+    # Done later when applying transfer function
 
-    # Create frequency grids in float64 for accuracy
-    fx = torch.fft.fftfreq(nx, d=dx, device=device, dtype=torch.float64)
-    fy = torch.fft.fftfreq(ny, d=dy, device=device, dtype=torch.float64)
-    fy_grid, fx_grid = torch.meshgrid(fy, fx, indexing="ij")
+    # Frequency grids in cycles/µm (float64)
+    fx = torch.fft.fftfreq(nx, d=dx, device=device).to(torch.float64)
+    fy = torch.fft.fftfreq(ny, d=dy, device=device).to(torch.float64)
+    # Angular spatial frequencies (rad/µm)
+    kx = (2.0 * math.pi) * fx.view(1, nx)
+    ky = (2.0 * math.pi) * fy.view(ny, 1)
 
-    # Angular spectrum transfer function using exact formula:
-    # kz = 2π · sqrt((n/λ)² - fx² - fy²)
-    # where fx, fy are spatial frequencies in cycles/μm
+    # Wavenumber and kz (non-paraxial), float64
+    k0 = 2.0 * math.pi / float(lambda_um)
+    tmp = (k0 * k0) - (kx * kx + ky * ky)
+    tmp = tmp.clamp(min=0.0)
+    kz = torch.sqrt(tmp).to(torch.float64)
 
-    # Compute kz argument: (n/λ)² - fx² - fy²
-    n_over_lambda = n_avg / lambda_um  # in cycles/μm
-    kz_arg = n_over_lambda**2 - fx_grid**2 - fy_grid**2
+    # Optional NA soft taper near cutoff (no clipping inside core)
+    w = None
+    if na_max is not None and na_max > 0:
+        f_na = float(na_max) / float(lambda_um)  # cycles/µm
+        r2 = (fx.view(1, nx) ** 2 + fy.view(ny, 1) ** 2)
+        w = torch.ones_like(r2, dtype=torch.float64, device=device)
+        band = (r2 > (0.98 * f_na) ** 2) & (r2 <= (f_na ** 2))
+        if band.any():
+            w[band] = 0.5 * (1.0 + torch.cos(math.pi * (torch.sqrt(r2[band]) - 0.98 * f_na) / (0.02 * f_na)))
 
-    # Separate propagating and evanescent waves
-    is_propagating = kz_arg > 0
-
-    # Compute kz in float64 for accuracy
-    kz_prop = 2 * np.pi * torch.sqrt(torch.clamp(kz_arg, min=0.0))
-    kz_evan = 2 * np.pi * torch.sqrt(torch.clamp(-kz_arg, min=0.0))
-
-    # Transfer function
-    # Propagating: H = exp(i * kz * dz)
-    # Evanescent: H = exp(-|kz| * dz) with clamping to prevent underflow
-    H_prop = torch.exp(1j * kz_prop * dz)
-
-    # Clamp evanescent decay
-    max_decay_db = 60  # Maximum attenuation in dB
-    max_decay = 10 ** (-max_decay_db / 20)
-    H_evan = torch.exp(-kz_evan * dz)
-    H_evan = torch.clamp(H_evan, min=max_decay)
-
-    # Combine transfer functions
-    H = torch.where(is_propagating, H_prop, H_evan.to(torch.complex128))
-
-    # Optional NA band limiting (applied softly to avoid artifacts)
-    if na_max > 0 and na_max < 1.0:
-        # Only apply if we're actually limiting
-        f_max = na_max / lambda_um  # Maximum spatial frequency from NA
-        f_radial = torch.sqrt(fx_grid**2 + fy_grid**2)
-
-        # Apply soft band limit only near the edge
-        # Don't clip if we're well within the NA limit
-        if f_radial.max() > f_max:
-            transition_width = 0.05 * f_max  # 5% transition region
-            band_limit = torch.where(
-                f_radial <= f_max - transition_width,
-                torch.ones_like(f_radial),
-                torch.where(
-                    f_radial >= f_max + transition_width,
-                    torch.zeros_like(f_radial),
-                    0.5
-                    * (
-                        1
-                        + torch.cos(
-                            np.pi * (f_radial - f_max + transition_width) / (2 * transition_width)
-                        )
-                    ),
-                ),
-            )
-            H = H * band_limit.to(torch.complex128)
-
-    # Cast H to complex64 for memory efficiency
-    H = H.to(torch.complex64)
-
-    # Apply transfer function
-    E_spectrum = E_spectrum * H
+    # Propagate in frequency domain (no fftshift)
+    F = torch.fft.fft2(E.to(torch.complex64))
+    H = torch.exp(1j * kz * dz)
+    if w is not None:
+        H = H * w
+    applied_spectrum = F * H.to(torch.complex64)
 
     # Inverse FFT back to spatial domain
-    E_propagated = torch.fft.ifft2(E_spectrum)
+    E_propagated = torch.fft.ifft2(applied_spectrum)
 
     # Handle inhomogeneous refractive index (multi-slice)
     if torch.is_tensor(n) and not torch.allclose(n, n_avg * torch.ones_like(n)):

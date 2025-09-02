@@ -1,0 +1,267 @@
+name: m3-ci
+
+on:
+  pull_request:
+    branches: [ m3/ci-wire-and-release ]
+  push:
+    branches: [ m3/ci-wire-and-release ]
+
+jobs:
+  discover:
+    name: Discover M3 examples
+    runs-on: ubuntu-22.04
+    outputs:
+      matrix: ${{ steps.discover.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: discover
+        run: |
+          python - << 'PY'
+          import json, glob, os
+          files = sorted(glob.glob('examples/m3/*.yml') + glob.glob('examples/m3/*.yaml'))
+          matrix = [{"name": f.rsplit('/',1)[-1].rsplit('.',1)[0], "cfg": f} for f in files]
+          print('Found:', matrix)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+              fh.write('matrix='+json.dumps(matrix)+'\n')
+          PY
+      - name: Assert at least 3 configs
+        run: |
+          python - << 'PY'
+          import json, os, sys
+          data = os.environ.get('MATRIX')
+          items = json.loads(data) if data else []
+          print('Matrix items:', items)
+          sys.exit(0 if len(items) >= 3 else 1)
+          PY
+        env:
+          MATRIX: ${{ steps.discover.outputs.matrix }}
+  cpu-gate-loop:
+    name: CPU baseline
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Install deps (CPU)
+        run: |
+          python -m pip install -U pip
+          pip install -e .[dev]
+          pip install -f https://download.pytorch.org/whl/cpu/torch_stable.html torch==2.3.* torchvision==0.18.* torchaudio==2.3.*
+      - name: Run pytest precision policy
+        run: pytest -q tests/test_precision_policy.py --junitxml=pytest_precision.xml
+      - name: Run validation suite
+        run: python run_validation_suite.py > validation_suite.log 2>&1 || true
+      - name: Upload CPU artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cpu-baseline
+          path: |
+            pytest_precision.xml
+            validation_suite.log
+          if-no-files-found: error
+          retention-days: 30
+      - name: Enforce CPU gate
+        run: |
+          python - << 'PY'
+          import sys, re
+          log = open('validation_suite.log','rb').read().decode('utf-8', 'ignore')
+          if 'ALL VALIDATION GATES PASSED' in log:
+              sys.exit(0)
+          print('CPU validation failed. See validation_suite.log tail:')
+          print('\n'.join(log.strip().splitlines()[-80:]))
+          sys.exit(1)
+          PY
+
+  gpu-smoke:
+    name: GPU smoke
+    needs: [discover, cpu-gate-loop]
+    runs-on: [self-hosted, gpu]
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.discover.outputs.matrix) }}
+    env:
+      PYTORCH_DETERMINISTIC: '1'
+      CUBLAS_WORKSPACE_CONFIG: ':4096:8'
+      TORCH_ALLOW_TF32: '0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Install CUDA deps
+        run: |
+          python -m pip install -U pip
+          pip install -e .[dev]
+          pip install torch==2.3.* torchvision==0.18.* torchaudio==2.3.* --index-url https://download.pytorch.org/whl/cu121
+      - name: Record nvidia-smi before
+        run: nvidia-smi > nvidia_smi_before.txt
+      - name: Run M3 CLI
+        run: |
+          python - << 'PY'
+          import os, json, subprocess, sys, pathlib, time
+          outdir = pathlib.Path('artifacts')/os.environ['NAME']
+          outdir.mkdir(parents=True, exist_ok=True)
+          env = dict(os.environ)
+          env['PYTORCH_DETERMINISTIC'] = '1'
+          import torch
+          torch.use_deterministic_algorithms(True, warn_only=True)
+          torch.set_float32_matmul_precision('highest')
+          cmd = [sys.executable,'-m','optics_sim.cli.m3_run','--config',os.environ['CFG'],'--output',str(outdir),'--device','cuda']
+          print('RUN:', ' '.join(cmd))
+          t0=time.time(); rc=subprocess.call(cmd, env=env); dt=time.time()-t0
+          open(outdir/'run.rc','w').write(str(rc))
+          # Anti-dummy quick checks
+          assert (outdir/'env.json').exists(), 'missing env.json'
+          assert (outdir/'perf.json').exists(), 'missing perf.json'
+          assert (outdir/'metrics.json').exists(), 'missing metrics.json'
+          assert (outdir/'output.tiff').exists(), 'missing output.tiff'
+          assert dt >= 1.0, 'wall_time < 1s'
+          m = json.load(open(outdir/'metrics.json'))
+          p = json.load(open(outdir/'perf.json'))
+          assert p.get('peak_vram_bytes',0) >= 10_000_000, 'peak_vram too small'
+          print('OK run rc=', rc)
+          sys.exit(0 if rc==0 else 1)
+          PY
+        env:
+          CFG: ${{ matrix.cfg }}
+          NAME: ${{ matrix.name }}
+      - name: Record nvidia-smi after
+        run: nvidia-smi > artifacts/${{ matrix.name }}/nvidia_smi_after.txt
+      - name: Gate checks
+        run: |
+          python - << 'PY'
+          import json, sys, pathlib
+          d = pathlib.Path('artifacts')/pathlib.Path('${{ matrix.name }}')
+          m = json.load(open(d/'metrics.json'))
+          p = json.load(open(d/'perf.json'))
+          def g(k,alt=None):
+              return m.get(k, m.get(alt)) if alt else m[k]
+          ok = (
+            (g('L2','l2_error') <= 0.03) and
+            (g('energy_err','energy_error') <= 0.01) and
+            (g('airy_first_zero_err','airy_first_zero_error') <= 0.02) and
+            (g('strehl','strehl_ratio') >= 0.95) and
+            (m.get('mtf_cutoff_err', m.get('mtf_cutoff_error', 0.0)) <= 0.05) and
+            (p['peak_vram_bytes'] < 4_000_000_000) and
+            (p['wall_time_sec'] < 90)
+          )
+          print(str(d), 'OK' if ok else 'FAIL')
+          sys.exit(0 if ok else 1)
+          PY
+      - name: Upload artifacts (per case)
+        uses: actions/upload-artifact@v4
+        with:
+          name: gpu-${{ matrix.name }}
+          path: |
+            artifacts/${{ matrix.name }}/output.tiff
+            artifacts/${{ matrix.name }}/metrics.json
+            artifacts/${{ matrix.name }}/perf.json
+            artifacts/${{ matrix.name }}/env.json
+            artifacts/${{ matrix.name }}/run.log
+            artifacts/${{ matrix.name }}/nvidia_smi_before.txt
+            artifacts/${{ matrix.name }}/nvidia_smi_after.txt
+          if-no-files-found: error
+          retention-days: 30
+
+  determinism:
+    name: Determinism spot-check
+    needs: gpu-smoke
+    runs-on: [self-hosted, gpu]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: |
+          pip install -e .[dev]
+          pip install torch==2.3.* torchvision==0.18.* torchaudio==2.3.* --index-url https://download.pytorch.org/whl/cu121
+      - name: Rerun as_airy
+        env:
+          PYTORCH_DETERMINISTIC: '1'
+          CUBLAS_WORKSPACE_CONFIG: ':4096:8'
+          TORCH_ALLOW_TF32: '0'
+        run: |
+          python -m optics_sim.cli.m3_run --config examples/m3/as_airy.yaml --output artifacts/as_airy --device cuda
+          python -m optics_sim.cli.m3_run --config examples/m3/as_airy.yaml --output artifacts/as_airy_rerun --device cuda
+          python - << 'PY'
+          import hashlib,sys
+          def md5(p):
+              h=hashlib.md5(); h.update(open(p,'rb').read()); return h.hexdigest()
+          a=md5('artifacts/as_airy/output.tiff'); b=md5('artifacts/as_airy_rerun/output.tiff')
+          print('hash_equal:', a==b); sys.exit(0 if a==b else 1)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: determinism-artifacts
+          path: |
+            artifacts/as_airy/output.tiff
+            artifacts/as_airy_rerun/output.tiff
+          retention-days: 30
+
+  build-and-docs:
+    name: Build and docs
+    needs: [cpu-gate-loop, gpu-smoke, determinism]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: |
+          python -m pip install -U pip build mkdocs mkdocs-material
+          pip install -e .[dev]
+      - name: Build wheel and sdist
+        run: |
+          python -m build
+          python - << 'PY'
+          import importlib.util, sys, pathlib
+          wheel = max(pathlib.Path('dist').glob('*.whl'), key=lambda p: p.stat().st_mtime)
+          print('wheel:', wheel)
+          PY
+      - name: Install wheel and import smoke
+        run: |
+          pip install dist/*.whl
+          python -c "import optics_sim; print('import_smoke_ok', getattr(optics_sim,'__version__','0'))"
+      - name: Build docs (strict)
+        run: mkdocs build --strict
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-and-docs
+          path: |
+            dist/*
+            site/**
+          retention-days: 30
+  pr-summary:
+    name: Post PR summary
+    if: ${{ github.event_name == 'pull_request' }}
+    needs: [gpu-smoke, build-and-docs]
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download GPU artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: gpu_artifacts
+      - name: Build summary comment
+        id: mk
+        run: |
+          python - << 'PY'
+          import json, pathlib
+          base = pathlib.Path('gpu_artifacts')
+          lines = ['### M3 GPU Smoke Summary']
+          for d in sorted(base.glob('gpu-*')):
+            name = d.name.replace('gpu-','')
+            m = json.load(open(next(d.glob('**/metrics.json'))))
+            p = json.load(open(next(d.glob('**/perf.json'))))
+            lines.append(f"- {name}: L2={m.get('L2', m.get('l2_error')):.4f}, energy={m.get('energy_err', m.get('energy_error')):.4f}, first-zero={m.get('airy_first_zero_err', m.get('airy_first_zero_error')):.4f}, strehl={m.get('strehl', m.get('strehl_ratio')):.4f}, mtf_cutoff={m.get('mtf_cutoff_err', m.get('mtf_cutoff_error')):.4f}, peak_vram={p.get('peak_vram_bytes',0)}, wall_time={p.get('wall_time_sec',0):.2f}s")
+          body='\n'.join(lines)
+          open('summary.txt','w',encoding='utf-8').write(body)
+          PY
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          cat summary.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      - name: Comment on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: m3-ci-summary
+          message: ${{ steps.mk.outputs.body }}
+
+

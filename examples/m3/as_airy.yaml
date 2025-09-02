@@ -1,0 +1,61 @@
+# Angular Spectrum - Airy pattern simulation
+# Moderate NA system demonstrating diffraction-limited performance
+# Target: 8GB GPU, <90s runtime, strict FP32
+
+# Solver configuration
+solver:
+  type: angular_spectrum
+  params:
+    wavelength: 550.0e-9  # 550 nm green light
+    n_medium: 1.0         # Air
+    NA: 0.5               # Moderate NA
+
+# Source configuration
+source:
+  type: gaussian
+  params:
+    waist: 2.0e-3         # 2mm beam waist
+    wavelength: 550.0e-9
+
+# Computational grid
+grid:
+  N: 1024               # Grid size (1024x1024)
+  dx: 1.0e-6           # 1 μm sampling
+
+# Propagation parameters
+propagation:
+  distance: 10.0e-3    # 10 mm propagation
+
+# Metrics configuration
+metrics:
+  compute_psf: true
+  compute_strehl: true
+  compute_energy: true
+  compute_mtf: true
+  reference_airy: true
+  NA: 0.5
+
+# Output configuration
+output:
+  directory: output/as_airy
+  save_field: true
+  save_intensity: true
+  save_phase: false
+
+# Recording planes
+recorders:
+  - type: intensity
+    z_positions: [0, 0.005, 0.01]  # Start, mid, end
+    
+# Performance settings
+device: cuda
+mixed_fft: false      # Strict FP32
+deterministic: true
+seed: 1337
+
+# Expected metrics (for validation)
+expected:
+  l2_error: 0.02
+  energy_error: 0.005
+  strehl_ratio: 0.98
+  first_zero_um: 0.67  # λ/(2*NA) = 0.55 μm

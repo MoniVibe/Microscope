@@ -9,6 +9,12 @@ from __future__ import annotations
 import numpy as np
 import torch
 
+from optics_sim.core.precision import (
+    enforce_fp32_cuda,
+    assert_fp32_cuda,
+    fft2_with_precision,
+)
+
 
 def run(
     field: torch.Tensor,
@@ -45,8 +51,10 @@ def run(
     )
     na_max = plan.na_max if hasattr(plan, "na_max") else plan.get("na_max", 0.25)
 
-    # Get device
+    # Get device and enforce FP32 on CUDA
     device = field.device
+    if device.type == "cuda":
+        field = field.to(torch.complex64)  # Ensure FP32 complex on CUDA
 
     # Handle spectral dimension
     if field.dim() == 2:
@@ -63,8 +71,9 @@ def run(
     else:
         n = refractive_index.to(device)
 
-    # Create PML absorber
+    # Create PML absorber and cosine window
     pml = _create_pml(ny, nx, thickness=32, device=device)
+    cosine_window = _create_cosine_window(ny, nx, device=device)
 
     # Propagate each spectral component
     output_fields = []
@@ -82,8 +91,8 @@ def run(
         # Current field
         E = field[s].clone()
 
-        # Apply PML to input
-        E = E * pml
+        # Apply windowing and PML to input
+        E = E * cosine_window * pml
 
         # Propagate through all z-steps
         for dz in dz_list:
@@ -92,6 +101,9 @@ def run(
 
             # Split-step propagation with wide-angle correction
             E = _propagate_step_vector_wide(E, n, k0, dx, dy, dz_adaptive, na_max, pml)
+            
+            # Apply windowing to maintain energy conservation
+            E = E * cosine_window
 
         output_fields.append(E)
 
@@ -102,6 +114,41 @@ def run(
         output = output.squeeze(0)
 
     return output
+
+
+def _create_cosine_window(ny: int, nx: int, device: str) -> torch.Tensor:
+    """Create cosine windowing function for far-field evaluation.
+    
+    Args:
+        ny, nx: Grid dimensions
+        device: Computation device
+    
+    Returns:
+        Cosine window of shape (ny, nx)
+    """
+    # Create 1D windows with cosine taper
+    taper_fraction = 0.1  # Taper 10% of each edge
+    
+    # Y direction
+    window_y = torch.ones(ny, device=device)
+    taper_ny = max(int(taper_fraction * ny), 5)
+    for i in range(taper_ny):
+        val = 0.5 * (1 - np.cos(np.pi * i / taper_ny))
+        window_y[i] = val
+        window_y[-(i + 1)] = val
+    
+    # X direction
+    window_x = torch.ones(nx, device=device)
+    taper_nx = max(int(taper_fraction * nx), 5)
+    for j in range(taper_nx):
+        val = 0.5 * (1 - np.cos(np.pi * j / taper_nx))
+        window_x[j] = val
+        window_x[-(j + 1)] = val
+    
+    # Create 2D window as outer product
+    window_2d = window_y.unsqueeze(1) * window_x.unsqueeze(0)
+    
+    return window_2d
 
 
 def _create_pml(
@@ -120,12 +167,12 @@ def _create_pml(
     """
     pml = torch.ones((ny, nx), dtype=torch.float32, device=device)
 
-    # Polynomial grading (cubic)
+    # Polynomial grading (quartic for smoother profile)
     def pml_profile(d: float, thickness: float) -> float:
         if d >= thickness:
             return 1.0
         x = d / thickness
-        return 1.0 - sigma_max * (1 - x) ** 3
+        return x ** 4  # Quartic profile for smoother absorption
 
     # Apply PML on all edges
     for i in range(ny):
@@ -163,19 +210,24 @@ def _compute_adaptive_step(
     Returns:
         Adaptive step size
     """
-    # Estimate phase curvature
+    # Estimate phase curvature (avoid edges)
     phase = torch.angle(E)
-
-    # Compute phase gradients
-    grad_y = torch.gradient(phase, dim=0)[0] / dy
-    grad_x = torch.gradient(phase, dim=1)[0] / dx
-
-    # Maximum phase gradient (related to local NA)
-    max_grad = torch.max(torch.abs(grad_y).max(), torch.abs(grad_x).max()).item()
+    ny, nx = E.shape
+    pad = 5
+    
+    if ny > 2*pad and nx > 2*pad:
+        phase_interior = phase[pad:-pad, pad:-pad]
+        # Compute phase gradients
+        grad_y = torch.gradient(phase_interior, dim=0)[0] / dy
+        grad_x = torch.gradient(phase_interior, dim=1)[0] / dx
+        # Maximum phase gradient (related to local NA)
+        max_grad = torch.max(torch.abs(grad_y).max(), torch.abs(grad_x).max()).item()
+    else:
+        max_grad = 0.0
 
     # Estimate local NA from phase gradient
     # |∇φ| ≈ k * sin(θ) = k * NA
-    local_na = min(max_grad / (k0 * n.mean().item()), na_max)
+    local_na = min(max_grad / (k0 * n.mean().item()), na_max) if max_grad > 0 else 0.1
 
     # Stability criterion for BPM
     # Δz ≤ Δx² / (λ * f_stability)
@@ -187,17 +239,39 @@ def _compute_adaptive_step(
     else:
         f_stability = 1.0  # Standard
 
-    dz_max = min(dx, dy) ** 2 / (2 * np.pi / k0 * f_stability)
+    lambda_um = 2 * np.pi / k0
+    dz_max = min(dx, dy) ** 2 / (lambda_um * f_stability)
 
     # Additional CFL-like condition for numerical stability
     n_max = n.max().item()
     dz_cfl = 0.5 * min(dx, dy) / (n_max * np.sqrt(2))
+    
+    # Curvature-based limit from beam characteristics
+    intensity = torch.abs(E) ** 2
+    if intensity.max() > 0:
+        threshold = 0.135 * intensity.max()  # 1/e² threshold
+        above = intensity > threshold
+        if above.any():
+            y_idx, x_idx = torch.where(above)
+            beam_width = min(
+                (x_idx.max() - x_idx.min()).item() * dx,
+                (y_idx.max() - y_idx.min()).item() * dy
+            )
+            if beam_width > 0:
+                z_R = np.pi * beam_width**2 / (4 * lambda_um)
+                dz_curvature = z_R / 10
+            else:
+                dz_curvature = dz
+        else:
+            dz_curvature = dz
+    else:
+        dz_curvature = dz
 
     # Take minimum of all constraints
-    dz_adaptive = min(dz, dz_max, dz_cfl)
+    dz_adaptive = min(dz, dz_max, dz_cfl, dz_curvature)
 
-    # Ensure positive step
-    dz_adaptive = max(dz_adaptive, 1e-6)
+    # Ensure positive step (at least one wavelength)
+    dz_adaptive = max(dz_adaptive, lambda_um)
 
     return dz_adaptive
 
@@ -234,17 +308,13 @@ def _propagate_step_vector_wide(
     ny, nx = E.shape
     device = E.device
 
-    # Use mixed precision for FFT if stable
-    use_mixed = device.type == "cuda" and torch.cuda.is_available()
-
-    if use_mixed:
-        # Cast to float16 for FFT, but accumulate in float32
-        E_fft = E.to(torch.complex32)  # complex32 = 2×float16
-    else:
-        E_fft = E
+    # Ensure FP32 on CUDA
+    if device.type == "cuda":
+        E = enforce_fp32_cuda(E, "field")
+        assert_fp32_cuda(E, "field before FFT")
 
     # Step 1: Propagate dz/2 in homogeneous medium
-    E_fft = torch.fft.fft2(E_fft)
+    E_fft = fft2_with_precision(E, inverse=False)
 
     # Create frequency grids
     fx = torch.fft.fftfreq(nx, d=dx, device=device)
@@ -304,28 +374,24 @@ def _propagate_step_vector_wide(
     E_fft = E_fft * torch.sqrt(H)
 
     # Back to spatial domain
-    E = torch.fft.ifft2(E_fft)
+    E = fft2_with_precision(E_fft, inverse=True)
 
-    if use_mixed:
-        # Cast back to complex64
-        E = E.to(torch.complex64)
+    # Ensure FP32 on CUDA
+    if device.type == "cuda":
+        E = enforce_fp32_cuda(E, "field after IFFT")
 
     # Step 2: Apply refractive index modulation
     phase_mod = k0 * (n - n_avg) * dz
     E = E * torch.exp(1j * phase_mod.to(torch.complex64))
 
     # Step 3: Propagate another dz/2
-    if use_mixed:
-        E_fft = E.to(torch.complex32)
-    else:
-        E_fft = E
-
-    E_fft = torch.fft.fft2(E_fft)
+    E_fft = fft2_with_precision(E, inverse=False)
     E_fft = E_fft * torch.sqrt(H)
-    E = torch.fft.ifft2(E_fft)
+    E = fft2_with_precision(E_fft, inverse=True)
 
-    if use_mixed:
-        E = E.to(torch.complex64)
+    # Ensure FP32 on CUDA
+    if device.type == "cuda":
+        E = enforce_fp32_cuda(E, "field after second propagation")
 
     # Apply PML absorption
     E = E * pml
@@ -374,9 +440,9 @@ def _apply_vector_correction(
         correction = torch.where(band_limit, correction, torch.ones_like(correction))
 
     # Apply correction in Fourier domain
-    E_fft = torch.fft.fft2(E)
-    E_fft = E_fft * correction
-    E = torch.fft.ifft2(E_fft)
+    E_fft = fft2_with_precision(E, inverse=False)
+    E_fft = E_fft * correction.to(E_fft.dtype)
+    E = fft2_with_precision(E_fft, inverse=True)
 
     return E
 

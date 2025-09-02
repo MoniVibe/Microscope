@@ -1,0 +1,67 @@
+# Split-Step BPM - Phase grating diffraction
+# Demonstrates propagation through periodic structure
+# Target: 8GB GPU, <90s runtime, strict FP32
+
+# Solver configuration
+solver:
+  type: split_step_bpm
+  params:
+    wavelength: 632.8e-9  # HeNe laser
+    n_medium: 1.0         # Air
+    n_steps: 50           # Propagation steps
+
+# Source configuration
+source:
+  type: plane_wave
+  params:
+    amplitude: 1.0
+    wavelength: 632.8e-9
+    angle_deg: 0          # Normal incidence
+
+# Computational grid
+grid:
+  N: 512                  # Grid size (512x512)
+  dx: 2.0e-6             # 2 μm sampling
+
+# Propagation parameters
+propagation:
+  distance: 50.0e-3      # 50 mm total distance
+  grating:
+    enabled: true
+    position: 0.0        # At input plane
+    period: 20.0e-6      # 20 μm period
+    depth: 1.0e-6        # 1 μm depth
+    n_grating: 1.5       # Glass grating
+    type: binary         # Binary phase grating
+
+# Metrics configuration
+metrics:
+  compute_energy: true
+  compute_diffraction_efficiency: true
+  orders: [-2, -1, 0, 1, 2]  # Diffraction orders to analyze
+  
+# Output configuration
+output:
+  directory: output/bpm_ss_grating
+  save_field: true
+  save_intensity: true
+  save_phase: true
+
+# Recording planes
+recorders:
+  - type: intensity
+    z_positions: [0, 0.01, 0.025, 0.05]  # Multiple planes
+  - type: field
+    z_positions: [0.05]  # Final field
+
+# Performance settings
+device: cuda
+mixed_fft: false      # Strict FP32
+deterministic: true
+seed: 1337
+
+# Expected metrics
+expected:
+  energy_error: 0.008
+  zero_order_efficiency: 0.4
+  first_order_efficiency: 0.25

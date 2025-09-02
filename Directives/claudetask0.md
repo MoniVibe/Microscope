@@ -95,3 +95,73 @@ Implement minimal, correct, GPU-first modules to meet physics and engineering ga
 - Pre-commit and CI pass.
 - GPU smoke test passes core solvers.
 - TIFF outputs deterministic with matching metadata.
+1) claude/M1_tasks.md — deliver to Claude (Opus)
+
+Goal: close CPU physics gaps and finalize I/O.
+
+Work:
+
+AS kernel
+
+Confirm merged fix. Re-run Airy test. Target ≤2% first-zero error on CPU. Current fix shows ~0.2% on test grid. Keep float64 kz intermediates and soft NA taper. 
+
+BPM paths
+
+Audit normalization and windowing. Add cosine taper for far-field eval. Ensure energy audit ≤1%. 
+
+Validation suite
+
+Make tests pass at stated tolerances: Gaussian, Airy, thin lens, phase grating. Record ΔL2 and energy errors in test output. 
+
+io.tiff
+
+Write units, Δx/Δy/Δz, λ list, NA, seeds, config snapshot, commit hash, frame info. Add read-back tests gated on tifffile. 
+
+core.frames
+
+Batch transforms with dtype preservation. Z-Y-X order unit tests. 
+
+Acceptance (M1):
+
+Airy: peak + first zero within 2%.
+
+Grating orders: power ratios within 3%.
+
+Gaussian: L2 ≤3%, energy ≤1%.
+
+Thin lens: Strehl ≥0.95, MTF cutoff within 2%.
+
+TIFF round-trip metadata complete. All CPU tests green. 
+
+2) cursor/M1_tasks.md — deliver to Cursor AI (GPT-5)
+
+Goal: harden local/CI runs and contain noise.
+
+Work:
+
+Pytest hygiene
+
+Add pytest.ini with:
+
+[pytest]
+testpaths = tests
+norecursedirs = Lib build dist .git
+
+
+Update local scripts to pass --ignore=Lib if needed. 
+
+CI
+
+Ensure CPU job runs only tests/. Keep GPU job -m gpu on self-hosted runner. Upload JUnit and logs. 
+
+Lint scope
+
+Pin Ruff rules to minimal set. Defer N8xx, PLR09xx, PLR2004 to post-M1. Publish filtered reports to Directives/reports/cursorreports/. 
+
+Docs
+
+README install matrix aligned with extras. Link example GPU smoke configs. 
+
+Acceptance (M1):
+
+Local pytest no vendor collection. CI green on lint + CPU. Filtered reports published. 
