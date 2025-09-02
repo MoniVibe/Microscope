@@ -1,6 +1,47 @@
 name: ci
 on: [push, pull_request]
 jobs:
+  gpu-smoke-prepare:
+    runs-on: ubuntu-22.04
+    outputs:
+      matrix: ${{ steps.discover.outputs.matrix }}
+    steps:
+    - uses: actions/checkout@v4
+    - id: discover
+      name: Discover gpu-smoke examples (examples/m3/*.yml,*.yaml)
+      run: |
+        python - << 'PY'
+        import json, glob, os, sys
+        files = sorted(glob.glob('examples/m3/*.yml') + glob.glob('examples/m3/*.yaml'))
+        matrix = [{"name": os.path.splitext(os.path.basename(f))[0], "cfg": f} for f in files]
+        print("Found examples:", [m['cfg'] for m in matrix])
+        print(f"matrix={json.dumps(matrix)}")
+        with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+            fh.write(f"matrix={json.dumps(matrix)}\n")
+        PY
+    - name: Require at least 3 configs
+      run: |
+        python - << 'PY'
+        import json, os, sys
+        matrix = os.environ.get('MATRIX_JSON')
+        if not matrix:
+            print('No matrix JSON found from discovery output.')
+        PY
+      env:
+        MATRIX_JSON: ${{ steps.discover.outputs.matrix }}
+    - name: Validate matrix count >= 3
+      run: |
+        python - << 'PY'
+        import json, os, sys
+        matrix = os.environ.get('MATRIX_JSON')
+        items = json.loads(matrix) if matrix else []
+        print('Matrix items:', [it.get('cfg') for it in items])
+        if len(items) < 3:
+          print('ERROR: Need at least 3 configs in examples/m3/.'); sys.exit(1)
+        PY
+      env:
+        MATRIX_JSON: ${{ steps.discover.outputs.matrix }}
+
   lint:
     runs-on: ubuntu-22.04
     steps:
@@ -25,9 +66,14 @@ jobs:
         name: cpu-test-artifacts
         path: pytest_cpu.xml
         if-no-files-found: warn
+        retention-days: 30
 
   test-gpu:
     runs-on: [self-hosted, gpu]
+    env:
+      CUBLAS_WORKSPACE_CONFIG: ":4096:8"
+      PYTHONHASHSEED: "0"
+      PYTORCH_DETERMINISTIC: "1"
     defaults:
       run:
         shell: powershell
@@ -49,10 +95,14 @@ jobs:
     - name: Install project (cuda + dev)
       run: python -m pip install -e .[cuda,dev]
 
-    - name: CUDA availability gate
+    - name: Environment snapshot and CUDA gate
       run: |
-        python -c 'import torch,sys; print("torch", torch.__version__); print("cuda", getattr(torch.version,"cuda",None)); print("avail", torch.cuda.is_available()); print("n", torch.cuda.device_count()); assert torch.cuda.is_available()' `
-        | Tee-Object -FilePath env.txt
+        $ErrorActionPreference='Stop'
+        python -c "import platform; print('python', platform.python_version())" | Tee-Object -FilePath env.txt
+        python -c "import torch; print('torch', torch.__version__); print('cuda', getattr(torch.version,'cuda',None)); print('avail', torch.cuda.is_available()); print('n', torch.cuda.device_count()); print('names', [torch.cuda.get_device_name(i) for i in range(torch.cuda.device_count())] if torch.cuda.is_available() else [])" | Tee-Object -FilePath env.txt -Append
+        nvidia-smi | Tee-Object -FilePath env.txt -Append
+        git rev-parse --short HEAD | Tee-Object -FilePath env.txt -Append
+        python -c "import torch,sys; assert torch.cuda.is_available()"
 
     - name: Run GPU-marked tests
       run: |
@@ -67,5 +117,432 @@ jobs:
         path: |
           env.txt
           pytest_gpu.log
+        retention-days: 30
+
+  gpu-smoke:
+    needs: gpu-smoke-prepare
+    if: ${{ always() }}
+    runs-on: [self-hosted, gpu]
+    concurrency:
+      group: gpu-smoke
+      cancel-in-progress: false
+    env:
+      TORCH_ALLOW_TF32: "0"
+      CUBLAS_WORKSPACE_CONFIG: ":4096:8"
+      PYTHONHASHSEED: "0"
+      PYTORCH_DETERMINISTIC: "1"
+    defaults:
+      run:
+        shell: powershell
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.gpu-smoke-prepare.outputs.matrix || '[]') }}
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Verify system Python 3.11
+      run: |
+        $ErrorActionPreference='Stop'
+        python -V
+        python -c 'import sys; assert sys.version.startswith("3.11."), sys.version'
+
+    - name: Install PyTorch CUDA 12.1
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install --index-url https://download.pytorch.org/whl/cu121 `
+          torch==2.3.* torchvision==0.18.* torchaudio==2.3.*
+
+    - name: Install project (cuda + dev)
+      run: python -m pip install -e .[cuda,dev]
+
+    - name: Determinism and TF32 disables
+      run: |
+        python - << 'PY'
+        import torch
+        torch.use_deterministic_algorithms(True)
+        torch.backends.cuda.matmul.allow_tf32=False
+        torch.backends.cudnn.allow_tf32=False
+        torch.set_float32_matmul_precision("highest")
+        assert torch.get_float32_matmul_precision() == "highest"
+        print("Determinism enabled, TF32 disabled")
+        PY
+
+    - name: Create case artifacts directory
+      run: |
+        New-Item -ItemType Directory -Force -Path "artifacts/${{ matrix.name }}" | Out-Null
+
+    - name: Snapshot environment and GPU (before)
+      run: |
+        $p = "artifacts/${{ matrix.name }}"
+        python - << 'PY' | Out-File -FilePath "$p/env.json" -Encoding utf8
+        import json, sys, platform
+        try:
+            import torch
+            cuda = getattr(torch.version, 'cuda', None)
+            cudnn = torch.backends.cudnn.version() if torch.cuda.is_available() else None
+            devs = [torch.cuda.get_device_name(i) for i in range(torch.cuda.device_count())] if torch.cuda.is_available() else []
+            gpu_name = devs[0] if devs else None
+        except Exception:
+            cuda = None; cudnn = None; devs = []; gpu_name = None
+        print(json.dumps({
+          "python": sys.version,
+          "platform": platform.platform(),
+          "torch": (getattr(__import__('torch'),'__version__', 'unknown') if 'torch' in sys.modules else 'unknown'),
+          "cuda": cuda,
+          "cudnn": cudnn,
+          "devices": devs,
+          "gpu_name": gpu_name,
+        }, indent=2))
+        PY
+        try { nvidia-smi | Out-File -FilePath "$p/nvidia_smi_before.txt" -Encoding utf8 } catch {}
+
+    - name: Run case and capture logs (m3_run)
+      id: run_case
+      run: |
+        $ErrorActionPreference='Stop'
+        $p = "artifacts/${{ matrix.name }}"
+        $cfg = "${{ matrix.cfg }}"
+        Write-Host "Running case: $cfg"
+        $sw = [System.Diagnostics.Stopwatch]::StartNew()
+        python -m optics_sim.cli.m3_run --config "$cfg" --output "$p" --device cuda 2>&1 | Tee-Object -FilePath "$p/run.log"
+        $sw.Stop()
+
+    - name: Snapshot GPU (after)
+      if: always()
+      run: |
+        $p = "artifacts/${{ matrix.name }}"
+        try { nvidia-smi | Out-File -FilePath "$p/nvidia_smi_after.txt" -Encoding utf8 } catch {}
+
+    - name: Verify required artifacts exist and non-empty
+      run: |
+        $ErrorActionPreference='Stop'
+        $p = "artifacts/${{ matrix.name }}"
+        Write-Host "Checking files in $p"
+        $req = @("output.tiff","metrics.json","perf.json","env.json","run.log","nvidia_smi_before.txt","nvidia_smi_after.txt")
+        foreach ($f in $req) {
+          $fp = Join-Path $p $f
+          if (-not (Test-Path $fp)) { Write-Error "Missing artifact: $fp"; exit 1 }
+          $size = (Get-Item $fp).Length
+          if ($size -le 0) { Write-Error "Empty artifact: $fp"; exit 1 }
+        }
+
+    - name: Enforce numeric physics gates and budgets + anti-dummy checks
+      run: |
+        $ErrorActionPreference='Stop'
+        $p = "artifacts/${{ matrix.name }}"
+        python - << 'PY'
+        import json, pathlib, sys
+        p = pathlib.Path("artifacts")/"${{ matrix.name }}"
+        metrics = json.loads((p/"metrics.json").read_text())
+        perf = json.loads((p/"perf.json").read_text())
+        env = json.loads((p/"env.json").read_text())
+        # Accept either canonical or synonym keys
+        l2 = metrics.get("l2_error", metrics.get("L2"))
+        ee = metrics.get("energy_error", metrics.get("energy_err"))
+        airy = metrics.get("airy_first_zero_error", metrics.get("airy_first_zero_err", metrics.get("airy_first_zero", 0.0)))
+        strehl = metrics.get("strehl_ratio", metrics.get("strehl", 0.0))
+        mtf = metrics.get("mtf_cutoff_error", metrics.get("mtf_cutoff_err", metrics.get("mtf_cutoff", 0.0)))
+        assert l2 is not None and l2 <= 0.03, metrics
+        assert ee is not None and ee <= 0.01, metrics
+        assert airy <= 0.02, metrics
+        assert strehl >= 0.95, metrics
+        assert mtf <= 0.05, metrics
+        vram = perf.get("peak_vram_bytes", perf.get("vram_bytes", 0))
+        wtime = perf.get("wall_time_sec", perf.get("wall_time_s", 0))
+        assert vram < 4e9, perf
+        assert wtime < 90, perf
+        # Anti-dummy: must have non-trivial VRAM and time usage
+        assert vram >= 10_000_000, perf
+        assert wtime >= 1, perf
+        # Anti-dummy: env must include primary GPU name
+        assert bool(env.get("gpu_name")), env
+        # Anti-dummy: nvidia-smi before must be non-empty (checked above)
+        PY
+
+    - name: Upload per-case artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: gpu-smoke-${{ matrix.name }}
+        path: |
+          artifacts/${{ matrix.name }}/output.tiff
+          artifacts/${{ matrix.name }}/run.log
+          artifacts/${{ matrix.name }}/env.json
+          artifacts/${{ matrix.name }}/metrics.json
+          artifacts/${{ matrix.name }}/perf.json
+          artifacts/${{ matrix.name }}/nvidia_smi_before.txt
+          artifacts/${{ matrix.name }}/nvidia_smi_after.txt
+        retention-days: 30
+
+  precision-policy-cpu:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with: {python-version: '3.11'}
+    - name: Install deps (CPU)
+      run: |
+        python -m pip install -e .[cpu,dev] -f https://download.pytorch.org/whl/cpu/torch_stable.html
+    - name: Set matmul precision (highest)
+      run: |
+        python - << 'PY'
+        import torch
+        torch.set_float32_matmul_precision("highest")
+        PY
+    - name: Static grep guard (CPU)
+      run: |
+        set -e
+        if grep -r -nE "complex32|float16|use_mixed" src/ ; then
+          echo "Forbidden precision patterns found";
+          exit 1;
+        else
+          echo "No forbidden precision patterns";
+        fi
+    - name: Runtime precision guard (CPU)
+      run: |
+        python - << 'PY' > precision_policy.log
+        import torch
+        from optics_sim.core.precision import validate_precision_invariants
+        a = torch.randn(8, 8, dtype=torch.complex64, device='cpu')
+        b = a.clone()
+        res = validate_precision_invariants(a, b, [])
+        print(res)
+        assert res["all_valid"]
+        PY
+    - name: Environment snapshot
+      run: |
+        python - << 'PY' > env_snapshot.txt
+        import sys, torch, platform, json
+        print(json.dumps({
+          "python": sys.version,
+          "torch": torch.__version__,
+          "cuda": getattr(torch.version, "cuda", None),
+          "cudnn": torch.backends.cudnn.version(),
+          "platform": platform.platform(),
+        }, indent=2))
+        PY
+    - name: Precision policy tests
+      run: |
+        pytest -q tests/test_precision_policy.py --junitxml=pytest_precision.xml
+    - name: Validation suite
+      run: |
+        python run_validation_suite.py > validation_suite.log 2>&1
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: precision-policy-cpu-artifacts
+        path: |
+          pytest_precision.xml
+          precision_policy.log
+          validation_suite.log
+          env_snapshot.txt
+          docs/precision_policy.md
+        retention-days: 30
+
+  precision-policy-cuda:
+    runs-on: [self-hosted, gpu]
+    env:
+      TORCH_ALLOW_TF32: "0"
+      CUBLAS_WORKSPACE_CONFIG: ":4096:8"
+      PYTHONHASHSEED: "0"
+      PYTORCH_DETERMINISTIC: "1"
+    defaults:
+      run:
+        shell: powershell
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Verify system Python 3.11
+      run: |
+        $ErrorActionPreference='Stop'
+        python -V
+        python -c 'import sys; if (-not $PSStyle) {} ; assert sys.version.startswith("3.11."), sys.version'
+
+    - name: Install PyTorch CUDA 12.1
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install --index-url https://download.pytorch.org/whl/cu121 `
+          torch==2.3.* torchvision==0.18.* torchaudio==2.3.*
+
+    - name: Install project (cuda + dev)
+      run: python -m pip install -e .[cuda,dev]
+
+    - name: Determinism and TF32 disables
+      run: |
+        python - << 'PY'
+        import torch
+        torch.use_deterministic_algorithms(True)
+        torch.backends.cuda.matmul.allow_tf32=False
+        torch.backends.cudnn.allow_tf32=False
+        torch.set_float32_matmul_precision("highest")
+        PY
+
+    - name: Static grep guard (Windows PowerShell)
+      run: |
+        if (Select-String -Path src\* -Pattern 'complex32|float16|use_mixed' -AllMatches -Recurse) { exit 1 }
+
+    - name: Runtime precision guard (GPU)
+      run: |
+        python - << 'PY' > precision_policy.log
+        import torch
+        from optics_sim.core.precision import validate_precision_invariants
+        if not torch.cuda.is_available():
+            raise SystemExit("CUDA not available")
+        a = torch.randn(8, 8, dtype=torch.complex64, device='cuda')
+        b = a.clone()
+        res = validate_precision_invariants(a, b, [])
+        print(res)
+        assert res["all_valid"]
+        PY
+
+    - name: Environment snapshot
+      run: |
+        python - << 'PY' > env_snapshot.txt
+        import sys, torch, platform, json
+        print(json.dumps({
+          "python": sys.version,
+          "torch": torch.__version__,
+          "cuda": getattr(torch.version, "cuda", None),
+          "cudnn": torch.backends.cudnn.version(),
+          "platform": platform.platform(),
+        }, indent=2))
+        PY
+
+    - name: Precision policy tests
+      run: |
+        python -m pytest -q tests/test_precision_policy.py --junitxml=pytest_precision.xml
+
+    - name: Validation suite
+      run: |
+        python run_validation_suite.py | Tee-Object -FilePath validation_suite.log
+
+    - name: Upload artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: precision-policy-cuda-artifacts
+        path: |
+          pytest_precision.xml
+          precision_policy.log
+          validation_suite.log
+          env_snapshot.txt
+          docs/precision_policy.md
+        retention-days: 30
+
+  build-and-docs:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with: {python-version: '3.11'}
+    - name: Build wheels and sdist
+      run: |
+        python -m pip install --upgrade pip build
+        python -m build
+    - name: Import smoke from built wheel
+      run: |
+        python - << 'PY'
+        import subprocess, sys
+        # Create a fresh venv-like isolated install by using pip install dist files
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--force-reinstall', '--no-deps', 'dist/*.whl'])
+        import importlib
+        import optics_sim
+        print('Imported optics_sim version:', getattr(optics_sim, '__version__', 'unknown'))
+        PY
+    - name: Install MkDocs
+      run: |
+        python -m pip install mkdocs mkdocs-material
+    - name: Build site (MkDocs strict)
+      run: |
+        mkdocs build --strict
+    - name: Upload distribution artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: dist-artifacts
+        path: dist/*
+        retention-days: 30
+    - name: Upload site
+      uses: actions/upload-artifact@v4
+      with:
+        name: site
+        path: site
+        retention-days: 30
+
+  ci-report:
+    needs: [gpu-smoke]
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/download-artifact@v4
+      with:
+        pattern: gpu-smoke-*
+        merge-multiple: false
+    - name: Build CI report
+      run: |
+        python - << 'PY' > ci_report.md
+        import json, glob, os
+        def find_one(root, filename):
+            matches = glob.glob(os.path.join(root, '**', filename), recursive=True)
+            return matches[0] if matches else None
+        lines=[]
+        lines.append("### M3 GPU Smoke Report")
+        lines.append("")
+        lines.append("| Case | L2 | Energy | Airy0 | Strehl | MTF | VRAM (GB) | Time (s) |")
+        lines.append("|---|---:|---:|---:|---:|---:|---:|---:|")
+        for d in sorted(glob.glob('gpu-smoke-*')):
+            m_path = find_one(d, 'metrics.json')
+            p_path = find_one(d, 'perf.json')
+            if not (m_path and p_path):
+                continue
+            try:
+                m=json.load(open(m_path, 'r'))
+                p=json.load(open(p_path, 'r'))
+            except Exception:
+                continue
+            name=d.replace('gpu-smoke-','',1)
+            l2=m.get('l2_error', m.get('L2'))
+            ee=m.get('energy_error', m.get('energy_err'))
+            airy=m.get('airy_first_zero_error', m.get('airy_first_zero_err'))
+            strehl=m.get('strehl_ratio', m.get('strehl'))
+            mtf=m.get('mtf_cutoff_error', m.get('mtf_cutoff_err'))
+            vram_gb=(p.get('peak_vram_bytes',0))/(1024**3)
+            t=p.get('wall_time_sec', p.get('wall_time_s',0))
+            try:
+                lines.append(f"| {name} | {l2:.4f} | {ee:.4f} | {airy:.4f} | {strehl:.4f} | {mtf:.4f} | {vram_gb:.3f} | {t:.2f} |")
+            except Exception:
+                lines.append(f"| {name} | {l2} | {ee} | {airy} | {strehl} | {mtf} | {vram_gb} | {t} |")
+        print("\n".join(lines))
+        PY
+    - name: Upload CI report artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: m3-gpu-smoke-report
+        path: ci_report.md
+        retention-days: 30
+    - name: Post PR comment
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const body = fs.readFileSync('ci_report.md','utf8');
+          const {owner, repo} = context.repo;
+          const issue_number = context.payload.pull_request.number;
+          const marker = '<!-- m3-ci-report -->';
+          // Fetch artifact download links for this run
+          const run_id = context.runId;
+          const artifacts = await github.rest.actions.listWorkflowRunArtifacts({owner, repo, run_id});
+          const links = artifacts.data.artifacts
+            .filter(a => a.name && a.name.startsWith('gpu-smoke-'))
+            .map(a => `- [${a.name}](${a.archive_download_url})`)
+            .join('\n');
+          const header = marker + '\n' + body + (links ? ('\n\n#### Artifacts\n' + links) : '');
+          const { data: comments } = await github.rest.issues.listComments({owner, repo, issue_number});
+          const existing = comments.find(c => c.body && c.body.includes(marker));
+          if (existing) {
+            await github.rest.issues.updateComment({owner, repo, comment_id: existing.id, body: header});
+          } else {
+            await github.rest.issues.createComment({owner, repo, issue_number, body: header});
+          }
 
 
