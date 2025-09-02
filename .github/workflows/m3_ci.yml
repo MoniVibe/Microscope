@@ -98,7 +98,7 @@ jobs:
 
   gpu-smoke:
     name: GPU smoke
-    needs: [discover, cpu-gate-loop]
+    needs: [style-lint, discover, cpu-gate-loop]
     runs-on: [self-hosted, gpu]
     timeout-minutes: 60
     concurrency:
@@ -217,7 +217,7 @@ jobs:
 
   determinism:
     name: Determinism spot-check
-    needs: gpu-smoke
+    needs: [style-lint, gpu-smoke]
     runs-on: [self-hosted, gpu]
     timeout-minutes: 20
     steps:
@@ -252,7 +252,7 @@ jobs:
 
   build-and-docs:
     name: Build and docs
-    needs: [determinism]
+    needs: [style-lint, determinism]
     runs-on: ubuntu-22.04
     timeout-minutes: 20
     steps:

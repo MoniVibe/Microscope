@@ -1,5 +1,7 @@
-name: ci
-on: [push, pull_request]
+name: legacy-ci (manual)
+# legacy, do not use.
+on:
+  workflow_dispatch:
 jobs:
   gpu-smoke-prepare:
     runs-on: ubuntu-22.04
