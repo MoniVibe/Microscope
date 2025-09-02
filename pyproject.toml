@@ -31,19 +31,20 @@ where = ["src"]
 include = ["optics_sim*"]
 
 [tool.ruff]
-line-length = 100
+line-length = 120
 target-version = "py311"
-# Formatter config lives under [tool.ruff.format] (defaults are fine)
+src = ["src", "tests"]
 
 [tool.ruff.lint]
-# Keep lint minimal to ensure green CI quickly; expand later as needed
-select = ["I"]
+select = ["E","F","I","UP","B"]
+ignore = ["E402"]
 
 [tool.ruff.lint.per-file-ignores]
-# Loosen rules for tests to keep focus on functionality
-"tests/**/*" = ["F401", "F841", "E501"]
-# Root-level ad-hoc tests
-"test_*.py" = ["F401", "F841", "E501"]
+"tests/**" = ["PLR2004","D","S101","T201"]
+
+[tool.ruff.format]
+quote-style = "preserve"
+indent-style = "space"
 
 [tool.mypy]
 python_version = "3.11"

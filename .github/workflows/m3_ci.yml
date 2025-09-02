@@ -10,6 +10,19 @@ permissions:
   contents: read
 
 jobs:
+  style-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - run: pip install ruff
+      - name: Auto-format and fix
+        run: |
+          ruff format .
+          ruff check . --fix
+      - name: Enforce only correctness errors
+        run: ruff check . --select E,F
   discover:
     name: Discover M3 examples
     runs-on: ubuntu-22.04
@@ -40,6 +53,7 @@ jobs:
           MATRIX: ${{ steps.discover.outputs.matrix }}
   cpu-gate-loop:
     name: CPU baseline
+    needs: [style-lint]
     runs-on: ubuntu-22.04
     timeout-minutes: 20
     steps:
