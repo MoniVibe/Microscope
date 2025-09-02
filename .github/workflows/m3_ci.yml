@@ -70,8 +70,9 @@ jobs:
           python -m pip install -U pip
           pip install -e .[dev]
           pip install -f https://download.pytorch.org/whl/cpu/torch_stable.html torch==2.3.* torchvision==0.18.* torchaudio==2.3.*
-      - name: Run pytest precision policy
-        run: pytest -q tests/test_precision_policy.py --junitxml=pytest_precision.xml
+      - name: Run pytest precision policy only
+        run: |
+          pytest -q -k precision_policy --maxfail=1 --disable-warnings tests/test_precision_policy.py --junitxml=pytest_precision.xml
       - name: Run validation suite
         run: python run_validation_suite.py > validation_suite.log 2>&1 || true
       - name: Upload CPU artifacts
