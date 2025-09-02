@@ -37,10 +37,10 @@ src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E","F","I","UP","B"]
-ignore = ["E402"]
+ignore = ["E402", "E501"]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["PLR2004","D","S101","T201"]
+"tests/**" = ["PLR2004","D","S101","T201","E501"]
 
 [tool.ruff.format]
 quote-style = "preserve"
