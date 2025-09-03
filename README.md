@@ -1,5 +1,7 @@
 optics-sim (Microscope v0.1)
 
+![m3-ci](https://github.com/MoniVibe/Microscope/actions/workflows/m3_ci.yml/badge.svg?branch=main)
+
 Scaffolded Python 3.11 project for optical field simulation. Backend target: PyTorch (CUDA 12.1).
 
 Install (editable):
