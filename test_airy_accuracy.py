@@ -8,7 +8,6 @@ sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 import numpy as np
 import torch
-
 from optics_sim.prop.solvers import as_multi_slice
 
 
@@ -101,7 +100,8 @@ def test_airy_zero_accuracy():
     print(f"  Error: {error_percent:.1f}%")
 
     # Check if within 2% tolerance
-    if error_percent <= 2.0:
+    TOL_PERCENT = 2.0
+    if error_percent <= TOL_PERCENT:
         print(f"\n✓ PASS: Error {error_percent:.1f}% is within 2% tolerance")
         return True
     else:
@@ -129,9 +129,9 @@ def verify_as_kernel_formula():
     lambda_um = 0.55
     n = 1.0
 
-    # Create test frequencies
-    fx = torch.fft.fftfreq(nx, d=dx)
-    fy = torch.fft.fftfreq(ny, d=dx)  # Using dx for both (square grid)
+    # Create test frequencies (not used directly; kept for documentation)
+    _fx = torch.fft.fftfreq(nx, d=dx)
+    _fy = torch.fft.fftfreq(ny, d=dx)  # Using dx for both (square grid)
 
     print(f"Grid: {nx}×{ny}, dx={dx} μm")
     print(f"Wavelength: {lambda_um} μm")
@@ -147,7 +147,8 @@ def verify_as_kernel_formula():
     print("\nAt origin (fx=0, fy=0):")
     print(f"  kz = {kz_origin:.4f}")
     print(f"  Expected (2π·n/λ) = {expected_kz_origin:.4f}")
-    print(f"  Match: {'✓' if abs(kz_origin - expected_kz_origin) < 1e-6 else '✗'}")
+    ABS_TOL = 1e-6
+    print(f"  Match: {'✓' if abs(kz_origin - expected_kz_origin) < ABS_TOL else '✗'}")
 
     # Test at Nyquist frequency
     fx_nyquist = 0.5 / dx  # cycles/μm

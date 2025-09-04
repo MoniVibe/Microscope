@@ -8,6 +8,9 @@ from __future__ import annotations
 
 import numpy as np
 import torch
+from scipy.special import jn
+
+from .metrics import l2_field_error, phase_rmse
 
 
 def gaussian_free_space(
@@ -295,8 +298,6 @@ def phase_grating_orders(
     # where J_n are Bessel functions
 
     # For small phase depth, keep only few orders
-    from scipy.special import jn  # Bessel functions
-
     max_order = int(phase_depth / np.pi) + 3
     orders = {}
 
@@ -439,8 +440,6 @@ def validate_case(
             "energy_conservation": 0.01,  # 1% energy change
             "phase_rmse": 0.1,  # 0.1 radian phase error
         }
-
-    from .metrics import l2_field_error, phase_rmse
 
     # Compute metrics
     l2_err = l2_field_error(computed_field, reference_field)

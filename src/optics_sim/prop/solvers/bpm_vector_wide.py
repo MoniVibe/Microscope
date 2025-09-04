@@ -10,8 +10,8 @@ import numpy as np
 import torch
 
 from optics_sim.core.precision import (
-    enforce_fp32_cuda,
     assert_fp32_cuda,
+    enforce_fp32_cuda,
     fft2_with_precision,
 )
 
@@ -101,7 +101,7 @@ def run(
 
             # Split-step propagation with wide-angle correction
             E = _propagate_step_vector_wide(E, n, k0, dx, dy, dz_adaptive, na_max, pml)
-            
+
             # Apply windowing to maintain energy conservation
             E = E * cosine_window
 
@@ -118,17 +118,17 @@ def run(
 
 def _create_cosine_window(ny: int, nx: int, device: str) -> torch.Tensor:
     """Create cosine windowing function for far-field evaluation.
-    
+
     Args:
         ny, nx: Grid dimensions
         device: Computation device
-    
+
     Returns:
         Cosine window of shape (ny, nx)
     """
     # Create 1D windows with cosine taper
     taper_fraction = 0.1  # Taper 10% of each edge
-    
+
     # Y direction
     window_y = torch.ones(ny, device=device)
     taper_ny = max(int(taper_fraction * ny), 5)
@@ -136,7 +136,7 @@ def _create_cosine_window(ny: int, nx: int, device: str) -> torch.Tensor:
         val = 0.5 * (1 - np.cos(np.pi * i / taper_ny))
         window_y[i] = val
         window_y[-(i + 1)] = val
-    
+
     # X direction
     window_x = torch.ones(nx, device=device)
     taper_nx = max(int(taper_fraction * nx), 5)
@@ -144,10 +144,10 @@ def _create_cosine_window(ny: int, nx: int, device: str) -> torch.Tensor:
         val = 0.5 * (1 - np.cos(np.pi * j / taper_nx))
         window_x[j] = val
         window_x[-(j + 1)] = val
-    
+
     # Create 2D window as outer product
     window_2d = window_y.unsqueeze(1) * window_x.unsqueeze(0)
-    
+
     return window_2d
 
 
@@ -172,7 +172,7 @@ def _create_pml(
         if d >= thickness:
             return 1.0
         x = d / thickness
-        return x ** 4  # Quartic profile for smoother absorption
+        return x**4  # Quartic profile for smoother absorption
 
     # Apply PML on all edges
     for i in range(ny):
@@ -214,8 +214,8 @@ def _compute_adaptive_step(
     phase = torch.angle(E)
     ny, nx = E.shape
     pad = 5
-    
-    if ny > 2*pad and nx > 2*pad:
+
+    if ny > 2 * pad and nx > 2 * pad:
         phase_interior = phase[pad:-pad, pad:-pad]
         # Compute phase gradients
         grad_y = torch.gradient(phase_interior, dim=0)[0] / dy
@@ -245,7 +245,7 @@ def _compute_adaptive_step(
     # Additional CFL-like condition for numerical stability
     n_max = n.max().item()
     dz_cfl = 0.5 * min(dx, dy) / (n_max * np.sqrt(2))
-    
+
     # Curvature-based limit from beam characteristics
     intensity = torch.abs(E) ** 2
     if intensity.max() > 0:
@@ -254,8 +254,7 @@ def _compute_adaptive_step(
         if above.any():
             y_idx, x_idx = torch.where(above)
             beam_width = min(
-                (x_idx.max() - x_idx.min()).item() * dx,
-                (y_idx.max() - y_idx.min()).item() * dy
+                (x_idx.max() - x_idx.min()).item() * dx, (y_idx.max() - y_idx.min()).item() * dy
             )
             if beam_width > 0:
                 z_R = np.pi * beam_width**2 / (4 * lambda_um)

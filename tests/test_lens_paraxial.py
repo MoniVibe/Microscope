@@ -2,10 +2,14 @@
 
 import numpy as np
 import torch
-
 from optics_sim.prop.solvers import bpm_split_step_fourier
 from optics_sim.validation.cases import thin_lens_focus
 from optics_sim.validation.metrics import compute_fwhm, strehl_ratio
+
+# Named constants for PLR2004 in this test
+PARAXIAL_NA_MAX = 0.2
+STREHL_MIN = 0.95
+FWHM_REL_TOL = 0.02
 
 
 def test_lens_paraxial():
@@ -16,7 +20,7 @@ def test_lens_paraxial():
 
     # Low NA for paraxial
     na = lens_diameter_um / (2 * focal_length_um)  # = 0.1
-    assert na < 0.2, "Not paraxial regime"
+    assert na < PARAXIAL_NA_MAX, "Not paraxial regime"
 
     nx = ny = 256
     dx = dy = lens_diameter_um / 80
@@ -49,7 +53,7 @@ def test_lens_paraxial():
     psf_ideal = torch.abs(field_focus) ** 2
 
     strehl = strehl_ratio(psf_computed, psf_ideal)
-    assert strehl >= 0.95, f"Strehl ratio {strehl:.3f} < 0.95 for paraxial lens"
+    assert strehl >= STREHL_MIN, f"Strehl ratio {strehl:.3f} < {STREHL_MIN} for paraxial lens"
 
     # Check FWHM
     fwhm_x, fwhm_y = compute_fwhm(psf_computed, dx, dy)
@@ -60,8 +64,8 @@ def test_lens_paraxial():
     error_x = abs(fwhm_x - fwhm_theory) / fwhm_theory
     error_y = abs(fwhm_y - fwhm_theory) / fwhm_theory
 
-    assert error_x <= 0.02, f"FWHM X error {error_x:.1%} exceeds 2%"
-    assert error_y <= 0.02, f"FWHM Y error {error_y:.1%} exceeds 2%"
+    assert error_x <= FWHM_REL_TOL, f"FWHM X error {error_x:.1%} exceeds {FWHM_REL_TOL:.0%}"
+    assert error_y <= FWHM_REL_TOL, f"FWHM Y error {error_y:.1%} exceeds {FWHM_REL_TOL:.0%}"
 
     print(f"✓ Paraxial lens: Strehl={strehl:.3f}, FWHM={fwhm_x:.2f}µm (theory={fwhm_theory:.2f}µm)")
 

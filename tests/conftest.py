@@ -4,6 +4,11 @@ import random
 import numpy as np
 import pytest
 
+try:
+    import torch  # type: ignore
+except Exception:  # pragma: no cover - optional import for device fixture
+    torch = None  # type: ignore
+
 
 def pytest_configure(config: pytest.Config) -> None:  # noqa: ARG001
     config.addinivalue_line("markers", "gpu: marks tests that require a CUDA GPU")
@@ -18,9 +23,6 @@ def seed_rng() -> None:
 
 @pytest.fixture()
 def device() -> str:
-    try:
-        import torch  # type: ignore
-
-        return "cuda" if torch.cuda.is_available() else "cpu"
-    except Exception:
+    if torch is None:
         return "cpu"
+    return "cuda" if torch.cuda.is_available() else "cpu"

@@ -118,7 +118,8 @@ def make_plan(cfg: dict) -> Plan:
     # Calculate grid spacing based on NA and wavelength
     # Nyquist criterion: Δx ≤ λ/(2·NA)
     # High-NA preset uses tighter sampling
-    if preset == "High-NA" or na_max > 0.8:
+    NA_HIGH = 0.8  # PLR2004 named threshold
+    if preset == "High-NA" or na_max > NA_HIGH:
         # Tighter sampling for high NA
         dx_factor = 3.0  # Δx ≤ λ/(3·NA)
     elif preset == "Aggressive":
@@ -148,7 +149,7 @@ def make_plan(cfg: dict) -> Plan:
     nx = ny = target_px
 
     # Adjust for memory constraints
-    max_size = _compute_max_grid_size(vram_gb, na_max > 0.8)
+    max_size = _compute_max_grid_size(vram_gb, na_max > NA_HIGH)
     if nx > max_size:
         nx = ny = max_size
         print(f"Grid size reduced to {nx}x{ny} to fit in {vram_gb:.1f} GB VRAM")
@@ -184,9 +185,11 @@ def make_plan(cfg: dict) -> Plan:
             center = src.get("center_um", 0.55)
             rel_bw = bw / center
 
-            if rel_bw < 0.01:
+            REL_BW_NARROW = 0.01  # PLR2004 named threshold
+            REL_BW_MEDIUM = 0.05  # PLR2004 named threshold
+            if rel_bw < REL_BW_NARROW:
                 spectral_samples = 3
-            elif rel_bw < 0.05:
+            elif rel_bw < REL_BW_MEDIUM:
                 spectral_samples = 7
             else:
                 spectral_samples = 11
@@ -215,7 +218,8 @@ def make_plan(cfg: dict) -> Plan:
         band_limit_factor = 0.9  # Strict band limiting
 
     # Mixed precision
-    use_mixed_precision = preset == "Aggressive" or vram_gb < 8.0
+    VRAM_LOW_GB = 8.0  # PLR2004 named threshold
+    use_mixed_precision = preset == "Aggressive" or vram_gb < VRAM_LOW_GB
 
     # Create plan
     plan = Plan(
@@ -240,9 +244,10 @@ def make_plan(cfg: dict) -> Plan:
 
     # Validate memory usage
     if plan.memory_estimate_gb > vram_gb:
-        print(
-            f"Warning: Estimated memory {plan.memory_estimate_gb:.2f} GB exceeds budget {vram_gb:.1f} GB"
-        )
+        warn_prefix = "Warning: Estimated memory "
+        mem_str = f"{plan.memory_estimate_gb:.2f} GB"
+        budget_str = f"{vram_gb:.1f} GB"
+        print(f"{warn_prefix}{mem_str} exceeds budget {budget_str}")
 
     return plan
 
@@ -322,7 +327,7 @@ def _compute_z_steps(
     # Maximum step size based on Fresnel number
     # Δz_max = Δx² / λ for paraxial
     # For wide-angle, use more conservative stepping
-    if preset == "High-NA" or na_max > 0.8:
+    if preset == "High-NA" or na_max > NA_HIGH:
         # Very fine stepping for high NA
         dz_max = 0.5 * dx**2 / lambda_min
     elif preset == "Aggressive":

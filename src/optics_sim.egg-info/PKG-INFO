@@ -6,13 +6,16 @@ License-File: LICENSE
 Requires-Dist: numpy>=1.26
 Requires-Dist: tifffile>=2024.5.22
 Requires-Dist: typing-extensions>=4.10
+Requires-Dist: pydantic>=2.0
+Requires-Dist: pyyaml>=6.0
 Provides-Extra: cpu
-Requires-Dist: torch==2.3.*; extra == "cpu"
+Requires-Dist: torch==2.6.0; extra == "cpu"
 Provides-Extra: cuda
-Requires-Dist: torch==2.3.*; extra == "cuda"
+Requires-Dist: torch==2.6.0; extra == "cuda"
 Provides-Extra: dev
-Requires-Dist: pytest>=8.2; extra == "dev"
-Requires-Dist: ruff>=0.5; extra == "dev"
-Requires-Dist: mypy>=1.10; extra == "dev"
-Requires-Dist: scipy>=1.11; extra == "dev"
+Requires-Dist: pytest==8.4.*; extra == "dev"
+Requires-Dist: pytest-cov==5.0.*; extra == "dev"
+Requires-Dist: ruff==0.5.7; extra == "dev"
+Requires-Dist: mypy==1.10.*; extra == "dev"
+Requires-Dist: types-PyYAML==6.0.*; extra == "dev"
 Dynamic: license-file

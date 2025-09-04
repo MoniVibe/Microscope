@@ -7,12 +7,13 @@ with proper handling of evanescent waves and high-NA systems.
 from __future__ import annotations
 
 import math
+
 import numpy as np
 import torch
 
 from optics_sim.core.precision import (
-    enforce_fp32_cuda,
     assert_fp32_cuda,
+    enforce_fp32_cuda,
 )
 
 
@@ -31,7 +32,7 @@ def run(field: torch.Tensor, plan: dict) -> torch.Tensor:
 
     device = field.device
     ny, nx = field.shape[-2], field.shape[-1]
-    
+
     # Enforce FP32 on CUDA
     if device.type == "cuda":
         field = enforce_fp32_cuda(field, "input field")
@@ -64,13 +65,12 @@ def run(field: torch.Tensor, plan: dict) -> torch.Tensor:
     w = None
     if "na_max" in plan and plan["na_max"] is not None:
         f_na = float(plan["na_max"]) / lam  # cycles/µm
-        r2 = (fx.view(1, nx) ** 2 + fy.view(ny, 1) ** 2)
+        r2 = fx.view(1, nx) ** 2 + fy.view(ny, 1) ** 2
         w = torch.ones_like(r2, dtype=precision_dtype, device=device)
-        band = (r2 > (0.98 * f_na) ** 2) & (r2 <= f_na ** 2)
+        band = (r2 > (0.98 * f_na) ** 2) & (r2 <= f_na**2)
         if band.any():
             w[band] = 0.5 * (
-                1.0
-                + torch.cos(math.pi * (torch.sqrt(r2[band]) - 0.98 * f_na) / (0.02 * f_na))
+                1.0 + torch.cos(math.pi * (torch.sqrt(r2[band]) - 0.98 * f_na) / (0.02 * f_na))
             )
 
     # Propagate in frequency domain, no shifts
@@ -91,7 +91,7 @@ def run(field: torch.Tensor, plan: dict) -> torch.Tensor:
             H = H * w
         U = torch.fft.ifft2(F * H)
         result = U.to(torch.complex64)
-    
+
     return result
 
 
@@ -149,11 +149,13 @@ def _angular_spectrum_step(
     w = None
     if na_max is not None and na_max > 0:
         f_na = float(na_max) / float(lambda_um)  # cycles/µm
-        r2 = (fx.view(1, nx) ** 2 + fy.view(ny, 1) ** 2)
+        r2 = fx.view(1, nx) ** 2 + fy.view(ny, 1) ** 2
         w = torch.ones_like(r2, dtype=torch.float64, device=device)
-        band = (r2 > (0.98 * f_na) ** 2) & (r2 <= (f_na ** 2))
+        band = (r2 > (0.98 * f_na) ** 2) & (r2 <= (f_na**2))
         if band.any():
-            w[band] = 0.5 * (1.0 + torch.cos(math.pi * (torch.sqrt(r2[band]) - 0.98 * f_na) / (0.02 * f_na)))
+            w[band] = 0.5 * (
+                1.0 + torch.cos(math.pi * (torch.sqrt(r2[band]) - 0.98 * f_na) / (0.02 * f_na))
+            )
 
     # Propagate in frequency domain (no fftshift)
     F = torch.fft.fft2(E.to(torch.complex64))

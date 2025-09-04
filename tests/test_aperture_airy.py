@@ -2,9 +2,12 @@
 
 import numpy as np
 import torch
-
 from optics_sim.prop.solvers import as_multi_slice
 from optics_sim.validation.cases import aperture_diffraction
+
+# Named test constants (PLR2004)
+PIX_CENTER_TOL = 2
+FIRST_ZERO_TOL = 0.02
 
 
 def test_aperture_airy():
@@ -37,9 +40,9 @@ def test_aperture_airy():
     peak_y, peak_x = peak_idx // nx, peak_idx % nx
     center_y, center_x = ny // 2, nx // 2
 
-    # Peak should be near center (within 2 pixels)
-    assert abs(peak_y - center_y) <= 2, "Airy peak not centered in Y"
-    assert abs(peak_x - center_x) <= 2, "Airy peak not centered in X"
+    # Peak should be near center (within PIX_CENTER_TOL pixels)
+    assert abs(peak_y - center_y) <= PIX_CENTER_TOL, "Airy peak not centered in Y"
+    assert abs(peak_x - center_x) <= PIX_CENTER_TOL, "Airy peak not centered in X"
 
     # Check first zero position (approximate)
     # For circular aperture: first zero at θ ≈ 1.22 λ/D
@@ -52,7 +55,6 @@ def test_aperture_airy():
     profile_x = intensity[center_y, :]
 
     # Find first minimum
-    center_intensity = profile_x[center_x]
     for i in range(center_x + 1, nx):
         if profile_x[i] > profile_x[i - 1]:  # Start rising again
             first_min_idx = i - 1
@@ -62,12 +64,15 @@ def test_aperture_airy():
 
     measured_pixels = abs(first_min_idx - center_x)
 
-    # Check within 2% of theoretical
+    # Check within FIRST_ZERO_TOL of theoretical
     error = abs(measured_pixels - pixels_to_zero) / pixels_to_zero
-    assert error <= 0.02, f"First zero position error {error:.1%} exceeds 2%"
+    assert (
+        error <= FIRST_ZERO_TOL
+    ), f"First zero position error {error:.1%} exceeds {FIRST_ZERO_TOL:.0%}"
 
     print(
-        f"✓ Airy pattern: peak centered, first zero at {measured_pixels:.1f} pixels (expected {pixels_to_zero:.1f})"
+        "✓ Airy pattern: peak centered, first zero at "
+        f"{measured_pixels:.1f} pixels (expected {pixels_to_zero:.1f})"
     )
 
 

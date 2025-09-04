@@ -3,6 +3,12 @@
 import numpy as np
 import torch
 
+# Named tolerances for PLR2004 in solver tests
+L2_TOL = 0.03
+ENERGY_TOL = 0.01
+L2_TOL_WIDE = 0.05
+ENERGY_TOL_WIDE = 0.02
+
 from optics_sim.prop.plan import Plan
 from optics_sim.prop.solvers import as_multi_slice, bpm_split_step_fourier, bpm_vector_wide
 from optics_sim.validation.cases import gaussian_free_space
@@ -44,11 +50,11 @@ def test_bpm_gaussian_propagation():
 
     # Check L2 error
     l2_err = l2_field_error(Ez_computed, Ez_analytical)
-    assert l2_err <= 0.03, f"L2 error {l2_err:.3%} exceeds 3%"
+    assert l2_err <= L2_TOL, f"L2 error {l2_err:.3%} exceeds 3%"
 
     # Check energy conservation
     energy_err = energy_conservation(E0, Ez_computed, dx, dy)
-    assert energy_err <= 0.01, f"Energy error {energy_err:.3%} exceeds 1%"
+    assert energy_err <= ENERGY_TOL, f"Energy error {energy_err:.3%} exceeds 1%"
 
 
 def test_split_step_gaussian():
@@ -74,10 +80,10 @@ def test_split_step_gaussian():
     Ez_computed = bpm_split_step_fourier.run(E0, plan)
 
     l2_err = l2_field_error(Ez_computed, Ez_analytical)
-    assert l2_err <= 0.03, f"Split-step L2 error {l2_err:.3%} exceeds 3%"
+    assert l2_err <= L2_TOL, f"Split-step L2 error {l2_err:.3%} exceeds 3%"
 
     energy_err = energy_conservation(E0, Ez_computed, dx, dy)
-    assert energy_err <= 0.01, f"Split-step energy error {energy_err:.3%} exceeds 1%"
+    assert energy_err <= ENERGY_TOL, f"Split-step energy error {energy_err:.3%} exceeds 1%"
 
 
 def test_angular_spectrum_gaussian():
@@ -101,10 +107,10 @@ def test_angular_spectrum_gaussian():
     Ez_computed = as_multi_slice.run(E0, plan)
 
     l2_err = l2_field_error(Ez_computed, Ez_analytical)
-    assert l2_err <= 0.03, f"Angular spectrum L2 error {l2_err:.3%} exceeds 3%"
+    assert l2_err <= L2_TOL, f"Angular spectrum L2 error {l2_err:.3%} exceeds 3%"
 
     energy_err = energy_conservation(E0, Ez_computed, dx, dy)
-    assert energy_err <= 0.01, f"Angular spectrum energy error {energy_err:.3%} exceeds 1%"
+    assert energy_err <= ENERGY_TOL, f"Angular spectrum energy error {energy_err:.3%} exceeds 1%"
 
 
 def test_multi_step_propagation():
@@ -145,8 +151,8 @@ def test_multi_step_propagation():
         energy_err = energy_conservation(E0, Ez_computed, dx, dy)
 
         print(f"{name}: L2={l2_err:.3%}, Energy={energy_err:.3%}")
-        assert l2_err <= 0.05, f"{name} L2 error {l2_err:.3%} exceeds 5%"
-        assert energy_err <= 0.02, f"{name} energy error {energy_err:.3%} exceeds 2%"
+        assert l2_err <= L2_TOL_WIDE, f"{name} L2 error {l2_err:.3%} exceeds 5%"
+        assert energy_err <= ENERGY_TOL_WIDE, f"{name} energy error {energy_err:.3%} exceeds 2%"
 
 
 def test_high_na_propagation():
@@ -176,7 +182,7 @@ def test_high_na_propagation():
     Ez_computed = bpm_vector_wide.run(E0, plan)
 
     l2_err = l2_field_error(Ez_computed, Ez_analytical)
-    assert l2_err <= 0.05, f"High-NA L2 error {l2_err:.3%} exceeds 5%"
+    assert l2_err <= L2_TOL_WIDE, f"High-NA L2 error {l2_err:.3%} exceeds 5%"
 
 
 def test_spectral_propagation():
@@ -217,7 +223,7 @@ def test_spectral_propagation():
     # Check each spectral component
     for i, wl in enumerate(wavelengths):
         l2_err = l2_field_error(Ez_computed[i], Ez_ref[i])
-        assert l2_err <= 0.03, f"Spectral {wl} µm: L2 error {l2_err:.3%} exceeds 3%"
+        assert l2_err <= L2_TOL, f"Spectral {wl} µm: L2 error {l2_err:.3%} exceeds 3%"
 
 
 if __name__ == "__main__":

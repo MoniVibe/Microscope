@@ -5,7 +5,7 @@ pytestmark = pytest.mark.gpu
 
 def test_gpu_smoke_tiny_tensor():
     try:
-        import torch  # type: ignore
+        import torch  # type: ignore  # noqa: PLC0415 - local import to allow skip when torch missing
     except Exception as exc:  # pragma: no cover - environment guard
         pytest.skip(f"torch not available: {exc}")
     if not torch.cuda.is_available():

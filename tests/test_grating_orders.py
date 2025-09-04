@@ -2,10 +2,13 @@
 
 import numpy as np
 import torch
-from scipy.special import jn
-
 from optics_sim.prop.solvers import as_multi_slice
 from optics_sim.validation.cases import phase_grating_orders
+from scipy.special import jn
+
+# Named tolerances (PLR2004)
+EFF_THRESHOLD = 0.01
+ORDER_ERROR_TOL = 0.03
 
 
 def test_grating_orders():
@@ -24,7 +27,6 @@ def test_grating_orders():
     result = phase_grating_orders(wavelength_um, period_um, phase_depth, z_um, nx, ny, dx, dy)
 
     grating = result["grating"]
-    orders = result["orders"]
 
     # Propagate with angular spectrum
     plan = {
@@ -46,7 +48,7 @@ def test_grating_orders():
     expected_efficiencies = {}
     for n in range(-3, 4):  # Check orders -3 to +3
         eff = jn(n, phase_depth / 2) ** 2
-        if eff > 0.01:  # Only significant orders
+        if eff > EFF_THRESHOLD:  # Only significant orders
             expected_efficiencies[n] = eff
 
     # Find peaks in power spectrum
@@ -66,10 +68,13 @@ def test_grating_orders():
         error = abs(measured_eff - expected_eff) / expected_eff if expected_eff > 0 else 0
 
         print(
-            f"Order {n:+d}: measured={measured_eff:.3f}, expected={expected_eff:.3f}, error={error:.1%}"
+            f"Order {n:+d}: measured={measured_eff:.3f}, "
+            f"expected={expected_eff:.3f}, error={error:.1%}"
         )
 
-        assert error <= 0.03, f"Order {n} efficiency error {error:.1%} exceeds 3%"
+        assert (
+            error <= ORDER_ERROR_TOL
+        ), f"Order {n} efficiency error {error:.1%} exceeds {ORDER_ERROR_TOL:.0%}"
 
     print(f"✓ Grating orders match theory for φ={phase_depth / np.pi:.2f}π phase depth")
 

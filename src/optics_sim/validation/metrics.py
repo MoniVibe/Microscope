@@ -334,9 +334,9 @@ def beam_quality_m2(
 
     # M² should be >= 1
     M2_x = max(M2_x, 1.0)
-    M2_y = max(M2_y, 1.0)
+    m2_y = max(M2_y, 1.0)
 
-    return M2_x, M2_y
+    return M2_x, m2_y
 
 
 def compare_propagation_methods(field: torch.Tensor, methods: dict, plan: dict) -> dict:

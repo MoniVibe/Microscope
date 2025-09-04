@@ -36,9 +36,9 @@ def compose(euler_zyx, t_um):  # type: ignore[no-untyped-def]
             {
                 "R": None,
                 "t": t_tuple,
-                "euler_zyx": tuple(euler_zyx)
-                if isinstance(euler_zyx, (list, tuple))
-                else (0.0, 0.0, 0.0),
+                "euler_zyx": (
+                    tuple(euler_zyx) if isinstance(euler_zyx, (list, tuple)) else (0.0, 0.0, 0.0)
+                ),
                 "T": None,
             }
         )

@@ -1,15 +1,18 @@
 numpy>=1.26
 tifffile>=2024.5.22
 typing-extensions>=4.10
+pydantic>=2.0
+pyyaml>=6.0
 
 [cpu]
-torch==2.3.*
+torch==2.6.0
 
 [cuda]
-torch==2.3.*
+torch==2.6.0
 
 [dev]
-pytest>=8.2
-ruff>=0.5
-mypy>=1.10
-scipy>=1.11
+pytest==8.4.*
+pytest-cov==5.0.*
+ruff==0.5.7
+mypy==1.10.*
+types-PyYAML==6.0.*

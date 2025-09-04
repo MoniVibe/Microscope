@@ -42,7 +42,7 @@ def load(path: str | Path) -> dict[str, Any]:
         try:
             cfg = yaml.safe_load(f)
         except yaml.YAMLError as e:
-            raise yaml.YAMLError(f"Failed to parse YAML config: {e}")
+            raise yaml.YAMLError(f"Failed to parse YAML config: {e}") from e
 
     if cfg is None:
         cfg = {}
@@ -175,12 +175,16 @@ def validate(cfg: dict[str, Any]) -> dict[str, Any]:
             "platform": platform.platform(),
             "torch_version": getattr(torch, "__version__", "unknown"),
             "cuda_available": bool(getattr(torch.cuda, "is_available", lambda: False)()),
-            "cuda_version": getattr(getattr(torch, "version", None), "cuda", None)
-            if bool(getattr(torch.cuda, "is_available", lambda: False)())
-            else None,
-            "device_count": getattr(torch.cuda, "device_count", lambda: 0)()
-            if bool(getattr(torch.cuda, "is_available", lambda: False)())
-            else 0,
+            "cuda_version": (
+                getattr(getattr(torch, "version", None), "cuda", None)
+                if bool(getattr(torch.cuda, "is_available", lambda: False)())
+                else None
+            ),
+            "device_count": (
+                getattr(torch.cuda, "device_count", lambda: 0)()
+                if bool(getattr(torch.cuda, "is_available", lambda: False)())
+                else 0
+            ),
         }
     else:
         cfg["environment"] = {
@@ -218,11 +222,13 @@ def validate(cfg: dict[str, Any]) -> dict[str, Any]:
 
     # Validate memory budget
     vram_gb = cfg["runtime"]["budget"]["vram_gb"]
-    if not 1.0 <= vram_gb <= 80.0:
+    VRAM_MAX_GB = 80.0  # PLR2004 named threshold
+    if not 1.0 <= vram_gb <= VRAM_MAX_GB:
         raise ValueError(f"vram_gb must be between 1.0 and 80.0, got {vram_gb}")
 
     time_s = cfg["runtime"]["budget"]["time_s"]
-    if not 1.0 <= time_s <= 86400.0:  # 1 second to 24 hours
+    DAY_SECONDS = 86400.0  # PLR2004 named threshold
+    if not 1.0 <= time_s <= DAY_SECONDS:  # 1 second to 24 hours
         raise ValueError(f"time_s must be between 1.0 and 86400.0, got {time_s}")
 
     return cfg

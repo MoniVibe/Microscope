@@ -9,14 +9,18 @@ def git_commit_hash() -> str:
         return "unknown"
 
 
-def main() -> None:
-    try:
-        import torch  # type: ignore
+try:
+    import torch  # type: ignore
+except Exception:  # pragma: no cover - optional
+    torch = None  # type: ignore
 
+
+def main() -> None:
+    if torch is not None:
         torch_ver = torch.__version__
         cuda_ok = torch.cuda.is_available()
         ndev = torch.cuda.device_count() if cuda_ok else 0
-    except Exception:
+    else:
         torch_ver = "not installed"
         cuda_ok = False
         ndev = 0

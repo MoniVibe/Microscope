@@ -7,6 +7,7 @@ config-driven solver selection ready for Claude's implementations.
 
 from __future__ import annotations
 
+import importlib
 from collections.abc import Callable
 from typing import Any, Dict, Optional
 
@@ -24,8 +25,6 @@ _SOLVER_ALIASES: dict[str, str] = {
 
 
 def _resolve_solver_module(solver: str):  # type: ignore[no-untyped-def]
-    import importlib
-
     key = solver.strip().lower()
     if key not in _SOLVER_ALIASES:
         raise ValueError(f"Unknown solver key: {solver}")

@@ -11,7 +11,6 @@ import torch
 
 from optics_sim.core.precision import (
     enforce_fp32_cuda,
-    assert_fp32_cuda,
     fft2_with_precision,
 )
 
@@ -59,7 +58,7 @@ def run(
     )
 
     device = field.device
-    
+
     # Enforce FP32 on CUDA
     if device.type == "cuda":
         field = field.to(torch.complex64)
@@ -93,11 +92,11 @@ def run(
         k0 = 2 * np.pi / lambda_um
 
         E = field[s].clone()
-        
+
         # Ensure FP32 on CUDA
         if device.type == "cuda":
             E = enforce_fp32_cuda(E, "input field")
-        
+
         E = E * pml  # Apply input PML
 
         # Propagate through z-steps
@@ -313,7 +312,7 @@ def _split_step_fourier(
 
     # Step 4: Inverse Fourier transform with precision enforcement
     E = fft2_with_precision(E_fft, inverse=True)
-    
+
     # Ensure FP32 on CUDA
     if device.type == "cuda":
         E = enforce_fp32_cuda(E, "field after propagation")

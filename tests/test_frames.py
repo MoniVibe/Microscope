@@ -3,6 +3,12 @@
 import numpy as np
 import torch
 
+# Named tolerances for tests (PLR2004)
+ABS_TOL = 1e-6
+REL_TOL = 1e-6
+ROUND_TRIP_TOL = 1e-6
+MULTI_ROUND_TRIP_TOL = 1e-5
+
 from optics_sim.core.frames import (
     compose,
     compose_chain,
@@ -52,7 +58,7 @@ def test_rotation_z():
     p_world = to_world(p_local, T)
 
     expected = torch.tensor([0.0, 1.0, 0.0])
-    torch.testing.assert_close(p_world, expected, atol=1e-6, rtol=1e-6)
+    torch.testing.assert_close(p_world, expected, atol=ABS_TOL, rtol=REL_TOL)
 
 
 def test_round_trip_accuracy():
@@ -74,7 +80,9 @@ def test_round_trip_accuracy():
     error = torch.norm(points_back - points_local, dim=-1)
     max_error = error.max().item()
 
-    assert max_error < 1e-6, f"Round-trip error {max_error:.2e} µm exceeds 1e-6 µm"
+    assert (
+        max_error < ROUND_TRIP_TOL
+    ), f"Round-trip error {max_error:.2e} µm exceeds {ROUND_TRIP_TOL} µm"
 
 
 def test_transform_grid():
@@ -96,7 +104,7 @@ def test_transform_grid():
     center_idx = (ny // 2, nx // 2)
     center_world = grid_world[center_idx]
 
-    torch.testing.assert_close(center_world, t, atol=1e-6)
+    torch.testing.assert_close(center_world, t, atol=ABS_TOL)
 
 
 def test_compose_chain():
@@ -158,7 +166,7 @@ def test_zyx_euler_order():
 
     R_expected = Rz @ Ry @ Rx
 
-    torch.testing.assert_close(R, R_expected, atol=1e-6)
+    torch.testing.assert_close(R, R_expected, atol=ABS_TOL)
 
 
 def test_batch_transform():
@@ -198,7 +206,7 @@ def test_transform_preserves_distances():
     dist_local = torch.norm(p2 - p1)
     dist_world = torch.norm(p2_world - p1_world)
 
-    torch.testing.assert_close(dist_world, dist_local, atol=1e-6)
+    torch.testing.assert_close(dist_world, dist_local, atol=ABS_TOL)
 
 
 def test_high_precision_round_trip():
@@ -219,7 +227,7 @@ def test_high_precision_round_trip():
 
     # Error should still be tiny
     error = torch.norm(p - p_original).item()
-    assert error < 1e-5, f"Error after 100 round trips: {error:.2e} µm"
+    assert error < MULTI_ROUND_TRIP_TOL, f"Error after 100 round trips: {error:.2e} µm"
 
 
 if __name__ == "__main__":

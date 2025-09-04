@@ -17,9 +17,8 @@ import numpy as np
 import torch
 
 from optics_sim.core.precision import (
-    enforce_fp32_cuda,
     assert_fp32_cuda,
-    fft2_with_precision,
+    enforce_fp32_cuda,
 )
 
 
@@ -147,7 +146,7 @@ def _propagate_step_vector_wide(
 
     # Average refractive index
     n_avg = n.mean().item()
-    
+
     # Wave number in medium
     k = k0 * n_avg
 
@@ -160,11 +159,11 @@ def _propagate_step_vector_wide(
     # fftfreq gives frequencies in cycles per unit length
     fx = torch.fft.fftfreq(nx, d=dx, device=device)
     fy = torch.fft.fftfreq(ny, d=dy, device=device)
-    
+
     # Apply fftshift to match the shifted FFT
     fx = torch.fft.fftshift(fx)
     fy = torch.fft.fftshift(fy)
-    
+
     fy_grid, fx_grid = torch.meshgrid(fy, fx, indexing="ij")
 
     # Wave vector components - FIXED: correct scaling
@@ -175,16 +174,16 @@ def _propagate_step_vector_wide(
     # kz = sqrt(k^2 - kx^2 - ky^2) for propagating waves
     k2 = k**2
     kt2 = kx**2 + ky**2
-    
+
     # Ensure we're within the propagating region
     kz2 = k2 - kt2
-    
+
     # Handle evanescent waves properly
     is_propagating = kz2 > 0
     kz = torch.where(
         is_propagating,
         torch.sqrt(kz2),
-        torch.zeros_like(kz2)  # Evanescent waves don't propagate
+        torch.zeros_like(kz2),  # Evanescent waves don't propagate
     )
 
     # NA-based band limiting - FIXED: correct NA calculation
@@ -197,7 +196,7 @@ def _propagate_step_vector_wide(
     na_taper = torch.where(
         na_ratio < 0.9,
         torch.ones_like(na_ratio),
-        0.5 * (1 + torch.cos(np.pi * (na_ratio - 0.9) / 0.1))
+        0.5 * (1 + torch.cos(np.pi * (na_ratio - 0.9) / 0.1)),
     )
     na_taper = torch.where(na_ratio <= 1.0, na_taper, torch.zeros_like(na_taper))
 
@@ -208,9 +207,9 @@ def _propagate_step_vector_wide(
         propagator = torch.where(
             is_propagating,
             torch.exp(1j * kz * dz / 2),  # Half step
-            torch.zeros_like(E_fft)  # Kill evanescent waves
+            torch.zeros_like(E_fft),  # Kill evanescent waves
         )
-        
+
         # Apply NA tapering
         propagator = propagator * na_taper
 
@@ -250,17 +249,17 @@ def _propagate_step_vector_wide(
 
 def _create_edge_taper(ny: int, nx: int, device: str) -> torch.Tensor:
     """Create soft edge tapering to prevent reflection artifacts.
-    
+
     Args:
         ny, nx: Grid dimensions
         device: Computation device
-    
+
     Returns:
         Edge taper of shape (ny, nx)
     """
     # Create 1D tapers with raised cosine
     taper_fraction = 0.05  # Taper 5% of each edge
-    
+
     # Y direction
     taper_y = torch.ones(ny, device=device)
     taper_ny = max(int(taper_fraction * ny), 2)
@@ -268,7 +267,7 @@ def _create_edge_taper(ny: int, nx: int, device: str) -> torch.Tensor:
         val = 0.5 * (1 - np.cos(np.pi * i / taper_ny))
         taper_y[i] = val
         taper_y[-(i + 1)] = val
-    
+
     # X direction
     taper_x = torch.ones(nx, device=device)
     taper_nx = max(int(taper_fraction * nx), 2)
@@ -276,10 +275,10 @@ def _create_edge_taper(ny: int, nx: int, device: str) -> torch.Tensor:
         val = 0.5 * (1 - np.cos(np.pi * j / taper_nx))
         taper_x[j] = val
         taper_x[-(j + 1)] = val
-    
+
     # Create 2D taper as outer product
     taper_2d = taper_y.unsqueeze(1) * taper_x.unsqueeze(0)
-    
+
     return taper_2d
 
 

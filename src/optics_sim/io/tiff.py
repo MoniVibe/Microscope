@@ -7,6 +7,7 @@ and comprehensive metadata embedding.
 from __future__ import annotations
 
 import json
+import platform
 import struct
 from datetime import datetime
 from pathlib import Path
@@ -21,6 +22,25 @@ try:
     HAS_TIFFFILE = True
 except ImportError:
     HAS_TIFFFILE = False
+# Named constants to avoid magic values (PLR2004)
+NDIM_2 = 2
+NDIM_3 = 3
+COMPLEX_PLANES = 2
+
+TIFF_MAGIC = 42
+TIFF_TAG_IMAGEWIDTH = 256
+TIFF_TAG_IMAGELENGTH = 257
+TIFF_TAG_BITSPERSAMPLE = 258
+TIFF_TAG_COMPRESSION = 259
+TIFF_TAG_PHOTOMETRIC = 262
+TIFF_TAG_STRIPOFFSETS = 273
+TIFF_TAG_SAMPLESPERPIXEL = 277
+TIFF_TAG_ROWSPERSTRIP = 278
+TIFF_TAG_STRIPBYTECOUNTS = 279
+TIFF_TAG_SAMPLEFORMAT = 339
+
+BITS_PER_SAMPLE_32 = 32
+BITS_PER_SAMPLE_8 = 8
 
 
 def write_tiff(
@@ -62,7 +82,7 @@ def write_tiff(
         meta_dict["data_type"] = "complex64"
     else:
         data_stack = data.astype(np.float32)
-        if data_stack.ndim == 2:
+        if data_stack.ndim == NDIM_2:
             data_stack = data_stack[np.newaxis, ...]
         meta_dict["is_complex"] = False
         meta_dict["data_type"] = "float32"
@@ -95,9 +115,7 @@ def _prepare_metadata(
     Returns:
         Complete metadata dictionary
     """
-    import platform
-
-    import torch
+    # platform imported at module top; torch is available from module imports
 
     # Basic metadata
     meta = {
@@ -158,10 +176,10 @@ def _prepare_complex_stack(data: np.ndarray) -> np.ndarray:
     data_real = np.real(data).astype(np.float32)
     data_imag = np.imag(data).astype(np.float32)
 
-    if data.ndim == 2:
+    if data.ndim == NDIM_2:
         # Single frame: stack real and imag
         return np.stack([data_real, data_imag], axis=0)
-    elif data.ndim == 3:
+    elif data.ndim == NDIM_3:
         # Multiple frames: interleave real/imag
         n_frames = data.shape[0]
         stack = np.zeros((2 * n_frames, *data.shape[1:]), dtype=np.float32)
@@ -208,7 +226,7 @@ def _write_basic_tiff(filename: Path, data: np.ndarray, metadata: dict) -> None:
         data: Data stack (frames, height, width)
         metadata: Metadata dictionary
     """
-    if data.ndim == 2:
+    if data.ndim == NDIM_2:
         data = data[np.newaxis, ...]
 
     n_frames, height, width = data.shape
@@ -226,7 +244,7 @@ def _write_basic_tiff(filename: Path, data: np.ndarray, metadata: dict) -> None:
 
         # TIFF header
         f.write(b"II")  # Little-endian
-        f.write(struct.pack("<H", 42))  # Magic number
+        f.write(struct.pack("<H", TIFF_MAGIC))  # Magic number
         f.write(struct.pack("<I", 8))  # First IFD offset
 
         # IFD (Image File Directory)
@@ -239,35 +257,35 @@ def _write_basic_tiff(filename: Path, data: np.ndarray, metadata: dict) -> None:
         if data_offset % 2:
             data_offset += 1
 
-        # ImageWidth (256)
-        f.write(struct.pack("<HHII", 256, 4, 1, width))
+        # ImageWidth
+        f.write(struct.pack("<HHII", TIFF_TAG_IMAGEWIDTH, 4, 1, width))
 
-        # ImageLength (257)
-        f.write(struct.pack("<HHII", 257, 4, 1, height))
+        # ImageLength
+        f.write(struct.pack("<HHII", TIFF_TAG_IMAGELENGTH, 4, 1, height))
 
-        # BitsPerSample (258)
-        f.write(struct.pack("<HHIHH", 258, 3, 1, 32, 0))
+        # BitsPerSample
+        f.write(struct.pack("<HHIHH", TIFF_TAG_BITSPERSAMPLE, 3, 1, BITS_PER_SAMPLE_32, 0))
 
-        # Compression (259) - no compression
-        f.write(struct.pack("<HHIHH", 259, 3, 1, 1, 0))
+        # Compression (no compression)
+        f.write(struct.pack("<HHIHH", TIFF_TAG_COMPRESSION, 3, 1, 1, 0))
 
-        # PhotometricInterpretation (262)
-        f.write(struct.pack("<HHIHH", 262, 3, 1, 1, 0))
+        # PhotometricInterpretation
+        f.write(struct.pack("<HHIHH", TIFF_TAG_PHOTOMETRIC, 3, 1, 1, 0))
 
-        # StripOffsets (273)
-        f.write(struct.pack("<HHII", 273, 4, 1, data_offset))
+        # StripOffsets
+        f.write(struct.pack("<HHII", TIFF_TAG_STRIPOFFSETS, 4, 1, data_offset))
 
-        # SamplesPerPixel (277)
-        f.write(struct.pack("<HHIHH", 277, 3, 1, 1, 0))
+        # SamplesPerPixel
+        f.write(struct.pack("<HHIHH", TIFF_TAG_SAMPLESPERPIXEL, 3, 1, 1, 0))
 
-        # RowsPerStrip (278)
-        f.write(struct.pack("<HHIHH", 278, 3, 1, height, 0))
+        # RowsPerStrip
+        f.write(struct.pack("<HHIHH", TIFF_TAG_ROWSPERSTRIP, 3, 1, height, 0))
 
-        # StripByteCounts (279)
-        f.write(struct.pack("<HHII", 279, 4, 1, width * height * 4))
+        # StripByteCounts
+        f.write(struct.pack("<HHII", TIFF_TAG_STRIPBYTECOUNTS, 4, 1, width * height * 4))
 
-        # SampleFormat (339) - floating point
-        f.write(struct.pack("<HHIHH", 339, 3, 1, 3, 0))
+        # SampleFormat (floating point)
+        f.write(struct.pack("<HHIHH", TIFF_TAG_SAMPLEFORMAT, 3, 1, 3, 0))
 
         # Next IFD offset (0 = last)
         f.write(struct.pack("<I", 0))
@@ -322,7 +340,7 @@ def _read_with_tifffile(filename: Path) -> tuple[np.ndarray, dict]:
 
         # Reconstruct complex data if needed
         if metadata.get("is_complex", False):
-            if data.ndim == 3 and data.shape[0] % 2 == 0:
+            if data.ndim == NDIM_3 and data.shape[0] % COMPLEX_PLANES == 0:
                 # Interleaved real/imaginary
                 data_real = data[0::2]
                 data_imag = data[1::2]
@@ -344,7 +362,7 @@ def _read_basic_tiff(filename: Path) -> tuple[np.ndarray, dict]:
             raise ValueError("Invalid TIFF file")
 
         magic = struct.unpack(endian + "H", f.read(2))[0]
-        if magic != 42:
+        if magic != TIFF_MAGIC:
             raise ValueError("Invalid TIFF magic number")
 
         ifd_offset = struct.unpack(endian + "I", f.read(4))[0]
@@ -361,24 +379,24 @@ def _read_basic_tiff(filename: Path) -> tuple[np.ndarray, dict]:
         for _ in range(n_tags):
             tag, dtype, count, value_offset = struct.unpack(endian + "HHII", f.read(12))
 
-            if tag == 256:  # ImageWidth
+            if tag == TIFF_TAG_IMAGEWIDTH:
                 width = value_offset
-            elif tag == 257:  # ImageLength
+            elif tag == TIFF_TAG_IMAGELENGTH:
                 height = value_offset
-            elif tag == 258:  # BitsPerSample
+            elif tag == TIFF_TAG_BITSPERSAMPLE:
                 bits_per_sample = value_offset & 0xFFFF
-            elif tag == 273:  # StripOffsets
+            elif tag == TIFF_TAG_STRIPOFFSETS:
                 data_offset = value_offset
 
         # Read data (assuming float32)
         if data_offset and width and height:
             f.seek(data_offset)
 
-            if bits_per_sample == 32:
+            if bits_per_sample == BITS_PER_SAMPLE_32:
                 dtype = np.float32
                 bytes_per_pixel = 4
             else:
-                dtype = np.uint8 if bits_per_sample == 8 else np.uint16
+                dtype = np.uint8 if bits_per_sample == BITS_PER_SAMPLE_8 else np.uint16
                 bytes_per_pixel = bits_per_sample // 8
 
             data_bytes = f.read(width * height * bytes_per_pixel)
@@ -402,7 +420,7 @@ def write_field_stack(filename: str | Path, fields: dict[str, torch.Tensor], con
     field_info = []
 
     for name, field in fields.items():
-        if field.dim() == 2:
+        if field.dim() == NDIM_2:
             field = field.unsqueeze(0)
 
         all_data.append(field)

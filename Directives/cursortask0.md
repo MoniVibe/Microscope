@@ -1,188 +1,125 @@
-# Routing Note
-Send **only the relevant section** to each agent. Do not share Claude’s section with Cursor or vice versa.
+Use this prompt in Cursor or Claude:
 
-- **Project root directory**: `C:\Users\Moni\Documents\claudeprojects\Microscope`
-- **Repo name**: `microscope` (package `optics_sim`, project name `optics-sim`)
-- **Python**: 3.11
-- **Backend**: PyTorch CUDA 12.1
+Role: Senior refactor engineer. Apply surgical, reversible changes. No feature work.
 
----
+Goal: Standardize and organize the optics simulation repo so it passes local gates and CI and is easy to extend.
 
-# TASKS_CURSOR.md — Integration, Scaffold, CI, Hygiene
+Context: Target Python 3.11. Missing torch blocks tests. ~1k ruff issues dominated by naming and complexity. Adopt baselines, enforce “no new issues,” then pay down. 
 
-## Goal
-Create a clean, reproducible repository at the project root, wire CI, and provide stubs, docs, and examples so Claude can implement.
+Standards to enforce
 
-## Deliverables
-1) **Repo scaffold** at `C:\Users\Moni\Documents\claudeprojects\Microscope` with:
-```
-microscope/
-  pyproject.toml
-  src/optics_sim/...
-  tests/...
-  examples/
-  docs/
-  scripts/
-  .github/workflows/ci.yml
-  .pre-commit-config.yaml
-  .ruff.toml
-  mypy.ini
-  README.md
-  LICENSE
-```
+Repo docs flow: VISION.md → HILEVEL.md → GOALS.md → OBJECTIVES/*.
 
-2) **`pyproject.toml`** (editable install; Ruff as formatter; strict typing):
-```
-[build-system]
-requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.build_meta"
+Each objective file: owner, inputs, outputs, test, gate.
 
-[project]
-name = "optics-sim"
-version = "0.1.0"
-requires-python = ">=3.11"
-dependencies = [
-  "numpy>=1.26",
-  "tifffile>=2024.5.22",
-  "typing-extensions>=4.10",
-]
+Invariants: pinned deps, deterministic tooling, idempotent scripts, single verify entrypoint, no red to GitHub.
 
-[project.optional-dependencies]
-# Install one of these manually depending on environment
-cpu = ["torch==2.3.*+cpu; platform_system != 'Windows'",]
-cuda = ["torch==2.3.*"]
+Gates order: format → lint → type → unit → integration. Block commit/merge on fail.
 
-[tool.setuptools]
-package-dir = {"" = "src"}
-packages = ["optics_sim"]
+CI must mirror local. Upload coverage and gate logs. Small PRs only.
 
-[tool.ruff]
-line-length = 100
-target-version = "py311"
+Deliverables
 
-[tool.ruff.lint]
-select = ["E","F","I","UP","B","N","W","PL","PYI"]
+Repo hygiene
 
-[tool.mypy]
-python_version = "3.11"
-strict = true
-warn_unused_ignores = true
-```
+README.md with quickstart and one-command verify for Python 3.11 CPU.
 
-3) **Pre-commit** `.pre-commit-config.yaml`:
-```
-repos:
-- repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.6.9
-  hooks:
-  - id: ruff
-    args: [--fix]
-  - id: ruff-format
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.6.0
-  hooks:
-  - id: check-yaml
-  - id: end-of-file-fixer
-  - id: trailing-whitespace
-```
+VISION.md placeholder with TODO section, and stubs for docs/HILEVEL.md, docs/GOALS.md, OBJECTIVES/README.md + sample OBJECTIVES/000_bootstrap.md.
 
-4) **GitHub Actions** CI `.github/workflows/ci.yml`:
-```
-name: ci
-on: [push, pull_request]
-jobs:
-  lint:
-    runs-on: ubuntu-22.04
-    steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
-      with: {python-version: '3.11'}
-    - run: pipx install pre-commit
-    - run: pre-commit run --all-files
+CONTRIBUTING.md describing gates, PR checklist, rollback recipe, reproduce script pattern.
 
-  test-cpu:
-    runs-on: ubuntu-22.04
-    steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
-      with: {python-version: '3.11'}
-    - run: pip install -e .[cpu] -f https://download.pytorch.org/whl/cpu/torch_stable.html
-    - run: pip install pytest
-    - run: pytest -q -m "not gpu" --maxfail=1
+.editorconfig, .gitignore, CODEOWNERS (default owner Opus).
 
-  test-gpu:
-    runs-on: [self-hosted, gpu]
-    steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-python@v5
-      with: {python-version: '3.11'}
-    - run: pip install -e .[cuda]
-    - run: pip install pytest
-    - run: python -c "import torch; assert torch.cuda.is_available()"
-    - run: pytest -q -m gpu --maxfail=1
-```
+Move code to src/<package>/...; ensure tests/ mirrors layout.
 
-5) **Source tree stubs** (signatures only; minimal logic):
-```
-src/optics_sim/__init__.py
-src/optics_sim/core/__init__.py
-src/optics_sim/core/config.py
-src/optics_sim/core/frames.py
-src/optics_sim/sources/__init__.py
-src/optics_sim/sources/base.py
-src/optics_sim/sources/gaussian_finite_band.py
-src/optics_sim/components/__init__.py
-src/optics_sim/components/{lens_thin.py,lens_thick.py,aperture.py,phase_grating.py,mirror_stub.py,bs_stub.py}
-src/optics_sim/prop/__init__.py
-src/optics_sim/prop/plan.py
-src/optics_sim/prop/samplers.py
-src/optics_sim/prop/solvers/__init__.py
-src/optics_sim/prop/solvers/{bpm_vector_wide.py,bpm_split_step_fourier.py,as_multi_slice.py}
-src/optics_sim/recorders/planes.py
-src/optics_sim/io/tiff.py
-src/optics_sim/validation/{cases.py,metrics.py}
-src/optics_sim/runtime/{budget.py,checkpoints.py,resume.py}
-src/optics_sim/logging/logs.py
-```
+Environment and pins
 
-6) **Tests skeleton** (import and placeholder assertions):
-```
-tests/test_imports.py
-tests/test_frames.py
-tests/test_sources_gauss.py
-tests/test_solvers_gaussian_free_space.py
-tests/test_lens_paraxial.py
-tests/test_aperture_airy.py
-tests/test_grating_orders.py
-tests/test_io_shapes_meta.py
+Pin Python to 3.11 via .python-version and CI matrix.
 
-# pytest markers
-tests/conftest.py  # seeds RNG; provides device() fixture choosing CUDA when present
-```
+Use pyproject.toml with locked constraints. Add extras: cpu, cuda, dev.
 
-7) **Docs skeleton**
-- `README.md`: install guides for CPU and CUDA on Windows and Ubuntu; quickstart.
-- `docs/CONFIG.md`: list all config keys with units and enums.
+Prefer pip-tools or uv. Generate frozen lock artifacts (requirements.{cpu,dev}.txt or uv.lock). No unpinned ranges.
 
-8) **Examples**
-- `examples/low_na.yml`, `examples/mid_na.yml`, `examples/high_na.yml` with plausible placeholders.
+Tooling config
 
-9) **Scripts**
-- `scripts/print_env.py`: print torch version, CUDA availability, device count, commit hash.
+Ruff: enable format. Create ruff.toml with rule set, extend-exclude, and a ruff-baseline.toml generated from current tree. Policy: zero new lints.
 
-## Constraints
-- Respect Python 3.11. Package root `src/optics_sim`.
-- Default units µm; accept nm in config but normalize.
+Mypy: mypy.ini strict flags, plus mypy-baseline.txt created from current errors. Policy: zero new type errors.
 
-## Acceptance criteria
-- `pip install -e .` works on the project root.
-- Pre-commit passes locally and in CI.
-- `pytest -q` on CPU CI is green for non-GPU tests.
-- GPU job green on self-hosted runner, or locally via `-m gpu`.
-- All stubs and tests exist, import, and match names and paths above.
-- Examples run end-to-end once Claude lands solvers.
+Pytest: pytest.ini with -q, addopts = -ra --cov=<package> --cov-report=xml, markers gpu and slow. Ensure CPU tests skip GPU paths when CUDA not present.
 
----
+Scripts
 
+scripts/verify.sh running: ruff format check → ruff check → mypy → pytest. Write logs to reports/{format,lint,types,tests}.log. Exit non-zero on first failure.
 
+scripts/bootstrap.sh that creates .venv for 3.11 and installs .[cpu,dev] from the PyTorch CPU index.
 
+Makefile targets: bootstrap, verify, format, lint, types, test, clean.
+
+CI (GitHub Actions)
+
+Single workflow .github/workflows/ci.yml: Python 3.11 on ubuntu. Cache pip. Install .[cpu,dev] from CPU index. Run make verify. Always upload coverage.xml and reports/*. Set required checks to block merge.
+
+Naming and imports
+
+Run ruff --fix for safe rules. Convert magic numbers to named consts where trivial. Remove unused imports/vars. Keep function signatures stable.
+
+Do not churn public API names without a deprecation shim. Add __all__ in public modules.
+
+Types and errors
+
+Add return and param types to public functions. Prefer dataclasses or pydantic models for config. Centralize error types under <package>/errors.py.
+
+Tests
+
+Ensure CPU test path does not import CUDA-only modules at import time. Skip GPU tests when CUDA absent. Add minimal smoke tests for core APIs.
+
+Set coverage threshold to 70% now. Raise later.
+
+One entrypoint
+
+Add python -m <package>.cli with subcommands for common tasks. Document CLI flags and logging. Default noisy logs behind --verbose.
+
+PR policy scaffolding
+
+Add .github/pull_request_template.md: link brief/spec, test evidence, changelog, rollback, reproduce script.
+
+Acceptance criteria
+
+make bootstrap && make verify succeeds on a clean clone with Python 3.11 CPU.
+
+CI green with artifacts uploaded. Coverage reported.
+
+ruff check --statistics only reports baseline items. New code is clean.
+
+mypy only reports baseline items. New code typed.
+
+Repository contains the docs scaffold and objective template.
+
+Tests run CPU-only without torch.cuda present. GPU tests are marked and skipped when unavailable.
+
+Execution order
+
+Create docs scaffold and repo structure.
+
+Configure pyproject, lock deps, add extras.
+
+Add ruff, mypy, pytest configs. Generate baselines.
+
+Implement scripts and Makefile. Wire verify.
+
+Apply safe autofixes. Minimal renames only where mechanical.
+
+Add types to public surfaces. Centralize errors.
+
+Fix import-time GPU coupling. Ensure CPU tests run.
+
+Add CI workflow. Require checks.
+
+Non-goals
+
+No feature additions. No algorithm rewrites. No version upgrades beyond pins needed for PyTorch CPU on 3.11.
+
+Notes for this repo
+
+Use Python 3.11. Install torch from CPU index for tests. Keep GPU tests marked and skipped by default. Generate baselines first, then ratchet.

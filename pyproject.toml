@@ -10,17 +10,20 @@ dependencies = [
   "numpy>=1.26",
   "tifffile>=2024.5.22",
   "typing-extensions>=4.10",
+  "pydantic>=2.0",
+  "pyyaml>=6.0",
 ]
 
 [project.optional-dependencies]
 # Install one of these manually depending on environment
-cpu = ["torch==2.3.*"]
-cuda = ["torch==2.3.*"]
+cpu = ["torch==2.6.0"]
+cuda = ["torch==2.6.0"]
 dev = [
-  "pytest>=8.2",
-  "ruff>=0.5",
-  "mypy>=1.10",
-  "scipy>=1.11",
+  "pytest==8.4.*",
+  "pytest-cov==5.0.*",
+  "ruff==0.5.7",
+  "mypy==1.10.*",
+  "types-PyYAML==6.0.12.20240808",
 ]
 
 [tool.setuptools]
@@ -28,32 +31,53 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["optics_sim*"]
+include = ["optics_sim*", "microscope*"]
 
 [tool.ruff]
-line-length = 120
+line-length = 100
 target-version = "py311"
-src = ["src", "tests"]
+src = ["src/microscope", "tests"]
+extend-exclude = [
+  "actions-runner/**",
+  "actions-runner*/**",
+  "**/_work/**",
+  "Lib/**",
+  "Library/**",
+  "gpu_smoke_output/**",
+  "validation_output/**",
+]
 
 [tool.ruff.lint]
-select = ["E","F","I","UP","B"]
-ignore = ["E402", "E501"]
+select = ["E","F","B","I","W","UP"]
+ignore = []
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["PLR2004","D","S101","T201","E501"]
+"tests/**" = ["N","UP","I001","PLW2901","E402","W293","F401","F811"]
 
 [tool.ruff.format]
 quote-style = "preserve"
 indent-style = "space"
 
+[tool.ruff.baseline]
+# Zero-new policy: existing issues recorded here
+path = "ruff-baseline.toml"
+
 [tool.mypy]
 python_version = "3.11"
 strict = true
 warn_unused_ignores = true
-
+exclude = [
+  "^actions-runner/",
+  "^actions-runner_.*/",
+  "^Lib/",
+  "^Library/",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-q"
+addopts = "-q -ra --cov=microscope --cov-report=xml --maxfail=1"
+markers = [
+  "gpu: marks tests that require a CUDA GPU",
+]
 
 

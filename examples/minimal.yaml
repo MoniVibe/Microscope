@@ -1,0 +1,9 @@
+# Minimal config exercising config loader/validator only
+NA_max: 0.5
+lambda_nm: 550
+grid:
+  target_px: 128
+runtime:
+  budget:
+    vram_gb: 10.0
+    time_s: 60

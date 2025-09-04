@@ -2,8 +2,14 @@
 
 import numpy as np
 import torch
-
 from optics_sim.sources.gaussian_finite_band import GaussianFiniteBand
+
+# Named constants for PLR2004 in this test module
+CENTER_PIX_TOL = 3
+SPECTRAL_CONV_TOL = 0.02
+PROFILE_REL_TOL = 0.2
+MEAN_WAVELENGTH_TOL = 0.001
+WEIGHTS_SUM_TOL = 1e-6
 
 
 def test_gaussian_emit_shape():
@@ -33,7 +39,9 @@ def test_spectral_convergence():
     # Compute convergence metric
     error = src.compute_convergence_metric(reference_samples=18)
 
-    assert error < 0.02, f"Spectral convergence error {error:.3%} exceeds 2%"
+    assert (
+        error < SPECTRAL_CONV_TOL
+    ), f"Spectral convergence error {error:.3%} exceeds {SPECTRAL_CONV_TOL:.0%}"
 
 
 def test_gaussian_profile():
@@ -56,8 +64,8 @@ def test_gaussian_profile():
     cy, cx = peak_idx // nx, peak_idx % nx
 
     # Peak should be near center
-    assert abs(cy - ny // 2) < 3
-    assert abs(cx - nx // 2) < 3
+    assert abs(cy - ny // 2) < CENTER_PIX_TOL
+    assert abs(cx - nx // 2) < CENTER_PIX_TOL
 
     # Extract radial profile
     y = torch.arange(ny, dtype=torch.float32) - ny // 2
@@ -75,7 +83,7 @@ def test_gaussian_profile():
     expected_ratio = np.exp(-2)
 
     # Check within 20% (loose due to discretization)
-    assert abs(ratio - expected_ratio) / expected_ratio < 0.2
+    assert abs(ratio - expected_ratio) / expected_ratio < PROFILE_REL_TOL
 
 
 def test_normalization():
@@ -132,7 +140,7 @@ def test_wavelength_range():
 
     # Check centering
     mean_wavelength = np.average(wavelengths, weights=info["weights"])
-    assert abs(mean_wavelength - center) < 0.001
+    assert abs(mean_wavelength - center) < MEAN_WAVELENGTH_TOL
 
 
 def test_angular_divergence():
@@ -211,7 +219,7 @@ def test_gauss_hermite_weights():
     weights = info["weights"]
 
     # Weights should sum to 1
-    assert abs(weights.sum() - 1.0) < 1e-6
+    assert abs(weights.sum() - 1.0) < WEIGHTS_SUM_TOL
 
 
 if __name__ == "__main__":

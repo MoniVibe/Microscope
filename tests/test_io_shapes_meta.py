@@ -1,11 +1,11 @@
 """Tests for TIFF I/O with metadata."""
 
+import importlib.util
 import tempfile
 from pathlib import Path
 
 import numpy as np
 import torch
-
 from optics_sim.io.tiff import read_tiff, write_field_stack, write_tiff
 
 
@@ -25,8 +25,8 @@ def test_io_shapes_meta():
         "test_field": "test_value",
     }
 
-    with tempfile.TemporaryDirectory() as tmpdir:
-        tmpdir = Path(tmpdir)
+    with tempfile.TemporaryDirectory() as tmp:
+        tmpdir = Path(tmp)
 
         # Test real data
         real_file = tmpdir / "test_real.tif"
@@ -42,14 +42,12 @@ def test_io_shapes_meta():
         assert complex_file.exists(), "Complex TIFF file not created"
 
         # If tifffile is available, test reading back
-        try:
-            import tifffile
-
+        if importlib.util.find_spec("tifffile") is not None:
             # Read real data
             data_read, meta_read = read_tiff(real_file)
-            assert data_read.shape == data_real.shape, (
-                f"Shape mismatch: {data_read.shape} vs {data_real.shape}"
-            )
+            assert (
+                data_read.shape == data_real.shape
+            ), f"Shape mismatch: {data_read.shape} vs {data_real.shape}"
 
             # Check metadata keys
             required_keys = ["dx_um", "dy_um", "units", "is_complex"]
@@ -63,13 +61,14 @@ def test_io_shapes_meta():
             assert meta_c_read.get("is_complex", False), "Complex flag not set"
 
             # Shape should match (might have extra dimension for real/imag)
-            if data_c_read.ndim == 3:
+            NDIM_3 = 3  # PLR2004 named constant for this test
+            COMPLEX_PLANES = 2
+            if data_c_read.ndim == NDIM_3:
                 # Stacked real/imaginary
-                assert data_c_read.shape[0] == 2, "Complex should have 2 planes"
+                assert data_c_read.shape[0] == COMPLEX_PLANES, "Complex should have 2 planes"
 
             print("✓ TIFF read/write with tifffile successful")
-
-        except ImportError:
+        else:
             print("⚠ tifffile not available, skipping read test")
 
     print("✓ TIFF files created with correct metadata structure")
