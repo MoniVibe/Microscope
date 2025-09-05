@@ -23,4 +23,8 @@ test:
 clean:
 	rm -rf .venv .mypy_cache .ruff_cache .pytest_cache reports htmlcov coverage.xml dist build
 
+.PHONY: trigger
+trigger:
+	./scripts/ci_trigger.sh
+
 

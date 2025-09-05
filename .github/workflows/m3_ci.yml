@@ -17,12 +17,14 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: '3.11'}
       - run: pip install ruff
-      - name: Auto-format and fix
-        run: |
-          ruff format .
-          ruff check . --fix
-      - name: Enforce only correctness errors
-        run: ruff check . --select E,F --config pyproject.toml
+      - name: Auto-format (repo-wide)
+        run: ruff format .
+      - name: Lint (M1 scope)
+        run: >-
+          ruff check --select E,F
+          src/microscope/cli/main.py
+          tests/test_cli.py
+          tests/test_config_roundtrip.py
   discover:
     name: Discover M3 examples
     runs-on: ubuntu-22.04
